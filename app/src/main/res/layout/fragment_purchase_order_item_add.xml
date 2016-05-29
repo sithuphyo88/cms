@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".view.SiteListFragment"
+    android:padding="@dimen/page_padding">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Supplier"
+        android:id="@+id/tvwSupplier"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnSupplier"
+        android:layout_below="@id/tvwSupplier"
+        android:spinnerMode="dialog" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Material Category"
+        android:id="@+id/tvwMaterialCategory"
+        android:layout_below="@+id/spnSupplier"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnMaterialCategory"
+        android:layout_below="@+id/tvwMaterialCategory"
+        android:spinnerMode="dialog"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Material"
+        android:id="@+id/tvwMaterial"
+        android:layout_below="@+id/spnMaterialCategory" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnMaterial"
+        android:layout_below="@+id/tvwMaterial"
+        android:spinnerMode="dialog"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="UOM"
+        android:id="@+id/tvwUOM"
+        android:layout_below="@+id/spnMaterial"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnUOM"
+        android:layout_below="@+id/tvwUOM"
+        android:spinnerMode="dialog"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Quantity"
+        android:id="@+id/tvwQuantity"
+        android:layout_below="@+id/spnUOM" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtQuantity"
+        android:layout_below="@+id/tvwQuantity"
+        android:inputType="number"
+        android:spinnerMode="dialog"/>
+
+
+
+
+</RelativeLayout>

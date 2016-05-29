@@ -1,0 +1,32 @@
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ideapro.cms.view.BluePrintListFragment"
+    android:padding="@dimen/page_padding">
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="115dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:drawSelectorOnTop="true"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
+        android:longClickable="true"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <ImageButton style="@style/AppTheme"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/imgAdd"
+        android:elevation="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="50dp"
+        android:src="@mipmap/ic_add"
+        android:background="@drawable/circle" />
+
+</RelativeLayout >

@@ -1,0 +1,125 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ideapro.cms.view.SettingsFragment"
+    android:padding="@dimen/page_padding">
+
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/linearLayoutSettings"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:stretchColumns="0"
+        android:padding="5dp">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_sync_service_link"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="5dp">
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtServiceLink"
+                android:inputType="textUri"
+                android:lines="1"
+                android:maxLength="100"
+                android:scrollHorizontally="true"
+                android:singleLine="true" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+            <Button android:layout_width="match_parent"
+                android:text="@string/label_role_permission"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+            <Button android:layout_width="match_parent"
+                android:text="@string/label_user_assign_role"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+            <Button android:layout_width="match_parent"
+                android:text="@string/label_material_category"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+            <Button android:layout_width="match_parent"
+                android:text="@string/label_material"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+        </TableRow>
+
+    </TableLayout>
+
+</FrameLayout>

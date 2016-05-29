@@ -1,0 +1,9 @@
+<resources>
+    <dimen name="action_bar_title_size">20dp</dimen>
+    <dimen name="action_bar_right_icon_margin_right">10dp</dimen>
+
+    <dimen name="circle_button_width">30dp</dimen>
+    <dimen name="circle_button_height">30dp</dimen>
+    <dimen name="padding_top_between_controls">10dp</dimen>
+    <dimen name="page_padding">5dp</dimen>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tblUserList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="@dimen/page_padding" >
+    <TextView
+        android:id="@+id/tvwDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvwEngineerName"
+        android:layout_below="@+id/tvwDate"
+        android:layout_alignParentLeft="true"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvwDescription"
+        android:layout_below="@+id/tvwEngineerName"
+        android:layout_alignParentLeft="true"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:id="@+id/relProgress"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:background="#d7d7d7"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+        <ProgressBar
+            android:id="@+id/proProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:progress="0"
+            android:progressDrawable="@drawable/progressbar_style" />
+        <Button
+            android:id="@+id/butProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="30%"
+            android:background="@android:color/transparent"
+            android:textColor="#4d5359"
+            android:textSize="15dp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="list_background_pressed">#FFFFFF</color>
+    <color name="list_item_title">#000</color>
+    <color name="list_divider">#6c7e8a</color>
+    <color name="home_back_color">#FFFFFF</color>
+    <color name="home_actionbar_back_color">#1976D2</color>
+    <color name="button_back_color">#B03A2E</color>
+
+    <color name="activity_textview_color">#000000</color>
+</resources>
