@@ -2,35 +2,41 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_back_color"
-    tools:context=".view.MenuActivity"
-    android:padding="@dimen/page_padding">
+    android:padding="@dimen/page_padding"
+    tools:context=".view.MenuActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:gravity="center_vertical">
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="top"
+            android:src="@mipmap/ic_logo" />
 
         <EditText
+            android:id="@+id/txtUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Name Si Thu Phyo"
-            android:id="@+id/txtUserName" />
+            android:hint="Name"
+            android:inputType="textPersonName" />
 
         <EditText
+            android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:hint="Password"
-            android:id="@+id/txtPassword" />
+            android:inputType="textPassword" />
 
         <Button
+            android:id="@+id/butLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:id="@+id/butLogin"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:text="Login" />
     </LinearLayout>
 </RelativeLayout>
