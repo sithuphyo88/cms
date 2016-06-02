@@ -1,9 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/home_back_color"
-    tools:context=".view.MenuActivity"
-    android:padding="@dimen/page_padding">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:orientation="vertical"
@@ -33,4 +32,4 @@
             android:id="@+id/butLogin"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>
