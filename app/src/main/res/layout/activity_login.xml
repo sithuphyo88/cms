@@ -1,43 +1,35 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/home_back_color"
-    android:padding="@dimen/page_padding"
-    tools:context=".view.MenuActivity">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:gravity="top"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_gravity="top"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_logo" />
+        android:gravity="center_vertical">
 
         <EditText
-            android:id="@+id/txtUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:hint="@string/label_user_name"
+            android:id="@+id/txtUserName" />
 
         <EditText
-            android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:id="@+id/txtPassword" />
 
         <Button
-            android:id="@+id/butLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Login" />
+            android:text="Login"
+            android:id="@+id/butLogin"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>
