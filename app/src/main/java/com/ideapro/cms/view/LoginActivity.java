@@ -30,9 +30,9 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(txtUserName.getText())) {
-                        CommonUtils.CurrentUser.role = "admin";
-                    } else if(txtUserName.getText().toString().toLowerCase().startsWith("admin")) {
-                        CommonUtils.CurrentUser.role = "admin";
+                    CommonUtils.CurrentUser.role = "admin";
+                } else if (txtUserName.getText().toString().toLowerCase().startsWith("admin")) {
+                    CommonUtils.CurrentUser.role = "admin";
                 } else {
                     CommonUtils.CurrentUser.role = "engineer";
                 }
