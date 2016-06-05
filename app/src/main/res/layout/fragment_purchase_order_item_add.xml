@@ -41,15 +41,13 @@
                     android:id="@+id/tvwMaterialCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/spnSupplier"
                     android:layout_margin="5dp"
-                    android:text="Material Category" />
+                    android:text="@string/label_material_category" />
 
                 <Spinner
                     android:id="@+id/spnMaterialCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvwMaterialCategory"
                     android:minHeight="60dp"
                     android:prompt="@string/label_material_category"
                     android:spinnerMode="dialog" />
@@ -58,15 +56,13 @@
                     android:id="@+id/tvwMaterial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/spnMaterialCategory"
                     android:layout_margin="5dp"
-                    android:text="Material" />
+                    android:text="@string/label_material" />
 
                 <Spinner
                     android:id="@+id/spnMaterial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvwMaterial"
                     android:minHeight="60dp"
                     android:prompt="@string/label_material"
                     android:spinnerMode="dialog" />
@@ -75,15 +71,13 @@
                     android:id="@+id/tvwUOM"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/spnMaterial"
                     android:layout_margin="5dp"
-                    android:text="UOM" />
+                    android:text="@string/label_UOM" />
 
                 <Spinner
                     android:id="@+id/spnUOM"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvwUOM"
                     android:minHeight="60dp"
                     android:prompt="@string/label_UOM"
                     android:spinnerMode="dialog" />
@@ -92,19 +86,40 @@
                     android:id="@+id/tvwQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/spnUOM"
                     android:layout_margin="5dp"
-                    android:text="Quantity" />
+                    android:text="@string/label_ordered_quantity" />
 
                 <EditText
                     android:id="@+id/txtQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvwQuantity"
-                    android:inputType="number"
-                    android:spinnerMode="dialog" />
+                    android:inputType="number" />
 
+                <TextView
+                    android:id="@+id/tvwReceivedQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@string/label_received_quantity" />
 
+                <EditText
+                    android:id="@+id/txtReceivedQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/tvwRemarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@string/label_remarks" />
+
+                <EditText
+                    android:id="@+id/txtRemarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
         </LinearLayout>
 
 </ScrollView>

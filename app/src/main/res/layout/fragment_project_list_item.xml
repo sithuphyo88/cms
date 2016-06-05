@@ -5,20 +5,19 @@
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants">
     <TextView
-        android:id="@+id/tvwSiteName"
+        android:id="@+id/tvwProjectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:textColor="@android:color/black"
-        />
+        android:textSize="@dimen/list_title_size"
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:id="@+id/relProgress"
         android:layout_width="60dp"
         android:layout_height="35dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="#d7d7d7">
+        android:layout_alignParentRight="true">
         <ProgressBar
             android:id="@+id/proProgress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -26,6 +25,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:progress="0"
+
             android:progressDrawable="@drawable/progressbar_style" />
         <Button
             android:id="@+id/butProgress"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvwSiteName" />
+        android:layout_below="@+id/tvwProjectName" />
     <TextView
         android:id="@+id/tvwSeparator"
         android:layout_width="wrap_content"

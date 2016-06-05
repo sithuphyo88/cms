@@ -127,9 +127,15 @@ public class PurchaseOrderListFragment extends Fragment {
 
                         SwipeMenuItem deleteItem = new SwipeMenuItem(view.getContext());
                         deleteItem.setWidth(dp2px(50));
-                        editItem.setTitle("delete");
+                        deleteItem.setTitle("delete");
                         deleteItem.setIcon(R.mipmap.ic_delete);
                         menu.addMenuItem(deleteItem);
+
+                        SwipeMenuItem approveItem = new SwipeMenuItem(view.getContext());
+                        approveItem.setWidth(dp2px(50));
+                        approveItem.setTitle("approve");
+                        approveItem.setIcon(R.mipmap.ic_approve);
+                        menu.addMenuItem(approveItem);
                     }
                 };
 
@@ -142,8 +148,9 @@ public class PurchaseOrderListFragment extends Fragment {
                         switch (index) {
                             case 0:
                                 // edit
-                                //CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteAddFragment(projectEntity, list.get(position)));
+                                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, siteEntity, list.get(position)));
                                 break;
+
                             case 1:
                                 // delete
                                 CommonUtils.showConfirmDialogBox(getActivity(), getString(R.string.message_confirmation_delete),
@@ -160,6 +167,11 @@ public class PurchaseOrderListFragment extends Fragment {
                                                 return;
                                             }
                                         });
+                                break;
+
+                            case 2:
+                                // edit
+                                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, siteEntity, list.get(position)));
                                 break;
                         }
                         // false : close the menu; true : not close the menu

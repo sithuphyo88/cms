@@ -88,7 +88,8 @@
     <string name="label_user_name">User Name</string>
     <string name="label_separator">-</string>
     <string name="label_UOM">UOM</string>
-    <string name="label_quantity">Quantity</string>
+    <string name="label_ordered_quantity">Ordered Quantity</string>
+    <string name="label_received_quantity">Received Quantity</string>
 
     <string name="label_company_name">Idea Pro</string>
     <string name="label_company_service">IT Solutions and Services</string>
@@ -96,6 +97,7 @@
     <string name="label_company_address">No.2, First Floor (L), Pane Nae Gone St, Mingalar Taung Nyunt Tsp, Yangon.</string>
     <string name="label_company_phone">959-795262471, 959-798484761, 959-448037148</string>
     <string name="label_company_mail">sithuphyo88@gmail.com, arkarhtetmyint@googlemail.com, yehtutaung.yha@gmail.com</string>
+    <string name="label_remarks">Remarks</string>
 
     <string-array name="photo_choose_item">
         <item>Take Photo</item>

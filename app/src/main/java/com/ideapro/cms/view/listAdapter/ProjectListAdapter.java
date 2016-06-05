@@ -49,7 +49,7 @@ public class ProjectListAdapter extends ArrayAdapter<ProjectEntity> {
             convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
         }
 
-        viewHolder.tvwSiteName.setText(entity.name);
+        viewHolder.tvwProjectName.setText(entity.name);
         viewHolder.tvwStartDate.setText(entity.startDate);
         viewHolder.tvwEndDate.setText(entity.endDate);
         viewHolder.butProgress.setText(entity.progress + " %");
@@ -60,13 +60,13 @@ public class ProjectListAdapter extends ArrayAdapter<ProjectEntity> {
     }
 
     private class SiteListViewHolder {
-        TextView tvwSiteName;
+        TextView tvwProjectName;
         TextView tvwStartDate;
         TextView tvwEndDate;
         Button butProgress;
         ProgressBar proProgress;
         public SiteListViewHolder(View view) {
-            tvwSiteName = (TextView) view.findViewById(R.id.tvwSiteName);
+            tvwProjectName = (TextView) view.findViewById(R.id.tvwProjectName);
             tvwStartDate = (TextView) view.findViewById(R.id.tvwStartDate);
             tvwEndDate = (TextView) view.findViewById(R.id.tvwEndDate);
             butProgress = (Button) view.findViewById(R.id.butProgress);

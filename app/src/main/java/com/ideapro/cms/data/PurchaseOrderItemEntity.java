@@ -32,5 +32,11 @@ public class PurchaseOrderItemEntity implements Serializable {
     public String uom;
 
     @DatabaseField
-    public int quantity;
+    public int orderedQuantity;
+
+    @DatabaseField
+    public int receivedQuantity;
+
+    @DatabaseField
+    public String remarks;
 }

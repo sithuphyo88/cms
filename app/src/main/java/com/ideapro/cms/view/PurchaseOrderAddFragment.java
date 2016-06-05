@@ -93,7 +93,8 @@ public class PurchaseOrderAddFragment extends Fragment {
                 entity.materialCategory = "MC1";
                 entity.materialItem = "M1";
                 entity.uom = "UOM1";
-                entity.quantity = 1;
+                entity.receivedQuantity = 1;
+                entity.orderedQuantity = 1;
 
                 CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, siteEntity, purchaseOrderEntity, entity));
             }
@@ -113,7 +114,8 @@ public class PurchaseOrderAddFragment extends Fragment {
                 entity.materialCategory = "MC" + (i + 1);
                 entity.materialItem = "M" + (i + 1);
                 entity.uom = "UOM" + (i + 1);
-                entity.quantity = i + 1;
+                entity.orderedQuantity = i + 2;
+                entity.receivedQuantity = i + 1;
 
                 list.add(entity);
             }

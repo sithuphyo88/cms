@@ -51,7 +51,8 @@ public class PurchaseOrderItemListAdapter extends ArrayAdapter<PurchaseOrderItem
         viewHolder.tvwMaterialCategory.setText(entity.materialCategory);
         viewHolder.tvwMaterialItem.setText(entity.materialItem);
         viewHolder.tvwUOM.setText(entity.uom);
-        viewHolder.tvwQuantity.setText(String.valueOf(entity.quantity));
+        viewHolder.tvwOrderedQuantity.setText(String.valueOf(entity.orderedQuantity));
+        viewHolder.tvwReceivedQuantity.setText(String.valueOf(entity.receivedQuantity));
 
         // Return the completed view to render on screen
         return convertView;
@@ -62,13 +63,15 @@ public class PurchaseOrderItemListAdapter extends ArrayAdapter<PurchaseOrderItem
         TextView tvwMaterialCategory;
         TextView tvwMaterialItem;
         TextView tvwUOM;
-        TextView tvwQuantity;
+        TextView tvwOrderedQuantity;
+        TextView tvwReceivedQuantity;
         public PurchaseOrderItemListViewHolder(View view) {
             tvwTargetDate = (TextView) view.findViewById(R.id.tvwTargetDate);
             tvwMaterialCategory = (TextView) view.findViewById(R.id.tvwMaterialCategory);
             tvwMaterialItem = (TextView) view.findViewById(R.id.tvwMaterialItem);
             tvwUOM = (TextView) view.findViewById(R.id.tvwUOM);
-            tvwQuantity = (TextView) view.findViewById(R.id.tvwQuantity);
+            tvwOrderedQuantity = (TextView) view.findViewById(R.id.tvwOrderedQuantity);
+            tvwReceivedQuantity = (TextView) view.findViewById(R.id.tvwReceivedQuantity);
         }
     }
 }

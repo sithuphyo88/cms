@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="@string/label_purchase_order_no"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/list_title_size"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvwSeparator1"
@@ -28,7 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/tvwSeparator1"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/list_title_size"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvwLabelOrderDate"
@@ -37,7 +41,9 @@
         android:layout_below="@+id/tvwLabelOrderNo"
         android:layout_marginLeft="10dp"
         android:text="@string/label_purchase_order_date"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/list_title_size"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvwSeparator2"
@@ -54,7 +60,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvwOrderNo"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/tvwSeparator2" />
+        android:layout_toRightOf="@+id/tvwSeparator2"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/list_title_size"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvwLabelOrderStatus"
@@ -70,8 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_below="@+id/tvwLabelOrderStatus"
-        android:layout_marginLeft="10dp"
-        android:background="#d7d7d7">
+        android:layout_marginLeft="10dp">
 
         <ProgressBar
             android:id="@+id/proProgress"

@@ -76,7 +76,7 @@ public class ProjectListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < 100; i++) {
                 ProjectEntity entity = new ProjectEntity();
                 entity.name = "Project" + (i + 1);
                 entity.progress = String.valueOf(i + 1);

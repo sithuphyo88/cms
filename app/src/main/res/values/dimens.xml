@@ -6,4 +6,5 @@
     <dimen name="circle_button_height">30dp</dimen>
     <dimen name="padding_top_between_controls">10dp</dimen>
     <dimen name="page_padding">5dp</dimen>
+    <dimen name="list_title_size">15dp</dimen>
 </resources>

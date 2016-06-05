@@ -1,86 +1,87 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context=".view.SiteAddFragment"
-    android:padding="@dimen/page_padding">
+    android:layout_height="match_parent"
+    android:padding="@dimen/page_padding"
+    tools:context=".view.SiteAddFragment">
 
     <TextView
+        android:id="@+id/tvwSiteName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwSiteName"
         android:paddingTop="@dimen/padding_top_between_controls"
         android:text="@string/label_site_name"/>
     <EditText
+        android:id="@+id/txtSiteName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtSiteName"
         android:layout_below="@+id/tvwSiteName"
         android:layout_gravity="center_horizontal|top"
         android:hint="@string/label_site_name" />
 
     <TextView
+        android:id="@+id/tvwAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwAddress"
         android:layout_below="@+id/txtSiteName"
         android:paddingTop="@dimen/padding_top_between_controls"
         android:text="@string/label_address"/>
     <EditText
+        android:id="@+id/txtAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtAddress"
-        android:layout_below="@+id/tvwAddress"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:inputType="textMultiLine"
-        android:hint="@string/label_address" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvwAddress"
+        android:hint="@string/label_address"
+        android:inputType="textMultiLine" />
 
     <TextView
+        android:id="@+id/tvwStartDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwStartDate"
         android:layout_below="@+id/txtAddress"
         android:paddingTop="@dimen/padding_top_between_controls"
         android:text="@string/label_start_date"/>
 
     <EditText
+        android:id="@+id/txtStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/txtStartDate"
-        android:layout_below="@+id/tvwStartDate"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="@string/label_start_date" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvwStartDate"
+        android:ems="10"
+        android:hint="@string/label_start_date"
+        android:inputType="date" />
 
     <TextView
+        android:id="@+id/tvwEndDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwEndDate"
         android:layout_below="@+id/txtStartDate"
         android:paddingTop="@dimen/padding_top_between_controls"
         android:text="@string/label_end_date"/>
     <EditText
+        android:id="@+id/txtEndDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/txtEndDate"
-        android:layout_below="@+id/tvwEndDate"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="@string/label_end_date" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvwEndDate"
+        android:ems="10"
+        android:hint="@string/label_end_date"
+        android:inputType="date" />
 
     <TextView
+        android:id="@+id/tvwProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwProgress"
         android:layout_below="@+id/txtEndDate"
         android:paddingTop="@dimen/padding_top_between_controls"
         android:text="@string/label_progress"/>
@@ -89,7 +90,6 @@
         android:id="@+id/relProgress"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:background="#d7d7d7"
         android:layout_below="@+id/tvwProgress">
         <ProgressBar
             android:id="@+id/proProgress"
@@ -102,46 +102,46 @@
             android:id="@+id/tvwProgressValue"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:background="@android:color/transparent"
+            android:gravity="center"
             android:textColor="#4d5359"
             android:textSize="15dp" />
     </RelativeLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_engineer_assign"
         android:id="@+id/butAssignEngineers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/relProgress"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:paddingTop="@dimen/padding_top_between_controls"
+        android:text="@string/label_engineer_assign" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_manage_blue_print"
         android:id="@+id/butManageBluePrints"
-        android:layout_below="@+id/butAssignEngineers"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_purchase_orders"
-        android:id="@+id/butManagePurchaseOrders"
-        android:layout_below="@+id/butManageBluePrints"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/butAssignEngineers"
+        android:paddingTop="@dimen/padding_top_between_controls"
+        android:text="@string/label_manage_blue_print" />
+
+    <Button
+        android:id="@+id/butManagePurchaseOrders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/butManageBluePrints"
+        android:paddingTop="@dimen/padding_top_between_controls"
+        android:text="@string/label_purchase_orders" />
 
 </RelativeLayout>

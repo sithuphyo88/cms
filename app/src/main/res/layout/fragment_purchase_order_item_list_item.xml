@@ -14,7 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="@string/label_targeted_date"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/list_title_size"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvwSeparator01"
@@ -32,7 +34,9 @@
         android:layout_below="@+id/tvwPurchaseOrderDate"
         android:layout_margin="5dp"
         android:layout_toRightOf="@id/tvwSeparator01"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/list_title_size"
+        android:textStyle="bold" />
 
     <!-- Material Category -->
     <TextView
@@ -118,14 +122,14 @@
         android:layout_toRightOf="@id/tvwSeparator3"
         android:textColor="@android:color/black" />
 
-    <!-- Quantity -->
+    <!-- Ordered Quantity -->
     <TextView
         android:id="@+id/tvwLabelQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvwLabelUOM"
         android:layout_margin="5dp"
-        android:text="@string/label_quantity"
+        android:text="@string/label_ordered_quantity"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -138,11 +142,39 @@
         android:text="@string/label_separator" />
 
     <TextView
-        android:id="@+id/tvwQuantity"
+        android:id="@+id/tvwOrderedQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvwUOM"
         android:layout_margin="5dp"
         android:layout_toRightOf="@id/tvwSeparator4"
+        android:textColor="@android:color/black" />
+
+    <!-- Received Quantity -->
+    <TextView
+        android:id="@+id/tvwLabelReceivedQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwLabelQuantity"
+        android:layout_margin="5dp"
+        android:text="@string/label_received_quantity"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvwSeparator5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwSeparator4"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwLabelReceivedQuantity"
+        android:text="@string/label_separator" />
+
+    <TextView
+        android:id="@+id/tvwReceivedQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwOrderedQuantity"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwSeparator5"
         android:textColor="@android:color/black" />
 </RelativeLayout>
