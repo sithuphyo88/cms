@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ImageItem;
+import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listener.OnSwipeTouchListener;
 
 import java.util.List;
@@ -66,6 +68,14 @@ public class BluePrintPhotoPreviewFragment extends Fragment {
                 }
                 public void onSwipeBottom() {
 
+                }
+            });
+
+            ImageButton imgButComment = (ImageButton) view.findViewById(R.id.imgButComment);
+            imgButComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new CommentListFragment());
                 }
             });
         }

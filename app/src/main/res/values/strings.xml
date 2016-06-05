@@ -61,6 +61,7 @@
     <string name="label_purchase_orders">Purchase Orders</string>
     <string name="label_purchase_order_no">Purchase Order No.</string>
     <string name="label_purchase_order_date">Purchase Order Date</string>
+    <string name="label_type_your_comment">Type your comment</string>
     <string name="label_targeted_date">Targeted Date</string>
     <string name="label_purchase_order_details">PO Details</string>
     <string name="label_purchase_order_item_details">PO Item Details</string>

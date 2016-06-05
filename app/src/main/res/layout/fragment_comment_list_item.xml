@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/page_padding"
+    tools:context=".view.SiteListFragment">
+
+
+    <TextView
+        android:id="@+id/tvwUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/tvwCommentDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvwUserName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/tvwUserName"
+        android:layout_below="@+id/tvwUserName"
+        android:paddingTop="15dp"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tvwDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tvwCommentDescription"
+        android:textSize="10dp" />
+</RelativeLayout>

@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ImageItem;
-import com.ideapro.cms.view.BluePrintPhotoListFragment;
 import com.ideapro.cms.view.SiteProgressEvidenceListFragment;
 
 import java.util.ArrayList;
@@ -48,6 +48,7 @@ public class SiteProgressEvidenceListAdapter extends ArrayAdapter<ImageItem> {
             holder.imageTitle = (TextView) row.findViewById(R.id.text);
             holder.image = (ImageView) row.findViewById(R.id.image);
             holder.chkImage = (CheckBox) row.findViewById(R.id.chkImage);
+            holder.imgButComment = (ImageButton) row.findViewById(R.id.imgButComment);
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
@@ -56,6 +57,7 @@ public class SiteProgressEvidenceListAdapter extends ArrayAdapter<ImageItem> {
         holder.imageTitle.setId(position);
         holder.image.setId(position);
         holder.chkImage.setId(position);
+        holder.imgButComment.setId(position);
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +73,13 @@ public class SiteProgressEvidenceListAdapter extends ArrayAdapter<ImageItem> {
             }
         });
 
+        holder.imgButComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment.commentClick(v);
+            }
+        });
+
         ImageItem item = data.get(position);
         holder.imageTitle.setText(item.getTitle());
         holder.image.setImageBitmap(item.getImage());
@@ -81,5 +90,6 @@ public class SiteProgressEvidenceListAdapter extends ArrayAdapter<ImageItem> {
         TextView imageTitle;
         ImageView image;
         CheckBox chkImage;
+        ImageButton imgButComment;
     }
 }

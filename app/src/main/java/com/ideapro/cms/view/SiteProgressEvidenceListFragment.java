@@ -32,11 +32,11 @@ import java.util.ArrayList;
 public class SiteProgressEvidenceListFragment extends Fragment {
 
     View view;
-    private GridView gridView;
-    private SiteProgressEvidenceListAdapter adapter;
     ArrayList<ImageItem> imageItems;
     SiteProgressHistoryEntity entity;
     ImageButton imgRight;
+    private GridView gridView;
+    private SiteProgressEvidenceListAdapter adapter;
 
     public SiteProgressEvidenceListFragment() {
     }
@@ -90,7 +90,6 @@ public class SiteProgressEvidenceListFragment extends Fragment {
             }
 
             gridView = (GridView) view.findViewById(R.id.gridView);
-
             adapter = new SiteProgressEvidenceListAdapter(this, view.getContext(), R.layout.fragment_site_progress_evidence_list_item, imageItems);
             gridView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
@@ -112,6 +111,11 @@ public class SiteProgressEvidenceListFragment extends Fragment {
     public void imageClick(View v) {
         ImageView img = (ImageView) v;
         CommonUtils.transitToFragment(this, new BluePrintPhotoPreviewFragment(img.getId(), imageItems));
+    }
+
+    public void commentClick(View v) {
+        ImageButton img = (ImageButton) v;
+        CommonUtils.transitToFragment(this, new CommentListFragment());
     }
 
     public void checkBoxClick(View v) {
