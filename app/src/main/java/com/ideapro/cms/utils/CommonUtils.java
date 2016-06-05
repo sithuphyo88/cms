@@ -47,8 +47,8 @@ public class CommonUtils {
 
     public static String TICKER_CHECKING_RESTFUL_SERVICE_URL = "%s/datasynservice/rest/ticket/checkTicket?code=%s&terminalId=%s&gateId=%s";
     public static String GET_TERMINAL_RESTFUL_SERVICE_URL = "%s/datasynservice/rest/ticket/getTerminal?terminalId=%s";
-    private static int timeoutConnection = 2*60*1000;
     public static UserEntity CurrentUser = new UserEntity();
+    private static int timeoutConnection = 2 * 60 * 1000;
 
     public static String getWifiIpAddress(Context context) {
         WifiManager wifiMgr = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
@@ -278,6 +278,7 @@ public class CommonUtils {
         imgRight.setImageResource(rightButtonResourceId);
         imgRight.setTag(rightButtonResourceId);
         imgRight.setVisibility(View.VISIBLE);
+        imgRight.bringToFront();
 
         TextView textView = (TextView) customView.findViewById(R.id.title_text);
         textView.setText(title);

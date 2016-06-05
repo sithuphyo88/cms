@@ -49,8 +49,8 @@ public class BluePrintListFragment extends Fragment {
     BluePrintListAdapter adapter;
     ImageButton imgAdd;
     List<BluePrintEntity> list = null;
-    private Date selectedDate;
     DatePickerDialog datePicker;
+    private Date selectedDate;
 
     public BluePrintListFragment() {
         this.siteEntity = new SiteEntity();
@@ -100,6 +100,7 @@ public class BluePrintListFragment extends Fragment {
 
             adapter = new BluePrintListAdapter(this, view.getContext(), getActivity(), list);
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
+            listView.setDivider(null);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

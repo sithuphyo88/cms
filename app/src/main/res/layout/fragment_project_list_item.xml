@@ -3,8 +3,7 @@
     android:id="@+id/tblUserList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
-    android:padding="@dimen/page_padding" >
+    android:descendantFocusability="blocksDescendants">
     <TextView
         android:id="@+id/tvwSiteName"
         android:layout_width="wrap_content"
@@ -17,9 +16,9 @@
         android:id="@+id/relProgress"
         android:layout_width="60dp"
         android:layout_height="35dp"
-        android:background="#d7d7d7"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:background="#d7d7d7">
         <ProgressBar
             android:id="@+id/proProgress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -32,35 +31,36 @@
             android:id="@+id/butProgress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:text="30%"
-            android:background="@android:color/transparent"
             android:textColor="#4d5359"
             android:textSize="15dp" />
     </RelativeLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tvwStartDate"
-        android:layout_below="@+id/tvwSiteName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvwSiteName" />
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tvwSeparator"
-        android:layout_marginLeft="10dp"
-        android:text="~"
-        android:layout_alignTop="@+id/tvwStartDate"
-        android:layout_toRightOf="@+id/tvwStartDate"
-        android:layout_toEndOf="@+id/tvwStartDate" />
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvwStartDate"
         android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/tvwStartDate"
+        android:layout_toRightOf="@+id/tvwStartDate"
+        android:text="~" />
+    <TextView
         android:id="@+id/tvwEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tvwSeparator"
-        android:layout_toRightOf="@+id/tvwSeparator"
-        android:layout_toEndOf="@+id/tvwSeparator" />
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/tvwSeparator"
+        android:layout_toRightOf="@+id/tvwSeparator" />
+
 </RelativeLayout>

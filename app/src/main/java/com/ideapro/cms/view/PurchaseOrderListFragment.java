@@ -18,7 +18,6 @@ import com.ideapro.cms.data.PurchaseOrderEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.PurchaseOrderListAdapter;
-import com.ideapro.cms.view.listAdapter.SiteListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
@@ -78,10 +77,10 @@ public class PurchaseOrderListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     PurchaseOrderEntity orderEntity = new PurchaseOrderEntity();
-                    orderEntity.purchaseOrderNo = "Purchase Order No - 0";
-                    orderEntity.date = "Purchase Order Date - 2016-04-28";
-                    orderEntity.receivedNumber = "5";
-                    orderEntity.purchasedNumber = "5";
+                    orderEntity.purchaseOrderNo = "PO-0";
+                    orderEntity.date = "2016-04-28";
+                    orderEntity.receivedNumber = 5;
+                    orderEntity.purchasedNumber = 5;
                     CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, siteEntity, orderEntity));
                 }
             });
@@ -94,24 +93,25 @@ public class PurchaseOrderListFragment extends Fragment {
         try {
             list = new ArrayList<>();
             PurchaseOrderEntity zentity = new PurchaseOrderEntity();
-            zentity.purchaseOrderNo = "Purchase Order No - 0";
-            zentity.date = "Purchase Order Date - 2016-04-28";
-            zentity.receivedNumber = "5";
-            zentity.purchasedNumber = "5";
+            zentity.purchaseOrderNo = "PO-0";
+            zentity.date = "2016-04-28";
+            zentity.receivedNumber = 5;
+            zentity.purchasedNumber = 5;
             list.add(zentity);
 
             for (int i = 0; i < 30; i++) {
                 PurchaseOrderEntity entity = new PurchaseOrderEntity();
-                entity.purchaseOrderNo = "Purchase Order No " + (i + 1);
+                entity.purchaseOrderNo = "PO-" + (i + 1);
                 entity.date = "2016-05-" + (i + 1);
-                entity.receivedNumber = String.valueOf(i);
-                entity.purchasedNumber = String.valueOf(i + 1);
+                entity.receivedNumber = i + 1;
+                entity.purchasedNumber = i + 2;
 
                 list.add(entity);
             }
 
             adapter = new PurchaseOrderListAdapter(view.getContext(), getActivity(), list);
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
+            listView.setDivider(null);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

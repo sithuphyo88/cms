@@ -1,20 +1,15 @@
 package com.ideapro.cms.view;
 
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
@@ -22,14 +17,6 @@ import com.ideapro.cms.data.PurchaseOrderEntity;
 import com.ideapro.cms.data.PurchaseOrderItemEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
-import com.ideapro.cms.view.listAdapter.PurchaseOrderItemListAdapter;
-import com.ideapro.cms.view.swipeMenu.SwipeMenu;
-import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
-import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
-import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +28,8 @@ public class PurchaseOrderItemAddFragment extends Fragment {
     SiteEntity siteEntity;
     PurchaseOrderEntity purchaseOrderEntity;
     PurchaseOrderItemEntity purchaseOrderItemEntity;
-    Spinner spnSupplier;
+    EditText txtPurchaseOrderDate;
+    EditText txtTargetedDate;
     Spinner spnMaterialCategory;
     Spinner spnMaterial;
     Spinner spnUOM;
@@ -84,26 +72,26 @@ public class PurchaseOrderItemAddFragment extends Fragment {
     }
 
     private void initializeUI() {
-        spnSupplier = (Spinner) view.findViewById(R.id.spnSupplier);
+        txtPurchaseOrderDate = (EditText) view.findViewById(R.id.txtPurchaseOrderDate);
+        txtTargetedDate = (EditText) view.findViewById(R.id.txtTargetedDate);
         spnMaterialCategory = (Spinner) view.findViewById(R.id.spnMaterialCategory);
         spnMaterial = (Spinner) view.findViewById(R.id.spnMaterial);
         spnUOM = (Spinner) view.findViewById(R.id.spnUOM);
         txtQuantity = (EditText) view.findViewById(R.id.txtQuantity);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,
-                getActivity().getResources().getStringArray(R.array.suppliers));
-        spnSupplier.setAdapter(adapter);
-
-        ArrayAdapter<String> mcAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,
+        ArrayAdapter<String> mcAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.spinner_textview,
                 getActivity().getResources().getStringArray(R.array.materialCategories));
+        mcAdapter.setDropDownViewResource(R.layout.spinner_textview);
         spnMaterialCategory.setAdapter(mcAdapter);
 
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.spinner_textview,
                 getActivity().getResources().getStringArray(R.array.materials));
+        mAdapter.setDropDownViewResource(R.layout.spinner_textview);
         spnMaterial.setAdapter(mAdapter);
 
-        ArrayAdapter<String> uomAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,
+        ArrayAdapter<String> uomAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.spinner_textview,
                 getActivity().getResources().getStringArray(R.array.uoms));
+        uomAdapter.setDropDownViewResource(R.layout.spinner_textview);
         spnUOM.setAdapter(uomAdapter);
     }
 }

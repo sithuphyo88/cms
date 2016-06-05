@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.BluePrintEntity;
-import com.ideapro.cms.data.UserEntity;
 import com.ideapro.cms.view.BluePrintListFragment;
 
 import java.util.List;
@@ -22,8 +21,8 @@ import java.util.List;
  */
 public class BluePrintListAdapter extends ArrayAdapter<BluePrintEntity> {
 
-    private Activity activity;
     BluePrintListFragment fragment;
+    private Activity activity;
 
     public BluePrintListAdapter(BluePrintListFragment fragment, Context context, Activity activity, List<BluePrintEntity> files) {
         super(context, 0, files);
@@ -47,6 +46,12 @@ public class BluePrintListAdapter extends ArrayAdapter<BluePrintEntity> {
             viewHolder = (BluePrintListViewHolder)convertView.getTag();
         }
 
+        if (position % 2 == 0) {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
+        } else {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
+        }
+
         viewHolder.chkDate.setId(position);
         viewHolder.chkDate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -64,12 +69,11 @@ public class BluePrintListAdapter extends ArrayAdapter<BluePrintEntity> {
     }
 
     private class BluePrintListViewHolder {
+        TextView tvwDate;
+        CheckBox chkDate;
         public BluePrintListViewHolder(View view) {
             tvwDate = (TextView) view.findViewById(R.id.tvwDate);
             chkDate = (CheckBox) view.findViewById(R.id.chkDate);
         }
-
-        TextView tvwDate;
-        CheckBox chkDate;
     }
 }

@@ -92,6 +92,7 @@ public class EngineerListFragment extends Fragment {
 
             adapter = new EngineerListAdapter(this, view.getContext(), getActivity(), list);
             ListView listView = (ListView)view.findViewById(R.id.listView);
+            listView.setDivider(null);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

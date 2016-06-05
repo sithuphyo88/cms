@@ -7,55 +7,87 @@
     android:padding="@dimen/page_padding" >
 
     <TextView
+        android:id="@+id/tvwLabelOrderNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="@string/label_purchase_order_no"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/tvwSeparator1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvwLabelOrderNo"
+        android:text="-" />
+
+    <TextView
         android:id="@+id/tvwOrderNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:textColor="@android:color/black"/>
+        android:layout_toRightOf="@id/tvwSeparator1"
+        android:textColor="@android:color/black" />
 
     <TextView
+        android:id="@+id/tvwLabelOrderDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwLabelOrderNo"
+        android:layout_marginLeft="10dp"
+        android:text="@string/label_purchase_order_date"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvwSeparator2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwSeparator1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvwLabelOrderDate"
+        android:text="-" />
+
+    <TextView
         android:id="@+id/tvwPurchaseOrderDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tvwOrderNo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvwSeparator2" />
 
     <TextView
+        android:id="@+id/tvwLabelOrderStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwOrderStatus"
+        android:layout_below="@+id/tvwLabelOrderDate"
+        android:layout_marginLeft="10dp"
         android:text="@string/label_order_status"
-        android:layout_below="@+id/tvwPurchaseOrderDate"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textColor="@android:color/black" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relProgress"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/tvwLabelOrderStatus"
         android:layout_marginLeft="10dp"
-        android:id="@+id/tvwReceivedNumber"
-        android:text="12"
-        android:layout_below="@+id/tvwPurchaseOrderDate"
-        android:layout_toRightOf="@+id/tvwOrderStatus" />
+        android:background="#d7d7d7">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvwSeparator"
-        android:layout_marginLeft="10dp"
-        android:text="/"
-        android:layout_alignTop="@+id/tvwReceivedNumber"
-        android:layout_toRightOf="@+id/tvwReceivedNumber"
-        android:layout_toEndOf="@+id/tvwReceivedNumber" />
+        <ProgressBar
+            android:id="@+id/proProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:progressDrawable="@drawable/progressbar_style" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwOrderedNumber"
-        android:text="24"
-        android:layout_alignTop="@+id/tvwReceivedNumber"
-        android:layout_toRightOf="@+id/tvwSeparator"
-        android:layout_toEndOf="@+id/tvwReceivedNumber" />
+        <TextView
+            android:id="@+id/tvwProgressValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:textColor="#4d5359"
+            android:textSize="15dp" />
+    </RelativeLayout>
 </RelativeLayout>

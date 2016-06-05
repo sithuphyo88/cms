@@ -6,34 +6,143 @@
     android:descendantFocusability="blocksDescendants"
     android:padding="@dimen/page_padding" >
 
+    <!-- Targeted Date -->
+
     <TextView
-        android:id="@+id/tvwSupplier"
-        android:layout_width="match_parent"
+        android:id="@+id/tvwLabelTargetDate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
+        android:text="@string/label_targeted_date"
         android:textColor="@android:color/black"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tvwSeparator01"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwSeparator"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwLabelTargetDate"
+        android:text="@string/label_separator" />
+
+    <TextView
+        android:id="@+id/tvwTargetDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwPurchaseOrderDate"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwSeparator01"
+        android:textColor="@android:color/black" />
+
+    <!-- Material Category -->
+    <TextView
+        android:id="@+id/tvwLabelMaterialCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwLabelTargetDate"
+        android:layout_margin="5dp"
+        android:text="@string/label_material_category"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvwSeparator1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwSeparator01"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwLabelMaterialCategory"
+        android:text="@string/label_separator" />
+
+    <TextView
         android:id="@+id/tvwMaterialCategory"
-        android:layout_below="@+id/tvwSupplier"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwTargetDate"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwSeparator1"
+        android:textColor="@android:color/black" />
+
+    <!-- Material Item -->
+    <TextView
+        android:id="@+id/tvwLabelMaterialItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwLabelMaterialCategory"
+        android:layout_margin="5dp"
+        android:text="@string/label_material"
+        android:textColor="@android:color/black" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tvwSeparator2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwSeparator1"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwLabelMaterialItem"
+        android:text="@string/label_separator" />
+
+    <TextView
         android:id="@+id/tvwMaterialItem"
-        android:layout_below="@+id/tvwMaterialCategory" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwMaterialCategory"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwSeparator2"
+        android:textColor="@android:color/black" />
+
+    <!-- UOM -->
+    <TextView
+        android:id="@+id/tvwLabelUOM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwLabelMaterialItem"
+        android:layout_margin="5dp"
+        android:text="@string/label_UOM"
+        android:textColor="@android:color/black" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tvwSeparator3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwSeparator2"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwLabelUOM"
+        android:text="@string/label_separator" />
+
+    <TextView
         android:id="@+id/tvwUOM"
-        android:layout_below="@+id/tvwMaterialItem" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwMaterialItem"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwSeparator3"
+        android:textColor="@android:color/black" />
+
+    <!-- Quantity -->
+    <TextView
+        android:id="@+id/tvwLabelQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwLabelUOM"
+        android:layout_margin="5dp"
+        android:text="@string/label_quantity"
+        android:textColor="@android:color/black" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tvwSeparator4"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwSeparator3"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwLabelQuantity"
+        android:text="@string/label_separator" />
+
+    <TextView
         android:id="@+id/tvwQuantity"
-        android:layout_below="@+id/tvwUOM" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvwUOM"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvwSeparator4"
+        android:textColor="@android:color/black" />
 </RelativeLayout>

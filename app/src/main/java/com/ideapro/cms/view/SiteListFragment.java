@@ -11,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.ideapro.cms.R;
-import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.data.ProjectEntity;
+import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.SiteListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
@@ -99,6 +98,7 @@ public class SiteListFragment extends Fragment {
 
             adapter = new SiteListAdapter(view.getContext(), getActivity(), list);
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
+            listView.setDivider(null);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

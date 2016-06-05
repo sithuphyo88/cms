@@ -95,6 +95,7 @@ public class SiteProgressListFragment extends Fragment {
 
             adapter = new SiteProgressHistoryListAdapter(view.getContext(), getActivity(), list);
             ListView listView = (ListView)view.findViewById(R.id.listView);
+            listView.setDivider(null);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class EngineerListAdapter extends ArrayAdapter<UserEntity> {
 
-    private Activity activity;
     EngineerListFragment fragment;
+    private Activity activity;
 
     public EngineerListAdapter(EngineerListFragment fragment, Context context, Activity activity, List<UserEntity> files) {
         super(context, 0, files);
@@ -46,6 +46,12 @@ public class EngineerListAdapter extends ArrayAdapter<UserEntity> {
             viewHolder = (UserListViewHolder)convertView.getTag();
         }
 
+        if (position % 2 == 0) {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
+        } else {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
+        }
+
         viewHolder.chkEngineerName.setId(position);
 
         viewHolder.tvwEngineerName.setText(entity.name);
@@ -61,12 +67,11 @@ public class EngineerListAdapter extends ArrayAdapter<UserEntity> {
     }
 
     private class UserListViewHolder {
+        TextView tvwEngineerName;
+        CheckBox chkEngineerName;
         public UserListViewHolder(View view) {
             tvwEngineerName = (TextView) view.findViewById(R.id.tvwEngineerName);
             chkEngineerName = (CheckBox) view.findViewById(R.id.chkEngineerName);
         }
-
-        TextView tvwEngineerName;
-        CheckBox chkEngineerName;
     }
 }

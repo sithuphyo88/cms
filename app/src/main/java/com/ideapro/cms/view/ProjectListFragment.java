@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
@@ -90,6 +89,7 @@ public class ProjectListFragment extends Fragment {
             adapter = new ProjectListAdapter(view.getContext(), getActivity(), list);
 
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
+            listView.setDivider(null);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

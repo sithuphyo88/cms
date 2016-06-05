@@ -43,6 +43,12 @@ public class ProjectListAdapter extends ArrayAdapter<ProjectEntity> {
             viewHolder = (SiteListViewHolder)convertView.getTag();
         }
 
+        if (position % 2 == 0) {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
+        } else {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
+        }
+
         viewHolder.tvwSiteName.setText(entity.name);
         viewHolder.tvwStartDate.setText(entity.startDate);
         viewHolder.tvwEndDate.setText(entity.endDate);
@@ -54,6 +60,11 @@ public class ProjectListAdapter extends ArrayAdapter<ProjectEntity> {
     }
 
     private class SiteListViewHolder {
+        TextView tvwSiteName;
+        TextView tvwStartDate;
+        TextView tvwEndDate;
+        Button butProgress;
+        ProgressBar proProgress;
         public SiteListViewHolder(View view) {
             tvwSiteName = (TextView) view.findViewById(R.id.tvwSiteName);
             tvwStartDate = (TextView) view.findViewById(R.id.tvwStartDate);
@@ -61,11 +72,5 @@ public class ProjectListAdapter extends ArrayAdapter<ProjectEntity> {
             butProgress = (Button) view.findViewById(R.id.butProgress);
             proProgress = (ProgressBar) view.findViewById(R.id.proProgress);
         }
-
-        TextView tvwSiteName;
-        TextView tvwStartDate;
-        TextView tvwEndDate;
-        Button butProgress;
-        ProgressBar proProgress;
     }
 }

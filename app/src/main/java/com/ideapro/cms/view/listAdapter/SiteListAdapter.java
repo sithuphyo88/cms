@@ -43,6 +43,12 @@ public class SiteListAdapter extends ArrayAdapter<SiteEntity> {
             viewHolder = (SiteListViewHolder)convertView.getTag();
         }
 
+        if (position % 2 == 0) {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
+        } else {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
+        }
+
         viewHolder.tvwDesignName.setText(entity.name);
         viewHolder.tvwStartDate.setText(entity.startDate);
         viewHolder.tvwEndDate.setText(entity.endDate);
@@ -54,6 +60,11 @@ public class SiteListAdapter extends ArrayAdapter<SiteEntity> {
     }
 
     private class SiteListViewHolder {
+        TextView tvwDesignName;
+        TextView tvwStartDate;
+        TextView tvwEndDate;
+        Button butProgress;
+        ProgressBar proProgress;
         public SiteListViewHolder(View view) {
             tvwDesignName = (TextView) view.findViewById(R.id.tvwSiteName);
             tvwStartDate = (TextView) view.findViewById(R.id.tvwStartDate);
@@ -61,11 +72,5 @@ public class SiteListAdapter extends ArrayAdapter<SiteEntity> {
             butProgress = (Button) view.findViewById(R.id.butProgress);
             proProgress = (ProgressBar) view.findViewById(R.id.proProgress);
         }
-
-        TextView tvwDesignName;
-        TextView tvwStartDate;
-        TextView tvwEndDate;
-        Button butProgress;
-        ProgressBar proProgress;
     }
 }

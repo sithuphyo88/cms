@@ -23,8 +23,8 @@ public class PurchaseOrderEntity implements Serializable {
     public String date;
 
     @DatabaseField
-    public String receivedNumber;
+    public int receivedNumber;
 
     @DatabaseField
-    public String purchasedNumber;
+    public int purchasedNumber;
 }

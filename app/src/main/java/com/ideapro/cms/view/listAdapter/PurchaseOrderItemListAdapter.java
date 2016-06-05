@@ -2,7 +2,6 @@ package com.ideapro.cms.view.listAdapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ideapro.cms.R;
-import com.ideapro.cms.data.PurchaseOrderEntity;
 import com.ideapro.cms.data.PurchaseOrderItemEntity;
 
 import java.util.List;
@@ -43,29 +41,34 @@ public class PurchaseOrderItemListAdapter extends ArrayAdapter<PurchaseOrderItem
             viewHolder = (PurchaseOrderItemListViewHolder)convertView.getTag();
         }
 
-        viewHolder.tvwSupplier.setText(entity.supplier);
+        if (position % 2 == 0) {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
+        } else {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
+        }
+
+        viewHolder.tvwTargetDate.setText(entity.targetedDate);
         viewHolder.tvwMaterialCategory.setText(entity.materialCategory);
         viewHolder.tvwMaterialItem.setText(entity.materialItem);
         viewHolder.tvwUOM.setText(entity.uom);
-        viewHolder.tvwQuantity.setText(entity.quantity);
+        viewHolder.tvwQuantity.setText(String.valueOf(entity.quantity));
 
         // Return the completed view to render on screen
         return convertView;
     }
 
     private class PurchaseOrderItemListViewHolder {
+        TextView tvwTargetDate;
+        TextView tvwMaterialCategory;
+        TextView tvwMaterialItem;
+        TextView tvwUOM;
+        TextView tvwQuantity;
         public PurchaseOrderItemListViewHolder(View view) {
-            tvwSupplier = (TextView) view.findViewById(R.id.tvwSupplier);
+            tvwTargetDate = (TextView) view.findViewById(R.id.tvwTargetDate);
             tvwMaterialCategory = (TextView) view.findViewById(R.id.tvwMaterialCategory);
             tvwMaterialItem = (TextView) view.findViewById(R.id.tvwMaterialItem);
             tvwUOM = (TextView) view.findViewById(R.id.tvwUOM);
             tvwQuantity = (TextView) view.findViewById(R.id.tvwQuantity);
         }
-
-        TextView tvwSupplier;
-        TextView tvwMaterialCategory;
-        TextView tvwMaterialItem;
-        TextView tvwUOM;
-        TextView tvwQuantity;
     }
 }

@@ -43,6 +43,12 @@ public class SiteProgressHistoryListAdapter extends ArrayAdapter<SiteProgressHis
             viewHolder = (SiteProgressHistoryListViewHolder)convertView.getTag();
         }
 
+        if (position % 2 == 0) {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
+        } else {
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
+        }
+
         viewHolder.tvwDate.setText(entity.date);
         viewHolder.tvwEngineerName.setText(entity.engineerName);
         viewHolder.tvwDescription.setText(entity.description);
@@ -54,6 +60,11 @@ public class SiteProgressHistoryListAdapter extends ArrayAdapter<SiteProgressHis
     }
 
     private class SiteProgressHistoryListViewHolder {
+        TextView tvwDate;
+        TextView tvwEngineerName;
+        TextView tvwDescription;
+        Button butProgress;
+        ProgressBar proProgress;
         public SiteProgressHistoryListViewHolder(View view) {
             tvwDate = (TextView) view.findViewById(R.id.tvwDate);
             tvwEngineerName = (TextView) view.findViewById(R.id.tvwEngineerName);
@@ -61,11 +72,5 @@ public class SiteProgressHistoryListAdapter extends ArrayAdapter<SiteProgressHis
             butProgress = (Button) view.findViewById(R.id.butProgress);
             proProgress = (ProgressBar) view.findViewById(R.id.proProgress);
         }
-
-        TextView tvwDate;
-        TextView tvwEngineerName;
-        TextView tvwDescription;
-        Button butProgress;
-        ProgressBar proProgress;
     }
 }

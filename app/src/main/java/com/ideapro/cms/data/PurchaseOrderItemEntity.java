@@ -17,7 +17,10 @@ public class PurchaseOrderItemEntity implements Serializable {
     public String id;
 
     @DatabaseField
-    public String supplier;
+    public String purchaseOrderDate;
+
+    @DatabaseField
+    public String targetedDate;
 
     @DatabaseField
     public String materialCategory;
@@ -29,5 +32,5 @@ public class PurchaseOrderItemEntity implements Serializable {
     public String uom;
 
     @DatabaseField
-    public String quantity;
+    public int quantity;
 }

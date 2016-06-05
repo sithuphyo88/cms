@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
@@ -21,7 +20,6 @@ import com.ideapro.cms.data.PurchaseOrderItemEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.PurchaseOrderItemListAdapter;
-import com.ideapro.cms.view.listAdapter.PurchaseOrderListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
@@ -90,11 +88,12 @@ public class PurchaseOrderAddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PurchaseOrderItemEntity entity = new PurchaseOrderItemEntity();
-                entity.supplier = "Supplier -  S1";
-                entity.materialCategory = "Material Category - MC1";
-                entity.materialItem = "Material - M1";
-                entity.uom = "UOM - UOM1";
-                entity.quantity = "Quantity - 1";
+                entity.purchaseOrderDate = "2016-06-05";
+                entity.targetedDate = "2016-06-06";
+                entity.materialCategory = "MC1";
+                entity.materialItem = "M1";
+                entity.uom = "UOM1";
+                entity.quantity = 1;
 
                 CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, siteEntity, purchaseOrderEntity, entity));
             }
@@ -109,16 +108,18 @@ public class PurchaseOrderAddFragment extends Fragment {
 
             for (int i = 0; i < 30; i++) {
                 PurchaseOrderItemEntity entity = new PurchaseOrderItemEntity();
-                entity.supplier = "Supplier -  S" + (i + 1);
-                entity.materialCategory = "Material Category - MC" + (i + 1);
-                entity.materialItem = "Material - M" + (i + 1);
-                entity.uom = "UOM - UOM" + (i + 1);
-                entity.quantity = "Quantity - " + (i + 1);
+                entity.purchaseOrderDate = "2016-06-" + (i + 1);
+                entity.targetedDate = "2016-06-" + (i + 2);
+                entity.materialCategory = "MC" + (i + 1);
+                entity.materialItem = "M" + (i + 1);
+                entity.uom = "UOM" + (i + 1);
+                entity.quantity = i + 1;
 
                 list.add(entity);
             }
 
             adapter = new PurchaseOrderItemListAdapter(view.getContext(), getActivity(), list);
+            lstItems.setDivider(null);
             lstItems.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
