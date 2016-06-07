@@ -293,7 +293,7 @@ public class CommonUtils {
         View mCustomView = mInflater.inflate(R.layout.fragment_actionbar, null);
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-        mActionBar.setBackgroundDrawable(activity.getResources().getDrawable(R.color.home_actionbar_back_color));
+        //mActionBar.setBackgroundDrawable(activity.getResources().getDrawable(R.color.home_actionbar_back_color));
 
         TextView textView = (TextView) mCustomView.findViewById(R.id.title_text);
         textView.setText(title);

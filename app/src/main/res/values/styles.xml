@@ -1,14 +1,16 @@
 <resources>
 
-    <style name="AppTheme" parent="AppTheme.Base"/>
+    <!-- inherit from the material theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="colorPrimary">@color/colorPrimary</item>
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:dropDownListViewStyle">@style/mySpinnerStyle</item>
-    </style>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
-    <style name="mySpinnerStyle" parent="android:Widget.ListView.DropDown">
-        <item name="android:divider">#00ff00</item>
-        <item name="android:dividerHeight">1dp</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 </resources>

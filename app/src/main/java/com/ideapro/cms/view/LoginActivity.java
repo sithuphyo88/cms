@@ -74,7 +74,7 @@ public class LoginActivity extends ActionBarActivity {
         View mCustomView = mInflater.inflate(R.layout.fragment_actionbar, null);
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-        mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.home_actionbar_back_color));
+        // mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.home_actionbar_back_color));
 
         ImageButton imgRight = (ImageButton) mActionBar.getCustomView().findViewById(R.id.imgRight);
         imgRight.setVisibility(View.GONE);

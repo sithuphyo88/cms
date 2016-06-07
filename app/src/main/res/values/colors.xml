@@ -8,4 +8,10 @@
     <color name="button_back_color">#B03A2E</color>
 
     <color name="activity_textview_color">#000000</color>
+
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimaryLight">#BBDEFB</color>
+    <color name="colorAccent">#448AFF</color>
+    <color name="textColorPrimary">#212121</color>
 </resources>
