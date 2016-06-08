@@ -2,7 +2,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/home_back_color">
+    android:padding="@dimen/page_padding">
 
     <FrameLayout
         android:id="@+id/frame_container"
@@ -14,8 +14,6 @@
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="left|start"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp"
-        android:background="@color/list_background_pressed"/>
+        android:dividerHeight="1dp"/>
 
 </android.support.v4.widget.DrawerLayout>

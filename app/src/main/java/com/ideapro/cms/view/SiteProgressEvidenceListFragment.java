@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -37,6 +39,7 @@ public class SiteProgressEvidenceListFragment extends Fragment {
     ImageButton imgRight;
     private GridView gridView;
     private SiteProgressEvidenceListAdapter adapter;
+    Menu menu;
 
     public SiteProgressEvidenceListFragment() {
     }
@@ -50,23 +53,26 @@ public class SiteProgressEvidenceListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_site_progress_evidence_list, container, false);
+        setHasOptionsMenu(true);
+
         bindData();
-        setActionBar();
 
         return view;
     }
 
-    private void setActionBar() {
-        getActivity().setTitle("");
-        View customView = CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                entity.siteName + " - " + entity.progress + "% - " + " evidences",
-                R.mipmap.ic_share);
-        imgRight = (ImageButton) customView.findViewById(R.id.imgRight);
-        imgRight.setVisibility(View.GONE);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.menu = menu;
+        inflater.inflate(R.menu.menu_share, menu);
+        this.menu.getItem(0).setVisible(false);
+        getActivity().setTitle(entity.siteName + " - " + entity.progress + "% - " + getString(R.string.label_evidences));
+        super.onCreateOptionsMenu(menu,inflater);
+    }
 
-        imgRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
                 ArrayList<Uri> imageUris = new ArrayList<>();
                 for(int i = 0; i < imageItems.size(); i++) {
                     if(imageItems.get(i).isSelected()) {
@@ -79,8 +85,12 @@ public class SiteProgressEvidenceListFragment extends Fragment {
                 shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
                 shareIntent.setType("image/*");
                 startActivity(Intent.createChooser(shareIntent, "Share images to.."));
-            }
-        });
+                return  true;
+
+            default :
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     private void bindData() {
@@ -124,9 +134,9 @@ public class SiteProgressEvidenceListFragment extends Fragment {
         imageItems.get(id).setSelected(cb.isChecked());
 
         if(hasSelectedItem()) {
-            imgRight.setVisibility(View.VISIBLE);
+            this.menu.getItem(0).setVisible(true);
         } else {
-            imgRight.setVisibility(View.GONE);
+            this.menu.getItem(0).setVisible(false);
         }
     }
 

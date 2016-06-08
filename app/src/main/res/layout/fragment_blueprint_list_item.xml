@@ -6,7 +6,7 @@
     android:layout_centerVertical="true"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
-    android:padding="15dp">
+    android:padding="@dimen/list_item_margin">
 
     <CheckBox
         android:id="@+id/chkDate"

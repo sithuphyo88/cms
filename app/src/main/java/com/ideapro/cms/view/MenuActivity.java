@@ -8,26 +8,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.utils.NavDrawerItem;
 import com.ideapro.cms.utils.NavDrawerListAdapter;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -57,7 +51,7 @@ public class MenuActivity extends ActionBarActivity {
 
         addDrawerItems();
         setupDrawer();
-        setActionBar(getString(R.string.label_project));
+        // setActionBar(getString(R.string.label_project));
         displayView(0);
     }
 
@@ -146,39 +140,20 @@ public class MenuActivity extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private View setActionBar(String title) {
-        return CommonUtils.setActionBarForActivity(this, title);
-    }
-
-    private void toggleActionBar(boolean isOpen) {
-        View actionBarView = getSupportActionBar().getCustomView();
-        ImageButton imgRight = (ImageButton)actionBarView.findViewById(R.id.imgRight);
-        TextView titleText = (TextView) actionBarView.findViewById(R.id.title_text);
-
-        if(isOpen) {
-            fragmentTitle = titleText.getText().toString();
-            titleText.setText("");
-            imgRight.setVisibility(View.GONE);
-        } else {
-            titleText.setText(fragmentTitle);
-            imgRight.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                toggleActionBar(true);
+                // toggleActionBar(true);
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                toggleActionBar(false);
+                // toggleActionBar(false);
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }

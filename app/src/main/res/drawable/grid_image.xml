@@ -4,7 +4,7 @@
     <!-- This is the stroke you want to define -->
     <stroke
         android:width="0.5dp"
-        android:color="@color/home_actionbar_back_color"/>
+        />
 
     <!-- Optional, round your corners -->
 </shape>

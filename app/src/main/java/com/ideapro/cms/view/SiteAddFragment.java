@@ -3,8 +3,9 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -55,15 +56,17 @@ public class SiteAddFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_site_add, container, false);
-        setActionBar();
+        setHasOptionsMenu(true);
+
         initializeUI();
         return view;
     }
 
-    private void setActionBar() {
-        View actionBar = CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                getString(R.string.label_site_entry) + " for " + this.projectEntity.name,
-                R.mipmap.ic_done);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_save, menu);
+        getActivity().setTitle(getString(R.string.label_site_entry) + " for " + this.projectEntity.name);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     private void initializeUI() {

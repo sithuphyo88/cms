@@ -6,8 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -20,7 +21,6 @@ import com.ideapro.cms.data.ImageItem;
 import com.ideapro.cms.data.SiteProgressHistoryEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.SiteBluePrintConfirmListAdapter;
-import com.ideapro.cms.view.listAdapter.SiteProgressEvidenceListAdapter;
 
 import java.util.ArrayList;
 
@@ -35,6 +35,7 @@ public class SiteBluePrintConfirmListFragment extends Fragment {
     ArrayList<ImageItem> imageItems;
     SiteProgressHistoryEntity entity;
     ImageButton imgRight;
+    Menu menu;
 
     public SiteBluePrintConfirmListFragment() {
     }
@@ -48,17 +49,18 @@ public class SiteBluePrintConfirmListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_site_progress_evidence_list, container, false);
-        bindData();
-        setActionBar();
+        setHasOptionsMenu(true);
 
+        bindData();
         return view;
     }
 
-    private void setActionBar() {
-        getActivity().setTitle("");
-        View customView = CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                entity.siteName + " - " + "Blueprints",
-                R.mipmap.ic_search);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.menu = menu;
+        inflater.inflate(R.menu.menu_search, menu);
+        getActivity().setTitle(entity.siteName + " - " + getString(R.string.label_blueprints));
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     private void bindData() {
@@ -98,9 +100,9 @@ public class SiteBluePrintConfirmListFragment extends Fragment {
         imageItems.get(id).setSelected(cb.isChecked());
 
         if(hasSelectedItem()) {
-            imgRight.setVisibility(View.VISIBLE);
+            this.menu.getItem(0).setVisible(true);
         } else {
-            imgRight.setVisibility(View.GONE);
+            this.menu.getItem(0).setVisible(false);
         }
     }
 

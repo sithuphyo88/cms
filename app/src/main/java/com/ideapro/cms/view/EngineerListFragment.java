@@ -3,8 +3,9 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,6 +35,7 @@ public class EngineerListFragment extends Fragment {
     List<Boolean> selectedList;
     EngineerListAdapter adapter;
     ImageButton imgAdd;
+    Menu menu;
 
     public EngineerListFragment() {
         this.siteEntity = new SiteEntity();
@@ -54,16 +56,18 @@ public class EngineerListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_engineer_list, container, false);
+        setHasOptionsMenu(true);
         bindData();
-        setActionBar();
         initializeUI();
         return view;
     }
 
-    private void setActionBar() {
-        CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                getString(R.string.label_engineer_assign) + " for " + this.siteEntity.name,
-                R.mipmap.ic_search);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.menu = menu;
+        inflater.inflate(R.menu.menu_search, menu);
+        getActivity().setTitle(getString(R.string.label_engineer_assign) + " for " + this.siteEntity.name);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     private void initializeUI() {

@@ -4,9 +4,10 @@ package com.ideapro.cms.view;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,6 +43,7 @@ public class PurchaseOrderAddFragment extends Fragment {
     EditText txtPurchaseOrderNo;
     EditText txtPurchaseOrderDate;
     SwipeMenuListView lstItems;
+    Menu menu;
 
     public PurchaseOrderAddFragment() {
         this.projectEntity = new ProjectEntity();
@@ -66,16 +68,17 @@ public class PurchaseOrderAddFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_purchase_order_add, container, false);
+        this.menu = menu;
         initializeUI();
         bindData();
-        setActionBar();
         return view;
     }
 
-    private void setActionBar() {
-        CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                getString(R.string.label_purchase_order_details) + " for " + this.purchaseOrderEntity.purchaseOrderNo,
-                R.mipmap.ic_done);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_save, menu);
+        getActivity().setTitle(getString(R.string.label_purchase_order_details) + " for " + this.purchaseOrderEntity.purchaseOrderNo);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     private void initializeUI() {
@@ -131,13 +134,13 @@ public class PurchaseOrderAddFragment extends Fragment {
                     SwipeMenuItem editItem = new SwipeMenuItem(view.getContext());
                     editItem.setWidth(dp2px(50));
                     editItem.setTitle("edit");
-                    editItem.setIcon(R.mipmap.ic_edit);
+                    editItem.setIcon(R.drawable.ic_edit);
                     menu.addMenuItem(editItem);
 
                     SwipeMenuItem deleteItem = new SwipeMenuItem(view.getContext());
                     deleteItem.setWidth(dp2px(50));
                     editItem.setTitle("delete");
-                    deleteItem.setIcon(R.mipmap.ic_delete);
+                    deleteItem.setIcon(R.drawable.ic_delete);
                     menu.addMenuItem(deleteItem);
                 }
             };

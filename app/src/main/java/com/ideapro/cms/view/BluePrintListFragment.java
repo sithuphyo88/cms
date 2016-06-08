@@ -6,11 +6,12 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,6 +52,7 @@ public class BluePrintListFragment extends Fragment {
     List<BluePrintEntity> list = null;
     DatePickerDialog datePicker;
     private Date selectedDate;
+    Menu menu;
 
     public BluePrintListFragment() {
         this.siteEntity = new SiteEntity();
@@ -71,16 +73,18 @@ public class BluePrintListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_blueprint_list, container, false);
+        setHasOptionsMenu(true);
         bindData();
-        setActionBar();
         initializeUI();
         return view;
     }
 
-    private void setActionBar() {
-        CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                getString(R.string.label_manage_blue_print) + " for " + this.siteEntity.name,
-                R.mipmap.ic_search);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.menu = menu;
+        inflater.inflate(R.menu.menu_search, menu);
+        getActivity().setTitle(getString(R.string.label_manage_blue_print) + " for " + this.siteEntity.name);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     private void initializeUI() {
@@ -111,7 +115,7 @@ public class BluePrintListFragment extends Fragment {
                     SwipeMenuItem deleteItem = new SwipeMenuItem(view.getContext());
                     deleteItem.setWidth(dp2px(50));
                     deleteItem.setTitle("delete");
-                    deleteItem.setIcon(R.mipmap.ic_delete);
+                    deleteItem.setIcon(R.drawable.ic_delete);
                     menu.addMenuItem(deleteItem);
                 }
             };
@@ -164,13 +168,9 @@ public class BluePrintListFragment extends Fragment {
         list.get(id).isSelected = cb.isChecked();
 
         if(hasSelectedItem()) {
-            CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                    getString(R.string.label_manage_blue_print) + " for " + this.siteEntity.name,
-                    R.mipmap.ic_remove);
+            getActivity().getMenuInflater().inflate(R.menu.menu_remove, this.menu);
         } else {
-            CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                    getString(R.string.label_manage_blue_print) + " for " + this.siteEntity.name,
-                    R.mipmap.ic_search);
+            getActivity().getMenuInflater().inflate(R.menu.menu_search, this.menu);
         }
     }
 

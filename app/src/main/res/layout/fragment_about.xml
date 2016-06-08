@@ -14,7 +14,6 @@
             android:layout_height="wrap_content"
             android:text="@string/label_company_name"
             android:textSize="40dp"
-            android:textColor="@color/home_actionbar_back_color"
             android:textStyle="bold"/>
 
         <TextView
@@ -22,7 +21,6 @@
             android:layout_height="wrap_content"
             android:text="@string/label_company_service"
             android:textSize="25dp"
-            android:textColor="@color/home_actionbar_back_color"
             android:textStyle="bold"/>
 
         <TextView
@@ -30,7 +28,6 @@
             android:layout_height="wrap_content"
             android:text="@string/label_company_message"
             android:textSize="20dp"
-            android:textColor="@color/list_divider"
             android:textStyle="italic|bold"
             android:paddingTop="10dp"/>
 
@@ -42,14 +39,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_address"/>
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_company_address"
                 android:textSize="15dp"
                 android:layout_gravity="center"
-                android:textColor="@color/list_divider"
                 android:textStyle="bold"
                 />
         </LinearLayout>
@@ -69,7 +65,6 @@
                 android:text="@string/label_company_phone"
                 android:textSize="15dp"
                 android:layout_gravity="center"
-                android:textColor="@color/list_divider"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -81,14 +76,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_mail"/>
+                android:src="@drawable/ic_mail"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_company_mail"
                 android:textSize="15dp"
                 android:layout_gravity="center"
-                android:textColor="@color/list_divider"
                 android:textStyle="bold"/>
         </LinearLayout>
 

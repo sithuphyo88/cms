@@ -29,15 +29,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="5dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtServiceLink"
+                android:hint="@string/label_sync_service_link"
                 android:inputType="textUri"
                 android:lines="1"
                 android:maxLength="100"
                 android:scrollHorizontally="true"
                 android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
         </TableRow>
 
         <TableRow

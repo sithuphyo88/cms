@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ImageItem;
 import com.ideapro.cms.view.SiteBluePrintConfirmListFragment;
-import com.ideapro.cms.view.SiteProgressEvidenceListFragment;
 
 import java.util.ArrayList;
 

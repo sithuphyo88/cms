@@ -270,34 +270,4 @@ public class CommonUtils {
         }
         return null;
     }
-
-    public static View setActionBarForFragment(ActionBarActivity activity, String title, int rightButtonResourceId) {
-        View customView = activity.getSupportActionBar().getCustomView();
-
-        ImageButton imgRight = (ImageButton) customView.findViewById(R.id.imgRight);
-        imgRight.setImageResource(rightButtonResourceId);
-        imgRight.setTag(rightButtonResourceId);
-        imgRight.setVisibility(View.VISIBLE);
-        imgRight.bringToFront();
-
-        TextView textView = (TextView) customView.findViewById(R.id.title_text);
-        textView.setText(title);
-
-        return customView;
-    }
-
-    public static View setActionBarForActivity(ActionBarActivity activity, String title) {
-        ActionBar mActionBar = activity.getSupportActionBar();
-        LayoutInflater mInflater = LayoutInflater.from(activity);
-
-        View mCustomView = mInflater.inflate(R.layout.fragment_actionbar, null);
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
-        //mActionBar.setBackgroundDrawable(activity.getResources().getDrawable(R.color.home_actionbar_back_color));
-
-        TextView textView = (TextView) mCustomView.findViewById(R.id.title_text);
-        textView.setText(title);
-
-        return mCustomView;
-    }
 }

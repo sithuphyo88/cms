@@ -37,7 +37,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
-            android:src="@mipmap/ic_send" />
+            android:src="@drawable/ic_send" />
 
     </RelativeLayout>
 

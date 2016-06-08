@@ -3,14 +3,24 @@
     <!-- inherit from the material theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Main theme colors -->
-        <!--   your app branding color for the app bar -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_primary_text</item>
+        <item name="android:textColorSecondary">@color/color_secondary_text</item>
+        <item name="android:icon">@color/color_icons</item>
+        <item name="android:divider">@color/color_divider</item>
+        <item name="android:listDivider">@color/color_divider</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
 
-        <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
-        <!--   theme UI controls like checkboxes and text fields -->
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="titleTextStyle">@style/MyTitleTextStyle</item>
+    </style>
+
+    <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/color_title_text</item>
     </style>
 
 </resources>

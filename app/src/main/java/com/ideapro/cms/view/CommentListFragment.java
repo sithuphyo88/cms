@@ -3,17 +3,15 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.CommentEntity;
-import com.ideapro.cms.data.SiteEntity;
-import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.CommentListAdapter;
 
 import java.util.ArrayList;
@@ -27,6 +25,7 @@ public class CommentListFragment extends Fragment {
     View view;
     List<CommentEntity> list;
     CommentListAdapter adapter;
+    Menu menu;
 
     public CommentListFragment() {
     }
@@ -36,34 +35,17 @@ public class CommentListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_comment_list, container, false);
+        setHasOptionsMenu(true);
         bindData();
-        setActionBar();
-        // initializeUI();
         return view;
     }
 
-    private void setActionBar() {
-        CommonUtils.setActionBarForFragment((ActionBarActivity) getActivity(),
-                getString(R.string.label_comments),
-                R.mipmap.ic_search);
-    }
-
-    private void initializeUI() {
-        ImageButton imgAdd = (ImageButton) view.findViewById(R.id.imgAdd);
-
-        if (CommonUtils.CurrentUser.role.equals("admin")) {
-            imgAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SiteEntity entity = new SiteEntity();
-                    entity.name = "New Site";
-                    entity.progress = "0";
-                    //CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteAddFragment(projectEntity, entity));
-                }
-            });
-        } else {
-            imgAdd.setVisibility(View.GONE);
-        }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.menu = menu;
+        inflater.inflate(R.menu.menu_search, menu);
+        getActivity().setTitle(getString(R.string.label_comments));
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     private void bindData() {

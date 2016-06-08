@@ -3,13 +3,11 @@ package com.ideapro.cms.view;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.utils.CommonUtils;
@@ -24,7 +22,6 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        setActionBar();
         txtUserName = (EditText) findViewById(R.id.txtUserName);
 
         Button butLogin = (Button)findViewById(R.id.butLogin);
@@ -65,21 +62,5 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setActionBar() {
-        android.support.v7.app.ActionBar mActionBar = this.getSupportActionBar();
-        LayoutInflater mInflater = LayoutInflater.from(this);
-
-        View mCustomView = mInflater.inflate(R.layout.fragment_actionbar, null);
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
-        // mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.home_actionbar_back_color));
-
-        ImageButton imgRight = (ImageButton) mActionBar.getCustomView().findViewById(R.id.imgRight);
-        imgRight.setVisibility(View.GONE);
-
-        //TextView textView = (TextView) mActionBar.getCustomView().findViewById(R.id.title_text);
-        //textView.setText(getString(R.string.app_name));
     }
 }

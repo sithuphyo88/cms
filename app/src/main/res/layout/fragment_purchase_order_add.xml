@@ -4,9 +4,6 @@
     android:padding="@dimen/page_padding">
 
 
-
-
-
     <ImageButton style="@style/AppTheme"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -15,64 +12,43 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="50dp"
-        android:src="@mipmap/ic_add"
+        android:src="@drawable/ic_add"
         android:background="@drawable/circle" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Purchaser Order No"
-        android:id="@+id/tvwPurchaseOrderNo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/txtLayPurchaseOrderNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPurchaseOrderNo"
+            android:hint="@string/label_purchase_order_no"
+            android:layout_below="@+id/tvwPurchaseOrderNo"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtPurchaseOrderNo"
-        android:layout_below="@+id/tvwPurchaseOrderNo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Purchase Order Date"
-        android:id="@+id/tvwPurchaseOrderDate"
-        android:layout_below="@+id/txtPurchaseOrderNo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtPurchaseOrderDate"
-        android:layout_below="@+id/tvwPurchaseOrderDate"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/txtLayPurchaseOrderDate"
+        android:layout_below="@+id/txtLayPurchaseOrderNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_purchase_order_date"
+            android:id="@+id/txtPurchaseOrderDate"/>
+    </android.support.design.widget.TextInputLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:textSize="15dp"
         android:text="Purchase Order Item List"
         android:id="@+id/tvwPurchaseOrderItemList"
-        android:layout_below="@+id/txtPurchaseOrderDate"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/txtLayPurchaseOrderDate"
+        android:textColor="@color/color_accent"
         android:textStyle="bold" />
 
     <com.ideapro.cms.view.swipeMenu.SwipeMenuListView

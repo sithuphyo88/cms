@@ -6,15 +6,11 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
-import com.ideapro.cms.utils.CommonUtils;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -38,11 +34,6 @@ public class AboutFragment extends Fragment {
     }
 
     private void setActionBar() {
-        View customView = CommonUtils.setActionBarForFragment((ActionBarActivity)getActivity(),
-                getString(R.string.label_about),
-                R.mipmap.ic_done);
-
-        ImageButton imgButDone = (ImageButton) customView.findViewById(R.id.imgRight);
-        imgButDone.setVisibility(View.GONE);
+        getActivity().setTitle(getString(R.string.label_about));
     }
 }
