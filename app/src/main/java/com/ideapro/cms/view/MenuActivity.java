@@ -51,7 +51,6 @@ public class MenuActivity extends ActionBarActivity {
 
         addDrawerItems();
         setupDrawer();
-        // setActionBar(getString(R.string.label_project));
         displayView(0);
     }
 
@@ -146,14 +145,18 @@ public class MenuActivity extends ActionBarActivity {
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                // toggleActionBar(true);
+                fragmentTitle = getSupportActionBar().getTitle().toString();
+                getSupportActionBar().setTitle(getString(R.string.app_name));
+
+                getSupportActionBar().hide();
+
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                // toggleActionBar(false);
+                getSupportActionBar().setTitle(fragmentTitle);
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
@@ -170,17 +173,14 @@ public class MenuActivity extends ActionBarActivity {
         switch (position) {
             case 0:
                 fragment = new ProjectListFragment();
-                fragmentTitle = getString(R.string.label_project);
                 break;
 
             case 1:
                 fragment = new SettingsFragment();
-                fragmentTitle = getString(R.string.label_settings);
                 break;
 
             case 2:
                 fragment = new AboutFragment();
-                fragmentTitle = getString(R.string.label_about);
                 break;
 
             case 3:

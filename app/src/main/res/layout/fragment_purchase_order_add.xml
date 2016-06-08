@@ -1,63 +1,64 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context=".view.SiteListFragment"
-    android:padding="@dimen/page_padding">
+    android:layout_height="match_parent"
+    android:padding="@dimen/page_padding"
+    tools:context=".view.SiteListFragment">
 
 
-    <ImageButton style="@style/AppTheme"
+    <ImageButton
+        android:id="@+id/imgAdd"
+        style="@style/AppTheme"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imgAdd"
-        android:elevation="10dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="50dp"
-        android:src="@drawable/ic_add"
-        android:background="@drawable/circle" />
+        android:background="@drawable/circle"
+        android:elevation="10dp"
+        android:src="@drawable/ic_add" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/txtLayPurchaseOrderNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:id="@+id/txtPurchaseOrderNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtPurchaseOrderNo"
-            android:hint="@string/label_purchase_order_no"
-            android:layout_below="@+id/tvwPurchaseOrderNo"/>
+            android:layout_below="@+id/tvwPurchaseOrderNo"
+            android:hint="@string/label_purchase_order_no" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/txtLayPurchaseOrderDate"
-        android:layout_below="@+id/txtLayPurchaseOrderNo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLayPurchaseOrderNo">
         <EditText
+            android:id="@+id/txtPurchaseOrderDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_purchase_order_date"
-            android:id="@+id/txtPurchaseOrderDate"/>
+            android:hint="@string/label_purchase_order_date" />
     </android.support.design.widget.TextInputLayout>
 
     <TextView
+        android:id="@+id/tvwPurchaseOrderItemList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textSize="15dp"
-        android:text="Purchase Order Item List"
-        android:id="@+id/tvwPurchaseOrderItemList"
         android:layout_below="@+id/txtLayPurchaseOrderDate"
-        android:textColor="@color/color_accent"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="Purchase Order Item List"
+        android:textSize="15dp"
         android:textStyle="bold" />
 
     <com.ideapro.cms.view.swipeMenu.SwipeMenuListView
+        android:id="@+id/lstItems"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lstItems"
-        android:layout_below="@+id/tvwPurchaseOrderItemList"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_below="@+id/tvwPurchaseOrderItemList" />
 
 </RelativeLayout>
