@@ -2,6 +2,7 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +17,15 @@ import com.ideapro.cms.utils.CommonUtils;
 public class LoginActivity extends ActionBarActivity {
 
     EditText txtUserName;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
 
         txtUserName = (EditText) findViewById(R.id.txtUserName);
 
