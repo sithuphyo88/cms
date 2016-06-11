@@ -140,8 +140,10 @@ public class BluePrintPhotoListFragment extends Fragment {
         imageItems.get(id).setSelected(cb.isChecked());
 
         if(hasSelectedItem()) {
+            this.menu.clear();
             getActivity().getMenuInflater().inflate(R.menu.menu_remove, this.menu);
         } else {
+            this.menu.clear();
             getActivity().getMenuInflater().inflate(R.menu.menu_search, this.menu);
         }
     }

@@ -4,6 +4,7 @@ package com.ideapro.cms.view;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -104,7 +105,11 @@ public class BluePrintListFragment extends Fragment {
 
             adapter = new BluePrintListAdapter(this, view.getContext(), getActivity(), list);
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
-            listView.setDivider(null);
+            ColorDrawable myColor = new ColorDrawable(
+                    this.getResources().getColor(R.color.color_accent)
+            );
+            listView.setDivider(myColor);
+            listView.setDividerHeight(1);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

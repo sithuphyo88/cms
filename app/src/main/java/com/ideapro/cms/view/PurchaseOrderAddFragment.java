@@ -2,6 +2,7 @@ package com.ideapro.cms.view;
 
 
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -124,7 +125,11 @@ public class PurchaseOrderAddFragment extends Fragment {
             }
 
             adapter = new PurchaseOrderItemListAdapter(view.getContext(), getActivity(), list);
-            lstItems.setDivider(null);
+            ColorDrawable myColor = new ColorDrawable(
+                    this.getResources().getColor(R.color.color_accent)
+            );
+            lstItems.setDivider(myColor);
+            lstItems.setDividerHeight(1);
             lstItems.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

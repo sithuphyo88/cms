@@ -43,11 +43,7 @@ public class SiteProgressHistoryListAdapter extends ArrayAdapter<SiteProgressHis
             viewHolder = (SiteProgressHistoryListViewHolder)convertView.getTag();
         }
 
-        if (position % 2 == 0) {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
-        } else {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
-        }
+        convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item));
 
         viewHolder.tvwDate.setText(entity.date);
         viewHolder.tvwEngineerName.setText(entity.engineerName);

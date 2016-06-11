@@ -1,6 +1,7 @@
 package com.ideapro.cms.view;
 
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -71,7 +72,11 @@ public class CommentListFragment extends Fragment {
 
             adapter = new CommentListAdapter(view.getContext(), getActivity(), list);
             ListView listView = (ListView) view.findViewById(R.id.listView);
-            listView.setDivider(null);
+            ColorDrawable myColor = new ColorDrawable(
+                    this.getResources().getColor(R.color.color_accent)
+            );
+            listView.setDivider(myColor);
+            listView.setDividerHeight(1);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

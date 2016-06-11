@@ -43,13 +43,9 @@ public class PurchaseOrderListAdapter extends ArrayAdapter<PurchaseOrderEntity> 
         }
 
         if (entity.receivedNumber == entity.purchasedNumber) {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_finish_shape));
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd));
         } else {
-            if (position % 2 == 0) {
-                convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
-            } else {
-                convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
-            }
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item));
         }
 
         viewHolder.tvwOrderNo.setText(entity.purchaseOrderNo);

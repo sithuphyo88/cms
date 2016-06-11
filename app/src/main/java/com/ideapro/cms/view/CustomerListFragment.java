@@ -15,8 +15,10 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.CustomerEntity;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.view.listAdapter.CustomerListAdapter;
 import com.ideapro.cms.view.listAdapter.ProjectListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
@@ -29,13 +31,13 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProjectListFragment extends Fragment {
+public class CustomerListFragment extends Fragment {
 
     View view;
-    List<ProjectEntity> list;
-    ProjectListAdapter adapter;
+    List<CustomerEntity> list;
+    CustomerListAdapter adapter;
 
-    public ProjectListFragment() {
+    public CustomerListFragment() {
         // Required empty public constructor
     }
 
@@ -44,7 +46,7 @@ public class ProjectListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_project_list, container, false);
+        view = inflater.inflate(R.layout.fragment_customer_list, container, false);
         setHasOptionsMenu(true);
 
         bindData();
@@ -55,7 +57,7 @@ public class ProjectListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        getActivity().setTitle(getString(R.string.label_project));
+        getActivity().setTitle(getString(R.string.label_customer));
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -81,16 +83,16 @@ public class ProjectListFragment extends Fragment {
         try {
             list = new ArrayList<>();
             for (int i = 0; i < 100; i++) {
-                ProjectEntity entity = new ProjectEntity();
-                entity.name = "Project" + (i + 1);
-                entity.progress = String.valueOf(i + 1);
-                entity.startDate = "2016-05-" + (i + 1);
-                entity.endDate = "2016-05-" + (i + 1);
+                CustomerEntity entity = new CustomerEntity();
+                entity.name = "Customer " + (i + 1);
+                entity.phone = "Phone " + (i + 1);
+                entity.email = "Email " + (i + 1);
+                entity.address = "Address " + (i + 1);
 
                 list.add(entity);
             }
 
-            adapter = new ProjectListAdapter(view.getContext(), getActivity(), list);
+            adapter = new CustomerListAdapter(view.getContext(), getActivity(), list);
 
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
@@ -128,7 +130,7 @@ public class ProjectListFragment extends Fragment {
                     switch (index) {
                         case 0:
                             // edit
-                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(list.get(position)));
+                            // CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(list.get(position)));
                             break;
                         case 1:
                             // delete

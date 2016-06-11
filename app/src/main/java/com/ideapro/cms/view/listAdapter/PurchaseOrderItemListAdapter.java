@@ -41,11 +41,7 @@ public class PurchaseOrderItemListAdapter extends ArrayAdapter<PurchaseOrderItem
             viewHolder = (PurchaseOrderItemListViewHolder)convertView.getTag();
         }
 
-        if (position % 2 == 0) {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
-        } else {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
-        }
+        convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item));
 
         viewHolder.tvwTargetDate.setText(entity.targetedDate);
         viewHolder.tvwMaterialCategory.setText(entity.materialCategory);

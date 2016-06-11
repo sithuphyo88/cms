@@ -1,15 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ideapro.cms.view.BluePrintListFragment"
-    android:padding="@dimen/page_padding"
-    >
+    android:padding="@dimen/page_padding">
 
     <com.ideapro.cms.view.swipeMenu.SwipeMenuListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent"/>
+
 
     <ImageButton style="@style/AppTheme"
         android:layout_gravity="right|bottom"
@@ -19,7 +17,6 @@
         android:elevation="10dp"
         android:layout_margin="50dp"
         android:src="@drawable/ic_add"
-        android:background="@drawable/circle"
-        />
+        android:background="@drawable/circle" />
 
 </FrameLayout>

@@ -2,6 +2,7 @@ package com.ideapro.cms.view;
 
 
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -114,7 +115,11 @@ public class PurchaseOrderListFragment extends Fragment {
 
             adapter = new PurchaseOrderListAdapter(view.getContext(), getActivity(), list);
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
-            listView.setDivider(null);
+            ColorDrawable myColor = new ColorDrawable(
+                    this.getResources().getColor(R.color.color_accent)
+            );
+            listView.setDivider(myColor);
+            listView.setDividerHeight(1);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

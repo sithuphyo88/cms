@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
-    android:layout_margin="@dimen/list_item_margin" >
+    android:layout_margin="@dimen/list_item_margin"
+    >
     <TextView
         android:id="@+id/tvwProjectName"
         android:layout_width="wrap_content"
@@ -26,7 +27,6 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:progress="0"
-
             android:progressDrawable="@drawable/progressbar_style" />
         <Button
             android:id="@+id/butProgress"

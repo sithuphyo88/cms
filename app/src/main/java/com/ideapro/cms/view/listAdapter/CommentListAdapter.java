@@ -42,9 +42,9 @@ public class CommentListAdapter extends ArrayAdapter<CommentEntity> {
         }
 
         if (position % 2 == 0) {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item));
         } else {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
+            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd));
         }
 
         viewHolder.tvwUserName.setText(entity.userName);

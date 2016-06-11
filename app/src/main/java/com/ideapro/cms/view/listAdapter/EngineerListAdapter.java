@@ -46,11 +46,7 @@ public class EngineerListAdapter extends ArrayAdapter<UserEntity> {
             viewHolder = (UserListViewHolder)convertView.getTag();
         }
 
-        if (position % 2 == 0) {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_even_shape));
-        } else {
-            convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item_odd_shape));
-        }
+        convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item));
 
         viewHolder.chkEngineerName.setId(position);
 
