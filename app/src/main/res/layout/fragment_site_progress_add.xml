@@ -1,64 +1,70 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context=".view.SiteAddFragment"
-    android:padding="@dimen/page_padding">
+        android:layout_height="match_parent"
+        android:padding="@dimen/page_padding"
+        tools:context=".view.SiteAddFragment">
 
     <TextView
+        android:id="@+id/tvwSiteName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwSiteName"
         android:paddingTop="@dimen/padding_top_between_controls"
         android:text="@string/label_site_name"/>
     <EditText
+        android:id="@+id/txtSiteName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtSiteName"
         android:layout_below="@+id/tvwSiteName"
         android:layout_gravity="center_horizontal|top"
         android:hint="@string/label_site_name" />
 
     <TextView
+        android:id="@+id/tvwProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwProgress"
         android:layout_below="@+id/txtSiteName"
         android:paddingTop="@dimen/padding_top_between_controls"
         android:text="@string/label_progress"/>
     <EditText
+        android:id="@+id/txtProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtProgress"
-        android:inputType="number"
         android:layout_below="@+id/tvwProgress"
         android:layout_gravity="center_horizontal|top"
-        android:hint="@string/label_progress" />
+        android:hint="@string/label_progress"
+        android:inputType="number" />
 
     <TextView
+        android:id="@+id/tvwDetailDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvwDetailDescription"
         android:layout_below="@+id/txtProgress"
         android:paddingTop="@dimen/padding_top_between_controls"
         android:text="@string/label_details_description"/>
     <EditText
+        android:id="@+id/txtDetailDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtDetailDescription"
-        android:inputType="textMultiLine"
         android:layout_below="@+id/tvwDetailDescription"
         android:layout_gravity="center_horizontal|top"
-        android:hint="@string/label_details_description" />
+        android:hint="@string/label_details_description"
+        android:inputType="textMultiLine" />
 
     <Button
+        android:id="@+id/butAddEvidence"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_add_evidence"
-        android:id="@+id/butAddEvidence"
-        android:layout_below="@+id/txtDetailDescription"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txtDetailDescription"
+        android:paddingTop="@dimen/padding_top_between_controls"
+        android:text="@string/label_add_evidence" />
 
 </RelativeLayout>
+</ScrollView>

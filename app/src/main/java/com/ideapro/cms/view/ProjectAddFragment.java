@@ -8,14 +8,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.utils.CommonUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -31,6 +36,7 @@ public class ProjectAddFragment extends Fragment {
     ProgressBar proProgress;
     TextView tvwProgressValue;
     Menu menu;
+    Spinner spnCustomer;
 
     public ProjectAddFragment() {
         // Required empty public constructor
@@ -84,5 +90,16 @@ public class ProjectAddFragment extends Fragment {
             tvwProgressValue = (TextView) view.findViewById(R.id.tvwProgressValue);
             tvwProgressValue.setText(this.projectEntity.progress + " %");
         }
+
+        spnCustomer = (Spinner) view.findViewById(R.id.spnCustomer);
+        List<String> customers = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            customers.add("Customer " + (i + 1));
+        }
+
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.spinner_textview,
+                customers);
+        mAdapter.setDropDownViewResource(R.layout.spinner_textview);
+        spnCustomer.setAdapter(mAdapter);
     }
 }

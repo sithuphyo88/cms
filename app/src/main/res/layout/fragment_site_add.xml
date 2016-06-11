@@ -1,142 +1,61 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/page_padding"
-    tools:context=".view.SiteAddFragment">
+    android:fitsSystemWindows="true"
+    android:padding="@dimen/page_padding">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtlaySiteName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <EditText
-        android:id="@+id/txtSiteName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvwSiteName"
-        android:layout_gravity="center_horizontal|top"
-        android:hint="@string/label_site_name" />
-    </android.support.design.widget.TextInputLayout>
+    <include layout="@layout/fragment_site_add_main" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtlayAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtlaySiteName">
-    <EditText
-        android:id="@+id/txtAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvwAddress"
-        android:hint="@string/label_address"
-        android:inputType="textMultiLine" />
-    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="120dp"
+        android:elevation="10dp"
+        android:src="@drawable/ic_blue_print"
+        android:visibility="invisible"
+        app:backgroundTint="@color/color_accent"
+        app:pressedTranslationZ="12dp" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtlayStartDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtlayAddress">
-    <EditText
-        android:id="@+id/txtStartDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvwStartDate"
-        android:ems="10"
-        android:hint="@string/label_start_date"
-        android:inputType="date" />
-    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="77dp"
+        android:layout_marginRight="90dp"
+        android:elevation="10dp"
+        android:src="@drawable/ic_purchase_order"
+        android:visibility="invisible"
+        app:backgroundTint="@color/color_accent"
+        app:pressedTranslationZ="12dp" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtlayEndDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtlayStartDate">
-    <EditText
-        android:id="@+id/txtEndDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvwEndDate"
-        android:ems="10"
-        android:hint="@string/label_end_date"
-        android:inputType="date" />
-    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="110dp"
+        android:layout_marginRight="20dp"
+        android:elevation="10dp"
+        android:src="@drawable/ic_engineer"
+        android:visibility="invisible"
+        app:backgroundTint="@color/color_accent"
+        app:pressedTranslationZ="12dp" />
 
-    <TextView
-        android:id="@+id/tvwProgress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtlayEndDate"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_progress"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/floating_action_button_margin"
+        android:elevation="10dp"
+        android:src="@drawable/ic_function"
+        app:backgroundTint="@color/color_accent"
+        app:pressedTranslationZ="12dp" />
 
-    <RelativeLayout
-        android:id="@+id/relProgress"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_below="@+id/tvwProgress">
-        <ProgressBar
-            android:id="@+id/proProgress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:progressDrawable="@drawable/progressbar_style" />
-        <TextView
-            android:id="@+id/tvwProgressValue"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:textColor="#4d5359"
-            android:textSize="15dp" />
-    </RelativeLayout>
 
-    <Button
-        android:id="@+id/butAssignEngineers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/relProgress"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_engineer_assign" />
-
-    <Button
-        android:id="@+id/butManageBluePrints"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/butAssignEngineers"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_manage_blue_print" />
-
-    <Button
-        android:id="@+id/butManagePurchaseOrders"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/butManageBluePrints"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_purchase_orders" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

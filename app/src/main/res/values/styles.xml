@@ -20,4 +20,8 @@
         <item name="android:textColor">@color/color_title_text</item>
     </style>
 
+    <style name="MyButton" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">@color/color_accent</item>
+    </style>
+
 </resources>

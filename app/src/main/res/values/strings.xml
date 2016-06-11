@@ -6,7 +6,6 @@
     <string name="result_failed">Failure</string>
     <string name="result_failed_why">There is some error while reading.</string>
     <string name="cancel_button">Cancel</string>
-    <integer name="config_overrideHasPermanentMenuKey">2</integer>
 
     <string name="message_title">CMS</string>
     <string name="message_alert_box_ok">OK</string>
@@ -58,6 +57,7 @@
     <string name="label_site">Site</string>
     <string name="label_site_progress">Site Progress</string>
     <string name="label_engineer_assign">Assign Engineers</string>
+    <string name="label_assign_permission">Assign Permission</string>
     <string name="label_reported_engineer">Reported Engineer</string>
     <string name="label_site_entry">Site Entry</string>
     <string name="label_purchase_orders">Purchase Orders</string>
@@ -78,6 +78,9 @@
     <string name="label_progress">Progress</string>
     <string name="label_details_description">Details Description</string>
     <string name="label_delete">Delete</string>
+    <string name="label_customer_name">Customer Name</string>
+    <string name="label_phone">Phone</string>
+    <string name="label_email">Email</string>
     <string name="label_ok">OK</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_blueprints">Blueprints</string>
@@ -223,5 +226,10 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="label_user">User</string>
+    <string name="label_role">Role</string>
+    <string name="label_administration">Administration</string>
+    <string name="label_general">General</string>
+    <string name="label_description">Description</string>
 
 </resources>

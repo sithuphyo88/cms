@@ -1,21 +1,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.ideapro.cms.view.EngineerListFragment"
-    android:padding="@dimen/page_padding">
+    android:layout_height="match_parent"
+    android:padding="@dimen/page_padding"
+    tools:context="com.ideapro.cms.view.EngineerListFragment">
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ImageButton style="@style/AppTheme"
-        android:layout_gravity="right|bottom"
+    <ImageButton
+        android:id="@+id/imgAdd"
+        style="@style/AppTheme"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imgAdd"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="@dimen/floating_action_button_margin"
+        android:background="@drawable/circle"
         android:elevation="10dp"
-        android:layout_margin="50dp"
-        android:src="@drawable/ic_add"
-        android:background="@drawable/circle" />
+        android:src="@drawable/ic_add" />
 
 </FrameLayout>

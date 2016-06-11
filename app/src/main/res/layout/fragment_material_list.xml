@@ -1,0 +1,23 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/page_padding">
+
+    <com.ideapro.cms.view.swipeMenu.SwipeMenuListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <ImageButton
+        android:id="@+id/imgAdd"
+        style="@style/AppTheme"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="@dimen/floating_action_button_margin"
+        android:background="@drawable/circle"
+        android:elevation="10dp"
+        android:src="@drawable/ic_add" />
+
+</FrameLayout>

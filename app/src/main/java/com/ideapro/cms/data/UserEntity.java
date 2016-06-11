@@ -21,4 +21,10 @@ public class UserEntity implements Serializable {
 
     @DatabaseField
     public String role;
+
+    @DatabaseField
+    public String phone;
+
+    @DatabaseField
+    public String email;
 }

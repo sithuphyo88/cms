@@ -16,10 +16,8 @@ import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.CustomerEntity;
-import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.CustomerListAdapter;
-import com.ideapro.cms.view.listAdapter.ProjectListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
@@ -68,10 +66,7 @@ public class CustomerListFragment extends Fragment {
             imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ProjectEntity entity = new ProjectEntity();
-                    entity.name =  "New Project";
-                    entity.progress = "0";
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(entity));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new CustomerAddFragment());
                 }
             });
         } else {
@@ -85,9 +80,9 @@ public class CustomerListFragment extends Fragment {
             for (int i = 0; i < 100; i++) {
                 CustomerEntity entity = new CustomerEntity();
                 entity.name = "Customer " + (i + 1);
-                entity.phone = "Phone " + (i + 1);
-                entity.email = "Email " + (i + 1);
-                entity.address = "Address " + (i + 1);
+                entity.phone = "0979516247" + (i + 1);
+                entity.email = "Customer" + (i + 1) + "@gmail.com";
+                entity.address = "Yangon " + (i + 1);
 
                 list.add(entity);
             }
@@ -130,7 +125,7 @@ public class CustomerListFragment extends Fragment {
                     switch (index) {
                         case 0:
                             // edit
-                            // CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(list.get(position)));
+                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new CustomerAddFragment());
                             break;
                         case 1:
                             // delete
@@ -158,8 +153,7 @@ public class CustomerListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ProjectEntity entity = (ProjectEntity)parent.getItemAtPosition(position);
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteListFragment(entity));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new CustomerAddFragment());
                 }
             });
 

@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.utils.CommonUtils;
@@ -48,6 +47,22 @@ public class MenuActivity extends ActionBarActivity {
                         updateDisplay(new ProjectListFragment());
                         break;
 
+                    case R.id.navigation_item_customer:
+                        updateDisplay(new CustomerListFragment());
+                        break;
+
+                    case R.id.navigation_item_user:
+                        updateDisplay(new UserListFragment());
+                        break;
+
+                    case R.id.navigation_item_role:
+                        updateDisplay(new RoleListFragment());
+                        break;
+
+                    case R.id.navigation_item_material_category:
+                        updateDisplay(new MaterialCategoryListFragment());
+                        break;
+
                     case R.id.navigation_item_settings:
                         updateDisplay(new SettingsFragment());
                         break;
@@ -75,6 +90,7 @@ public class MenuActivity extends ActionBarActivity {
                 return true;
             }
         });
+
 
         navigationView.setCheckedItem(R.id.navigation_item_project);
         navigationView.getMenu().performIdentifierAction(R.id.navigation_item_project, 0);

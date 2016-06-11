@@ -7,25 +7,38 @@
             android:checked="true"
             android:icon="@drawable/ic_emotion"
             android:title="@string/label_project" />
-    </group>
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/navigation_item_settings"
-            android:checked="true"
-            android:icon="@drawable/ic_emotion"
-            android:title="@string/label_settings" />
-    </group>
-    <group android:checkableBehavior="single">
+        <item android:title="@string/label_administration">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/navigation_item_user"
+                        android:icon="@drawable/ic_emotion"
+                        android:title="@string/label_user" />
+                    <item
+                        android:id="@+id/navigation_item_role"
+                        android:icon="@drawable/ic_emotion"
+                        android:title="@string/label_role" />
+                    <item
+                        android:id="@+id/navigation_item_customer"
+                        android:icon="@drawable/ic_emotion"
+                        android:title="@string/label_customer" />
+                    <item
+                        android:id="@+id/navigation_item_material_category"
+                        android:icon="@drawable/ic_emotion"
+                        android:title="@string/label_material_category" />
+                    <item
+                        android:id="@+id/navigation_item_settings"
+                        android:icon="@drawable/ic_emotion"
+                        android:title="@string/label_settings" />
+                </group>
+            </menu>
+        </item>
         <item
             android:id="@+id/navigation_item_about_us"
-            android:checked="true"
             android:icon="@drawable/ic_emotion"
             android:title="@string/label_about" />
-    </group>
-    <group android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_item_exit"
-            android:checked="true"
             android:icon="@drawable/ic_emotion"
             android:title="@string/label_exit" />
     </group>

@@ -1,4 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/page_padding"
@@ -12,7 +16,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="50dp"
+        android:layout_margin="@dimen/floating_action_button_margin"
         android:background="@drawable/circle"
         android:elevation="10dp"
         android:src="@drawable/ic_add" />
@@ -62,3 +66,4 @@
         android:layout_below="@+id/tvwPurchaseOrderItemList" />
 
 </RelativeLayout>
+</ScrollView>
