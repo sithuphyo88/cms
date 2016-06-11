@@ -5,41 +5,41 @@
         <item
             android:id="@+id/navigation_item_project"
             android:checked="true"
-            android:icon="@drawable/ic_emotion"
+            android:icon="@drawable/ic_project"
             android:title="@string/label_project" />
         <item android:title="@string/label_administration">
             <menu>
                 <group android:checkableBehavior="single">
                     <item
                         android:id="@+id/navigation_item_user"
-                        android:icon="@drawable/ic_emotion"
+                        android:icon="@drawable/ic_people"
                         android:title="@string/label_user" />
                     <item
                         android:id="@+id/navigation_item_role"
-                        android:icon="@drawable/ic_emotion"
+                        android:icon="@drawable/ic_role"
                         android:title="@string/label_role" />
                     <item
                         android:id="@+id/navigation_item_customer"
-                        android:icon="@drawable/ic_emotion"
+                        android:icon="@drawable/ic_people"
                         android:title="@string/label_customer" />
                     <item
                         android:id="@+id/navigation_item_material_category"
-                        android:icon="@drawable/ic_emotion"
+                        android:icon="@drawable/ic_category"
                         android:title="@string/label_material_category" />
                     <item
                         android:id="@+id/navigation_item_settings"
-                        android:icon="@drawable/ic_emotion"
+                        android:icon="@drawable/ic_settings"
                         android:title="@string/label_settings" />
                 </group>
             </menu>
         </item>
         <item
             android:id="@+id/navigation_item_about_us"
-            android:icon="@drawable/ic_emotion"
+            android:icon="@drawable/ic_about"
             android:title="@string/label_about" />
         <item
             android:id="@+id/navigation_item_exit"
-            android:icon="@drawable/ic_emotion"
+            android:icon="@drawable/ic_exit"
             android:title="@string/label_exit" />
     </group>
 
