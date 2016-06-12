@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/page_padding">
+        android:padding="@dimen/page_margin">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
@@ -19,7 +19,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="@dimen/margin_between_controls">
 
             <EditText
                 android:id="@+id/txtUserName"
@@ -33,22 +33,23 @@
             android:id="@+id/tvwRole"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Choose Role"
-            android:textSize="15dp" />
+            android:layout_marginTop="@dimen/margin_between_controls"
+            android:text="@string/label_role"
+            android:textSize="10dp" />
 
         <Spinner
             android:id="@+id/spnRole"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtLayEndDate"
-            android:minHeight="60dp"
+            android:minHeight="@dimen/spinner_height"
             android:prompt="@string/label_role"
             android:spinnerMode="dialog" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between_controls">
 
             <EditText
                 android:id="@+id/txtPhone"
@@ -61,7 +62,8 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between_controls">
 
             <EditText
                 android:id="@+id/txtEmail"

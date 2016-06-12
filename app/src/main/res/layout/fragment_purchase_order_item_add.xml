@@ -7,7 +7,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="@dimen/page_padding"
+            android:padding="@dimen/page_margin"
             tools:context=".view.SiteListFragment">
 
                 <android.support.design.widget.TextInputLayout
@@ -23,7 +23,8 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between_controls">
 
                 <EditText
                     android:id="@+id/txtTargetedDate"
@@ -36,46 +37,68 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between_controls">
 
+                        <TextView
+                            android:id="@+id/tvwMaterialCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_material_category"
+                            android:textSize="10dp" />
                 <Spinner
                     android:id="@+id/spnMaterialCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="60dp"
+                    android:minHeight="@dimen/spinner_height"
                     android:prompt="@string/label_material_category"
                     android:spinnerMode="dialog" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between_controls">
 
+                        <TextView
+                            android:id="@+id/tvwMaterial"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_material"
+                            android:textSize="10dp" />
                 <Spinner
                     android:id="@+id/spnMaterial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="60dp"
+                    android:minHeight="@dimen/spinner_height"
                     android:prompt="@string/label_material"
                     android:spinnerMode="dialog" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between_controls">
 
+                        <TextView
+                            android:id="@+id/tvwUOM"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_UOM"
+                            android:textSize="10dp" />
                 <Spinner
                     android:id="@+id/spnUOM"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="60dp"
+                    android:minHeight="@dimen/spinner_height"
                     android:prompt="@string/label_UOM"
                     android:spinnerMode="dialog" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between_controls">
 
                 <EditText
                     android:id="@+id/txtQuantity"
@@ -88,7 +111,8 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between_controls">
 
                 <EditText
                     android:id="@+id/txtReceivedQuantity"
@@ -101,14 +125,15 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between_controls">
 
                 <EditText
                     android:id="@+id/txtRemarks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_remarks"
-                    android:inputType="text" />
+                    android:inputType="textMultiLine" />
 
                 </android.support.design.widget.TextInputLayout>
         </LinearLayout>

@@ -5,12 +5,13 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/page_padding">
+        android:layout_margin="@dimen/page_margin">
 
         <android.support.design.widget.TextInputLayout
         android:id="@+id/txtlayProjectName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between_controls">
         <EditText
             android:id="@+id/txtSiteName"
             android:layout_width="match_parent"
@@ -24,7 +25,8 @@
         android:id="@+id/txtlayStartDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtlayProjectName">
+        android:layout_below="@id/txtlayProjectName"
+        android:layout_marginTop="@dimen/margin_between_controls">
         <EditText
             android:id="@+id/txtStartDate"
             android:layout_width="match_parent"
@@ -43,7 +45,8 @@
         android:id="@+id/txtLayEndDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtlayStartDate">
+        android:layout_below="@id/txtlayStartDate"
+        android:layout_marginTop="@dimen/margin_between_controls">
     <EditText
         android:id="@+id/txtEndDate"
         android:layout_width="match_parent"
@@ -58,12 +61,21 @@
         android:inputType="date" />
     </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:id="@+id/tvwCustomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLayEndDate"
+            android:layout_marginTop="@dimen/margin_between_controls"
+            android:text="@string/label_customer"
+            android:textSize="10dp" />
+
         <Spinner
             android:id="@+id/spnCustomer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txtLayEndDate"
-            android:minHeight="60dp"
+            android:layout_below="@+id/tvwCustomer"
+            android:minHeight="@dimen/spinner_height"
             android:prompt="@string/label_customer"
             android:spinnerMode="dialog" />
 
@@ -72,8 +84,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
             android:layout_below="@+id/spnCustomer"
-        android:paddingTop="@dimen/padding_top_between_controls"
-        android:text="@string/label_progress" />
+            android:layout_marginTop="@dimen/margin_between_controls"
+            android:text="@string/label_progress" />
 
     <RelativeLayout
         android:id="@+id/relProgress"
@@ -100,13 +112,13 @@
     <Button
         android:id="@+id/butDesigns"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/relProgress"
-        android:paddingTop="@dimen/padding_top_between_controls"
+        android:layout_marginTop="@dimen/margin_between_controls"
         android:text="@string/label_sites"
         android:theme="@style/MyButton" />
 

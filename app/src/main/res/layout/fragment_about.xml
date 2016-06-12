@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ideapro.cms.view.AboutFragment"
-    android:padding="@dimen/page_padding">
+    android:padding="@dimen/page_margin"
+    tools:context="com.ideapro.cms.view.AboutFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between_controls"
             android:text="@string/label_company_service"
             android:textSize="25dp"
             android:textStyle="bold"/>
@@ -27,16 +28,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between_controls"
             android:text="@string/label_company_message"
             android:textSize="20dp"
-            android:textStyle="italic|bold"
-            android:paddingTop="10dp"/>
+            android:textStyle="italic|bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp">
+            android:layout_marginTop="@dimen/margin_between_controls"
+            android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,9 +45,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="@string/label_company_address"
                 android:textSize="15dp"
-                android:layout_gravity="center"
                 android:textStyle="bold"
                 />
         </LinearLayout>
@@ -54,8 +55,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp">
+            android:layout_marginTop="@dimen/margin_between_controls"
+            android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,17 +64,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="@string/label_company_phone"
                 android:textSize="15dp"
-                android:layout_gravity="center"
                 android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp">
+            android:layout_marginTop="@dimen/margin_between_controls"
+            android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,9 +82,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="@string/label_company_mail"
                 android:textSize="15dp"
-                android:layout_gravity="center"
                 android:textStyle="bold"/>
         </LinearLayout>
 

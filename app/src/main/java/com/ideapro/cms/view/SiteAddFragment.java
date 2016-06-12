@@ -4,14 +4,12 @@ package com.ideapro.cms.view;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -20,12 +18,13 @@ import android.widget.TextView;
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
+import com.ideapro.cms.data.SiteProgressHistoryEntity;
 import com.ideapro.cms.utils.CommonUtils;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
-public class SiteAddFragment extends Fragment implements View.OnClickListener {
+public class SiteAddFragment extends Fragment { //implements View.OnClickListener
 
     View view;
     ProjectEntity projectEntity;
@@ -77,6 +76,50 @@ public class SiteAddFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initializeUI() {
+        butAssignEngineers = (Button) view.findViewById(R.id.butAssignEngineers);
+        if (CommonUtils.CurrentUser.role.equals("admin")) {
+            butAssignEngineers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new EngineerListFragment(projectEntity, siteEntity));
+                }
+            });
+        } else {
+            butAssignEngineers.setVisibility(View.GONE);
+        }
+
+        butManageBluePrints = (Button) view.findViewById(R.id.butManageBluePrints);
+        if (CommonUtils.CurrentUser.role.equals("admin")) {
+            butManageBluePrints.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new BluePrintListFragment(projectEntity, siteEntity));
+                }
+            });
+        } else {
+            butManageBluePrints.setText(getString(R.string.label_confirm_blue_print));
+            butManageBluePrints.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SiteProgressHistoryEntity historyEntity = new SiteProgressHistoryEntity();
+                    historyEntity.siteName = siteEntity.name;
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteBluePrintConfirmListFragment(historyEntity));
+                }
+            });
+        }
+
+        butManagePurchaseOrders = (Button) view.findViewById(R.id.butManagePurchaseOrders);
+        if (CommonUtils.CurrentUser.role.equals("admin")) {
+            butManagePurchaseOrders.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderListFragment(projectEntity, siteEntity));
+                }
+            });
+        } else {
+            butManagePurchaseOrders.setVisibility(View.GONE);
+        }
+
         if(this.siteEntity != null) {
             txtSiteName = (EditText) view.findViewById(R.id.txtSiteName);
             txtSiteName.setText(this.siteEntity.name);
@@ -104,70 +147,6 @@ public class SiteAddFragment extends Fragment implements View.OnClickListener {
                     CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteProgressListFragment(projectEntity, siteEntity));
                 }
             });
-        }
-
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab1 = (FloatingActionButton) view.findViewById(R.id.fab1);
-        fab2 = (FloatingActionButton) view.findViewById(R.id.fab2);
-        fab3 = (FloatingActionButton) view.findViewById(R.id.fab3);
-        fab_open = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_backward);
-        fab.setOnClickListener(this);
-        fab1.setOnClickListener(this);
-        fab2.setOnClickListener(this);
-        fab3.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.fab:
-                animateFAB();
-                break;
-
-            case R.id.fab1:
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new EngineerListFragment(projectEntity, siteEntity));
-                break;
-
-            case R.id.fab2:
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderListFragment(projectEntity, siteEntity));
-                break;
-
-            case R.id.fab3:
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new BluePrintListFragment(projectEntity, siteEntity));
-                break;
-        }
-    }
-
-    public void animateFAB() {
-
-        if (isFabOpen) {
-
-            fab.startAnimation(rotate_backward);
-            fab1.startAnimation(fab_close);
-            fab2.startAnimation(fab_close);
-            fab3.startAnimation(fab_close);
-            fab1.setClickable(false);
-            fab2.setClickable(false);
-            fab3.setClickable(false);
-            isFabOpen = false;
-            Log.d("Raj", "close");
-
-        } else {
-
-            fab.startAnimation(rotate_forward);
-            fab1.startAnimation(fab_open);
-            fab2.startAnimation(fab_open);
-            fab3.startAnimation(fab_open);
-            fab1.setClickable(true);
-            fab2.setClickable(true);
-            fab3.setClickable(true);
-            isFabOpen = true;
-            Log.d("Raj", "open");
-
         }
     }
 }

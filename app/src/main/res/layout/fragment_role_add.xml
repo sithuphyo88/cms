@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/page_padding">
+        android:padding="@dimen/page_margin">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -22,7 +22,8 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between_controls">
 
             <EditText
                 android:id="@+id/txtDescription"
@@ -36,8 +37,8 @@
         <Button
             android:id="@+id/butAssignPermission"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/padding_top_between_controls"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/margin_between_controls"
             android:text="@string/label_assign_permission"
             android:theme="@style/MyButton" />
     </LinearLayout>

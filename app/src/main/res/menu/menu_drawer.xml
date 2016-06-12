@@ -20,7 +20,7 @@
                         android:title="@string/label_role" />
                     <item
                         android:id="@+id/navigation_item_customer"
-                        android:icon="@drawable/ic_people"
+                        android:icon="@drawable/ic_customer"
                         android:title="@string/label_customer" />
                     <item
                         android:id="@+id/navigation_item_material_category"
