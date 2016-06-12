@@ -23,6 +23,10 @@
                         android:icon="@drawable/ic_customer"
                         android:title="@string/label_customer" />
                     <item
+                        android:id="@+id/navigation_item_subContractor"
+                        android:icon="@drawable/ic_customer"
+                        android:title="@string/label_sub_contractor" />
+                    <item
                         android:id="@+id/navigation_item_material_category"
                         android:icon="@drawable/ic_category"
                         android:title="@string/label_material_category" />

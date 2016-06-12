@@ -32,6 +32,7 @@ public class SiteAddFragment extends Fragment { //implements View.OnClickListene
     Button butAssignEngineers;
     Button butManageBluePrints;
     Button butManagePurchaseOrders;
+    Button butSubContractor;
     EditText txtSiteName;
     EditText txtAddress;
     EditText txtStartDate;
@@ -118,6 +119,18 @@ public class SiteAddFragment extends Fragment { //implements View.OnClickListene
             });
         } else {
             butManagePurchaseOrders.setVisibility(View.GONE);
+        }
+
+        butSubContractor = (Button) view.findViewById(R.id.butSubContractor);
+        if (CommonUtils.CurrentUser.role.equals("admin")) {
+            butSubContractor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorSelectedListFragment());
+                }
+            });
+        } else {
+            butSubContractor.setVisibility(View.GONE);
         }
 
         if(this.siteEntity != null) {

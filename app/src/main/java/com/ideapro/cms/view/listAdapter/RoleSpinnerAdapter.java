@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.ideapro.cms.R;
 
-import java.util.List;
-
 /**
  * Created by stp on 4/12/2015.
  */
@@ -20,7 +18,7 @@ public class RoleSpinnerAdapter extends ArrayAdapter<String> {
 
     private Activity activity;
 
-    public RoleSpinnerAdapter(Context context, Activity activity, List<String> files) {
+    public RoleSpinnerAdapter(Context context, Activity activity, String[] files) {
         super(context, 0, files);
         this.activity = activity;
     }

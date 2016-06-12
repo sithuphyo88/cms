@@ -116,14 +116,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
         android:layout_marginTop="@dimen/margin_between_controls"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <Button
             android:id="@+id/butAssignEngineers"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:text="@string/label_engineer_assign"
@@ -131,18 +132,34 @@
 
         <Button
             android:id="@+id/butManageBluePrints"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:text="@string/label_manage_blue_print"
             android:theme="@style/MyButton" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:layout_marginTop="@dimen/margin_between_controls"
+        android:orientation="horizontal"
+        android:weightSum="2">
         <Button
             android:id="@+id/butManagePurchaseOrders"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:text="@string/label_purchase_orders"
+            android:theme="@style/MyButton" />
+
+        <Button
+            android:id="@+id/butSubContractor"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="@string/label_sub_contractor"
             android:theme="@style/MyButton" />
     </LinearLayout>
 

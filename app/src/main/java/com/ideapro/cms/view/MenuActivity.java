@@ -51,6 +51,10 @@ public class MenuActivity extends ActionBarActivity {
                         updateDisplay(new CustomerListFragment());
                         break;
 
+                    case R.id.navigation_item_subContractor:
+                        updateDisplay(new SubContractorListFragment());
+                        break;
+
                     case R.id.navigation_item_user:
                         updateDisplay(new UserListFragment());
                         break;
