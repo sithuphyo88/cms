@@ -105,6 +105,7 @@
     <string name="label_choose_sub_contractor">Choose Sub-Contractors</string>
     <string name="label_sub_contractor_name">Sub-Contractor Name</string>
     <string name="label_date">Date</string>
+    <string name="label_password">Password</string>
 
     <string name="label_company_name">Idea Pro</string>
     <string name="label_company_service">IT Solutions and Services</string>
