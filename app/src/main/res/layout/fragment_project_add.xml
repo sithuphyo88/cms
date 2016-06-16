@@ -2,10 +2,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/page_margin">
+        android:layout_margin="@dimen/page_margin"
+        android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
         android:id="@+id/txtlayProjectName"
@@ -16,7 +17,6 @@
             android:id="@+id/txtSiteName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvwSiteName"
             android:layout_gravity="center_horizontal|top"
             android:hint="@string/label_project_name" />
     </android.support.design.widget.TextInputLayout>
@@ -25,7 +25,6 @@
         android:id="@+id/txtlayStartDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtlayProjectName"
         android:layout_marginTop="@dimen/margin_between_controls">
         <EditText
             android:id="@+id/txtStartDate"
@@ -35,7 +34,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvwStartDate"
             android:ems="10"
             android:hint="@string/label_start_date"
             android:inputType="date" />
@@ -45,7 +43,6 @@
         android:id="@+id/txtLayEndDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtlayStartDate"
         android:layout_marginTop="@dimen/margin_between_controls">
     <EditText
         android:id="@+id/txtEndDate"
@@ -55,7 +52,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvwEndDate"
         android:ems="10"
         android:hint="@string/label_end_date"
         android:inputType="date" />
@@ -65,7 +61,6 @@
             android:id="@+id/tvwCustomer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txtLayEndDate"
             android:layout_marginTop="@dimen/margin_between_controls"
             android:text="@string/label_customer"
             android:textSize="10dp" />
@@ -74,7 +69,6 @@
             android:id="@+id/spnCustomer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvwCustomer"
             android:minHeight="@dimen/spinner_height"
             android:prompt="@string/label_customer"
             android:spinnerMode="dialog" />
@@ -83,15 +77,13 @@
         android:id="@+id/tvwProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-            android:layout_below="@+id/spnCustomer"
             android:layout_marginTop="@dimen/margin_between_controls"
             android:text="@string/label_progress" />
 
     <RelativeLayout
         android:id="@+id/relProgress"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_below="@+id/tvwProgress">
+        android:layout_height="35dp">
         <ProgressBar
             android:id="@+id/proProgress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -109,18 +101,64 @@
             android:textSize="15dp" />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/butDesigns"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/relProgress"
-        android:layout_marginTop="@dimen/margin_between_controls"
-        android:text="@string/label_sites"
-        android:theme="@style/MyButton" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_marginTop="@dimen/margin_between_controls"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-</RelativeLayout>
+            <Button
+                android:id="@+id/butSite"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_site"
+                android:drawablePadding="-80dp"
+                android:paddingLeft="10dp"
+                android:text="@string/label_sites"
+                android:theme="@style/MyButton" />
+
+            <Button
+                android:id="@+id/butPurchaseOrder"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_purchase_order"
+                android:paddingLeft="10dp"
+                android:text="@string/label_purchase_orders"
+                android:theme="@style/MyButton" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_marginTop="@dimen/margin_between_controls"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/butAssignEngineers"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_engineers"
+                android:paddingLeft="10dp"
+                android:text="@string/label_engineer_assign"
+                android:theme="@style/MyButton" />
+
+            <Button
+                android:id="@+id/butSubContractor"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_customer"
+                android:paddingLeft="10dp"
+                android:text="@string/label_sub_contractor"
+                android:theme="@style/MyButton" />
+        </LinearLayout>
+
+    </LinearLayout>
 </ScrollView>

@@ -16,7 +16,6 @@ import android.widget.ListView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
-import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.data.UserEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.EngineerListAdapter;
@@ -31,7 +30,6 @@ public class EngineerListFragment extends Fragment {
 
     View view;
     ProjectEntity projectEntity;
-    SiteEntity siteEntity;
     List<UserEntity> list;
     List<Boolean> selectedList;
     EngineerListAdapter adapter;
@@ -39,15 +37,12 @@ public class EngineerListFragment extends Fragment {
     Menu menu;
 
     public EngineerListFragment() {
-        this.siteEntity = new SiteEntity();
     }
 
-    public EngineerListFragment(ProjectEntity projectEntity, SiteEntity siteEntity) {
-        if(siteEntity == null) {
-            this.siteEntity = new SiteEntity();
+    public EngineerListFragment(ProjectEntity projectEntity) {
+        if (projectEntity == null) {
             this.projectEntity = new ProjectEntity();
         } else {
-            this.siteEntity = siteEntity;
             this.projectEntity = projectEntity;
         }
     }
@@ -67,7 +62,7 @@ public class EngineerListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         this.menu = menu;
         inflater.inflate(R.menu.menu_search, menu);
-        getActivity().setTitle(getString(R.string.label_engineer_assign) + " for " + this.siteEntity.name);
+        getActivity().setTitle(getString(R.string.label_engineer_assign) + " for " + this.projectEntity.name);
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -76,7 +71,7 @@ public class EngineerListFragment extends Fragment {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteAddFragment(projectEntity, siteEntity));
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(projectEntity));
             }
         });
 

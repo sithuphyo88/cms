@@ -28,7 +28,10 @@ import java.util.List;
 public class ProjectAddFragment extends Fragment {
 
     View view;
-    Button butDesigns;
+    Button butAssignEngineers;
+    Button butPurchaseOrder;
+    Button butSite;
+    Button butSubContractor;
     ProjectEntity projectEntity;
     EditText txtSiteName;
     EditText txtStartDate;
@@ -66,11 +69,35 @@ public class ProjectAddFragment extends Fragment {
     }
 
     private void initializeUI() {
-        butDesigns = (Button) view.findViewById(R.id.butDesigns);
-        butDesigns.setOnClickListener(new View.OnClickListener() {
+        butSite = (Button) view.findViewById(R.id.butSite);
+        butSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteListFragment(projectEntity));
+            }
+        });
+
+        butAssignEngineers = (Button) view.findViewById(R.id.butAssignEngineers);
+        butAssignEngineers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new EngineerListFragment(projectEntity));
+            }
+        });
+
+        butPurchaseOrder = (Button) view.findViewById(R.id.butPurchaseOrder);
+        butPurchaseOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderListFragment(projectEntity));
+            }
+        });
+
+        butSubContractor = (Button) view.findViewById(R.id.butSubContractor);
+        butSubContractor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorSelectedListFragment());
             }
         });
 

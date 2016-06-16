@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
-import com.ideapro.cms.data.SiteProgressHistoryEntity;
 import com.ideapro.cms.utils.CommonUtils;
 
 /**
@@ -77,62 +76,6 @@ public class SiteAddFragment extends Fragment { //implements View.OnClickListene
     }
 
     private void initializeUI() {
-        butAssignEngineers = (Button) view.findViewById(R.id.butAssignEngineers);
-        if (CommonUtils.CurrentUser.role.equals("admin")) {
-            butAssignEngineers.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new EngineerListFragment(projectEntity, siteEntity));
-                }
-            });
-        } else {
-            butAssignEngineers.setVisibility(View.GONE);
-        }
-
-        butManageBluePrints = (Button) view.findViewById(R.id.butManageBluePrints);
-        if (CommonUtils.CurrentUser.role.equals("admin")) {
-            butManageBluePrints.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new BluePrintListFragment(projectEntity, siteEntity));
-                }
-            });
-        } else {
-            butManageBluePrints.setText(getString(R.string.label_confirm_blue_print));
-            butManageBluePrints.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SiteProgressHistoryEntity historyEntity = new SiteProgressHistoryEntity();
-                    historyEntity.siteName = siteEntity.name;
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteBluePrintConfirmListFragment(historyEntity));
-                }
-            });
-        }
-
-        butManagePurchaseOrders = (Button) view.findViewById(R.id.butManagePurchaseOrders);
-        if (CommonUtils.CurrentUser.role.equals("admin")) {
-            butManagePurchaseOrders.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderListFragment(projectEntity, siteEntity));
-                }
-            });
-        } else {
-            butManagePurchaseOrders.setVisibility(View.GONE);
-        }
-
-        butSubContractor = (Button) view.findViewById(R.id.butSubContractor);
-        if (CommonUtils.CurrentUser.role.equals("admin")) {
-            butSubContractor.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorSelectedListFragment());
-                }
-            });
-        } else {
-            butSubContractor.setVisibility(View.GONE);
-        }
-
         if(this.siteEntity != null) {
             txtSiteName = (EditText) view.findViewById(R.id.txtSiteName);
             txtSiteName.setText(this.siteEntity.name);

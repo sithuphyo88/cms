@@ -19,7 +19,6 @@ import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.PurchaseOrderEntity;
 import com.ideapro.cms.data.PurchaseOrderItemEntity;
-import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.PurchaseOrderItemListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
@@ -37,7 +36,6 @@ public class PurchaseOrderAddFragment extends Fragment {
 
     View view;
     ProjectEntity projectEntity;
-    SiteEntity siteEntity;
     PurchaseOrderEntity purchaseOrderEntity;
     List<PurchaseOrderItemEntity> list;
     PurchaseOrderItemListAdapter adapter;
@@ -48,18 +46,15 @@ public class PurchaseOrderAddFragment extends Fragment {
 
     public PurchaseOrderAddFragment() {
         this.projectEntity = new ProjectEntity();
-        this.siteEntity = new SiteEntity();
         this.purchaseOrderEntity = new PurchaseOrderEntity();
     }
 
-    public PurchaseOrderAddFragment(ProjectEntity projectEntity, SiteEntity siteEntity, PurchaseOrderEntity purchaseOrderEntity) {
-        if(siteEntity == null) {
+    public PurchaseOrderAddFragment(ProjectEntity projectEntity, PurchaseOrderEntity purchaseOrderEntity) {
+        if (projectEntity == null) {
             this.projectEntity = new ProjectEntity();
-            this.siteEntity = new SiteEntity();
             this.purchaseOrderEntity = new PurchaseOrderEntity();
         } else {
             this.projectEntity = projectEntity;
-            this.siteEntity = siteEntity;
             this.purchaseOrderEntity = purchaseOrderEntity;
         }
     }
@@ -100,7 +95,7 @@ public class PurchaseOrderAddFragment extends Fragment {
                 entity.receivedQuantity = 1;
                 entity.orderedQuantity = 1;
 
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, siteEntity, purchaseOrderEntity, entity));
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, purchaseOrderEntity, entity));
             }
         });
     }
@@ -187,7 +182,7 @@ public class PurchaseOrderAddFragment extends Fragment {
             lstItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, siteEntity, purchaseOrderEntity, list.get(position)));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, purchaseOrderEntity, list.get(position)));
                     /*UserEntity userEntity = (UserEntity)parent.getItemAtPosition(position);
                     if(userEntity.userCode.equals("") == false) {
                         UserAddFragment userAddFragment = new UserAddFragment(userEntity);

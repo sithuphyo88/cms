@@ -32,7 +32,7 @@
                         android:title="@string/label_material_category" />
                     <item
                         android:id="@+id/navigation_item_settings"
-                        android:icon="@drawable/ic_settings"
+                        android:icon="@drawable/ic_setting"
                         android:title="@string/label_settings" />
                 </group>
             </menu>

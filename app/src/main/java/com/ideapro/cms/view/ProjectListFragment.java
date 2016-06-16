@@ -105,15 +105,9 @@ public class ProjectListFragment extends Fragment {
 
                 @Override
                 public void create(SwipeMenu menu) {
-                    SwipeMenuItem editItem = new SwipeMenuItem(view.getContext());
-                    editItem.setWidth(dp2px(50));
-                    editItem.setTitle("edit");
-                    editItem.setIcon(R.drawable.ic_edit);
-                    menu.addMenuItem(editItem);
-
                     SwipeMenuItem deleteItem = new SwipeMenuItem(view.getContext());
                     deleteItem.setWidth(dp2px(50));
-                    editItem.setTitle("delete");
+                    deleteItem.setTitle("Delete");
                     deleteItem.setIcon(R.drawable.ic_delete);
                     menu.addMenuItem(deleteItem);
                 }
@@ -127,10 +121,6 @@ public class ProjectListFragment extends Fragment {
                 public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
                     switch (index) {
                         case 0:
-                            // edit
-                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(list.get(position)));
-                            break;
-                        case 1:
                             // delete
                             CommonUtils.showConfirmDialogBox(getActivity(), getString(R.string.message_confirmation_delete),
                                     new DialogInterface.OnClickListener() {
@@ -156,8 +146,7 @@ public class ProjectListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ProjectEntity entity = (ProjectEntity)parent.getItemAtPosition(position);
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteListFragment(entity));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(list.get(position)));
                 }
             });
 

@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.PurchaseOrderEntity;
-import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.PurchaseOrderListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
@@ -35,22 +34,18 @@ public class PurchaseOrderListFragment extends Fragment {
 
     View view;
     ProjectEntity projectEntity;
-    SiteEntity siteEntity;
     List<PurchaseOrderEntity> list;
     PurchaseOrderListAdapter adapter;
 
     public PurchaseOrderListFragment() {
         this.projectEntity = new ProjectEntity();
-        this.siteEntity = new SiteEntity();
     }
 
-    public PurchaseOrderListFragment(ProjectEntity projectEntity, SiteEntity siteEntity) {
-        if(siteEntity == null) {
+    public PurchaseOrderListFragment(ProjectEntity projectEntity) {
+        if (projectEntity == null) {
             this.projectEntity = new ProjectEntity();
-            this.siteEntity = new SiteEntity();
         } else {
             this.projectEntity = projectEntity;
-            this.siteEntity = siteEntity;
         }
     }
 
@@ -69,7 +64,7 @@ public class PurchaseOrderListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        getActivity().setTitle(getString(R.string.label_purchase_orders) + " for " + this.siteEntity.name);
+        getActivity().setTitle(getString(R.string.label_purchase_orders) + " for " + this.projectEntity.name);
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -85,7 +80,7 @@ public class PurchaseOrderListFragment extends Fragment {
                     orderEntity.date = "2016-04-28";
                     orderEntity.receivedNumber = 5;
                     orderEntity.purchasedNumber = 5;
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, siteEntity, orderEntity));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, orderEntity));
                 }
             });
         } else {
@@ -156,7 +151,7 @@ public class PurchaseOrderListFragment extends Fragment {
                         switch (index) {
                             case 0:
                                 // edit
-                                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, siteEntity, list.get(position)));
+                                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, list.get(position)));
                                 break;
 
                             case 1:
@@ -179,7 +174,7 @@ public class PurchaseOrderListFragment extends Fragment {
 
                             case 2:
                                 // edit
-                                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, siteEntity, list.get(position)));
+                                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, list.get(position)));
                                 break;
                         }
                         // false : close the menu; true : not close the menu
@@ -191,7 +186,7 @@ public class PurchaseOrderListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, siteEntity, list.get(position)));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderAddFragment(projectEntity, list.get(position)));
                     /*UserEntity userEntity = (UserEntity)parent.getItemAtPosition(position);
                     if(userEntity.userCode.equals("") == false) {
                         UserAddFragment userAddFragment = new UserAddFragment(userEntity);

@@ -16,7 +16,6 @@ import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.PurchaseOrderEntity;
 import com.ideapro.cms.data.PurchaseOrderItemEntity;
-import com.ideapro.cms.data.SiteEntity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +24,6 @@ public class PurchaseOrderItemAddFragment extends Fragment {
 
     View view;
     ProjectEntity projectEntity;
-    SiteEntity siteEntity;
     PurchaseOrderEntity purchaseOrderEntity;
     PurchaseOrderItemEntity purchaseOrderItemEntity;
     EditText txtPurchaseOrderDate;
@@ -37,19 +35,16 @@ public class PurchaseOrderItemAddFragment extends Fragment {
 
     public PurchaseOrderItemAddFragment() {
         this.projectEntity = new ProjectEntity();
-        this.siteEntity = new SiteEntity();
         this.purchaseOrderEntity = new PurchaseOrderEntity();
     }
 
-    public PurchaseOrderItemAddFragment(ProjectEntity projectEntity, SiteEntity siteEntity, PurchaseOrderEntity purchaseOrderEntity, PurchaseOrderItemEntity purchaseOrderItemEntity) {
-        if(siteEntity == null) {
+    public PurchaseOrderItemAddFragment(ProjectEntity projectEntity, PurchaseOrderEntity purchaseOrderEntity, PurchaseOrderItemEntity purchaseOrderItemEntity) {
+        if (projectEntity == null) {
             this.projectEntity = new ProjectEntity();
-            this.siteEntity = new SiteEntity();
             this.purchaseOrderEntity = new PurchaseOrderEntity();
             this.purchaseOrderItemEntity = new PurchaseOrderItemEntity();
         } else {
             this.projectEntity = projectEntity;
-            this.siteEntity = siteEntity;
             this.purchaseOrderEntity = purchaseOrderEntity;
             this.purchaseOrderItemEntity = purchaseOrderItemEntity;
         }
