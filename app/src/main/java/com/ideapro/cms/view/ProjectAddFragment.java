@@ -101,6 +101,14 @@ public class ProjectAddFragment extends Fragment {
             }
         });
 
+        Button butComment = (Button) view.findViewById(R.id.butComment);
+        butComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new CommentListFragment());
+            }
+        });
+
         if(this.projectEntity != null) {
             txtSiteName = (EditText) view.findViewById(R.id.txtSiteName);
             txtSiteName.setText(this.projectEntity.name);

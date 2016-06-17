@@ -63,6 +63,7 @@
                 android:layout_below="@+id/txtLayPassword"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/margin_between_controls"
+                android:drawableLeft="@drawable/ic_login"
                 android:text="Login"
                 android:theme="@style/MyButton" />
         </RelativeLayout>

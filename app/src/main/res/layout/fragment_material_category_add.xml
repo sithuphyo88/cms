@@ -39,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/margin_between_controls"
-            android:text="@string/label_material"
+            android:drawableLeft="@drawable/ic_material"
+            android:text="@string/label_material_list"
             android:theme="@style/MyButton" />
     </LinearLayout>
 </ScrollView>

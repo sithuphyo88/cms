@@ -115,8 +115,6 @@
                 android:layout_height="80dp"
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_site"
-                android:drawablePadding="-80dp"
-                android:paddingLeft="10dp"
                 android:text="@string/label_sites"
                 android:theme="@style/MyButton" />
 
@@ -126,7 +124,6 @@
                 android:layout_height="80dp"
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_purchase_order"
-                android:paddingLeft="10dp"
                 android:text="@string/label_purchase_orders"
                 android:theme="@style/MyButton" />
         </LinearLayout>
@@ -145,7 +142,6 @@
                 android:layout_height="80dp"
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_engineers"
-                android:paddingLeft="10dp"
                 android:text="@string/label_engineer_assign"
                 android:theme="@style/MyButton" />
 
@@ -155,10 +151,17 @@
                 android:layout_height="80dp"
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_customer"
-                android:paddingLeft="10dp"
                 android:text="@string/label_sub_contractor"
                 android:theme="@style/MyButton" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/butComment"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:drawableLeft="@drawable/ic_comment"
+            android:text="@string/label_comments"
+            android:theme="@style/MyButton" />s
 
     </LinearLayout>
 </ScrollView>

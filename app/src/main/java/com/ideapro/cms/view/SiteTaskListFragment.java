@@ -16,9 +16,9 @@ import android.widget.ListView;
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
-import com.ideapro.cms.data.SiteProgressHistoryEntity;
+import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.utils.CommonUtils;
-import com.ideapro.cms.view.listAdapter.SiteProgressHistoryListAdapter;
+import com.ideapro.cms.view.listAdapter.SiteTaskListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,22 +26,22 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SiteProgressListFragment extends Fragment {
+public class SiteTaskListFragment extends Fragment {
 
     View view;
     ProjectEntity projectEntity;
     SiteEntity siteEntity;
-    List<SiteProgressHistoryEntity> list;
-    SiteProgressHistoryListAdapter adapter;
+    List<TaskEntity> list;
+    SiteTaskListAdapter adapter;
     ImageButton imgAdd;
 
-    public SiteProgressListFragment() {
+    public SiteTaskListFragment() {
         this.projectEntity = new ProjectEntity();
         this.siteEntity = new SiteEntity();
     }
 
-    public SiteProgressListFragment(ProjectEntity projectEntity, SiteEntity siteEntity) {
-        if(projectEntity == null) {
+    public SiteTaskListFragment(ProjectEntity projectEntity, SiteEntity siteEntity) {
+        if (projectEntity == null) {
             this.projectEntity = new ProjectEntity();
             this.siteEntity = new SiteEntity();
         } else {
@@ -54,7 +54,7 @@ public class SiteProgressListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_site_progress_list, container, false);
+        view = inflater.inflate(R.layout.fragment_site_task_list, container, false);
         setHasOptionsMenu(true);
 
         bindData();
@@ -65,8 +65,8 @@ public class SiteProgressListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        getActivity().setTitle(getString(R.string.label_progress) + " of " + this.siteEntity.name);
-        super.onCreateOptionsMenu(menu,inflater);
+        getActivity().setTitle(getString(R.string.label_task_list));
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void initializeUI() {
@@ -74,7 +74,7 @@ public class SiteProgressListFragment extends Fragment {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteProgressAddFragment(projectEntity, siteEntity));
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskAddFragment(projectEntity, siteEntity));
             }
         });
     }
@@ -82,20 +82,19 @@ public class SiteProgressListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            int size = Integer.parseInt(siteEntity.progress);
-            for (int i = 0; i < size; i++) {
-                SiteProgressHistoryEntity entity = new SiteProgressHistoryEntity();
-                entity.siteName = siteEntity.name;
-                entity.date = "2016-05- " + (i + 1);
-                entity.engineerName = "Engineer - Mg Ba";
-                entity.description = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXYYYYYYYYYYYYYYYYYY";
-                entity.progress = String.valueOf(i + 1);
+            for (int i = 0; i < 10; i++) {
+                TaskEntity entity = new TaskEntity();
+                entity.title = "Task " + (i + 1);
+                entity.description = "Description " + (i + 1);
+                entity.startDate = "2016-06-" + (i + 1);
+                entity.endDate = "2016-06-" + (i + 1);
+                entity.assignee = "Assignee " + (i + 1);
 
                 list.add(entity);
             }
 
-            adapter = new SiteProgressHistoryListAdapter(view.getContext(), getActivity(), list);
-            ListView listView = (ListView)view.findViewById(R.id.listView);
+            adapter = new SiteTaskListAdapter(view.getContext(), getActivity(), list);
+            ListView listView = (ListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
                     this.getResources().getColor(R.color.color_accent)
             );
@@ -107,11 +106,11 @@ public class SiteProgressListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteProgressEvidenceListFragment(list.get(position)));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskAddFragment(projectEntity, siteEntity));
                 }
             });
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Error(e);
         }
     }

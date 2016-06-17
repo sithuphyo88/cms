@@ -82,52 +82,30 @@
             android:inputType="date" />
     </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tvwProgress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtlayEndDate"
-        android:layout_marginTop="@dimen/margin_between_controls"
-        android:text="@string/label_progress" />
-
-    <RelativeLayout
-        android:id="@+id/relProgress"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_below="@+id/tvwProgress">
-
-        <ProgressBar
-            android:id="@+id/proProgress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:progressDrawable="@drawable/progressbar_style" />
-
-        <TextView
-            android:id="@+id/tvwProgressValue"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:textColor="#4d5359"
-            android:textSize="15dp" />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
         android:layout_marginTop="@dimen/margin_between_controls"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="2">
 
         <Button
             android:id="@+id/butTaskList"
-            android:layout_width="80dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_weight="1"
-            android:text="@string/label_tast_list"
+            android:drawableLeft="@drawable/ic_task_list"
+            android:text="@string/label_task_list"
+            android:theme="@style/MyButton" />
+
+        <Button
+            android:id="@+id/butComment"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_comment"
+            android:text="@string/label_comments"
             android:theme="@style/MyButton" />
     </LinearLayout>
 

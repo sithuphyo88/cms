@@ -35,6 +35,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <string name="label_assignee">Assignee</string>
     <string name="label_back_camera">Back Camera</string>
     <string name="label_front_camera">Front Camera</string>
     <string name="label_sync_service_link">Sync Service Link</string>
@@ -48,6 +49,7 @@
     <string name="label_customer">Customer</string>
     <string name="label_project_name">Project Name</string>
     <string name="label_site_name">Site Name</string>
+    <string name="label_site_task_entry">Site Task Entry</string>
     <string name="label_project_entry">Project Entry</string>
     <string name="label_start_to_check">Start To Check</string>
     <string name="label_get_terminal_id">Get Terminal Id</string>
@@ -92,6 +94,7 @@
     <string name="label_user_assign_role">User and Assign Role</string>
     <string name="label_material_category">Material Category</string>
     <string name="label_material">Material</string>
+    <string name="label_material_list">Material List</string>
     <string name="label_order_status">Received Number / Purchase Ordered Number</string>
     <string name="label_comments">Comments</string>
     <string name="label_user_name">User Name</string>
@@ -106,13 +109,14 @@
     <string name="label_sub_contractor_name">Sub-Contractor Name</string>
     <string name="label_date">Date</string>
     <string name="label_password">Password</string>
-    <string name="label_tast_list">Task List</string>
+    <string name="label_task_list">Task List</string>
+    <string name="label_title">Title</string>
 
     <string name="label_company_name">Idea Pro</string>
     <string name="label_company_service">IT Solutions and Services</string>
     <string name="label_company_message">“We are glad to work with you. We totally believe your work will be efficient with our solutions and services.”</string>
     <string name="label_company_address">No.2, First Floor (L), Pane Nae Gone St, Mingalar Taung Nyunt Tsp, Yangon.</string>
-    <string name="label_company_phone">959-795262471, 959-798484761, 959-448037148</string>
+    <string name="label_company_phone">+959-795262471, +959-798484761, +959-448037148</string>
     <string name="label_company_mail">sithuphyo88@gmail.com, arkarhtetmyint@googlemail.com, yehtutaung.yha@gmail.com</string>
     <string name="label_remarks">Remarks</string>
     <string name="label_exit">Exit</string>

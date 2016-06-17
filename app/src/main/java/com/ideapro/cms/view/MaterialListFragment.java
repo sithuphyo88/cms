@@ -55,7 +55,7 @@ public class MaterialListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        getActivity().setTitle(getString(R.string.label_material));
+        getActivity().setTitle(getString(R.string.label_material_list));
         super.onCreateOptionsMenu(menu, inflater);
     }
 

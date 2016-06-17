@@ -37,7 +37,7 @@ public class MaterialAddFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         this.menu = menu;
         inflater.inflate(R.menu.menu_save, menu);
-        getActivity().setTitle(getString(R.string.label_material));
+        getActivity().setTitle(getString(R.string.label_material_list));
         super.onCreateOptionsMenu(menu, inflater);
     }
 }

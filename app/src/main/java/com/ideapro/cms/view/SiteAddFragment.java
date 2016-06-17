@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
@@ -28,16 +26,11 @@ public class SiteAddFragment extends Fragment { //implements View.OnClickListene
     View view;
     ProjectEntity projectEntity;
     SiteEntity siteEntity;
-    Button butAssignEngineers;
-    Button butManageBluePrints;
-    Button butManagePurchaseOrders;
-    Button butSubContractor;
+    Button butTaskList;
     EditText txtSiteName;
     EditText txtAddress;
     EditText txtStartDate;
     EditText txtEndDate;
-    ProgressBar proProgress;
-    TextView tvwProgressValue;
 
     private Boolean isFabOpen = false;
     private FloatingActionButton fab, fab1, fab2, fab3;
@@ -89,18 +82,19 @@ public class SiteAddFragment extends Fragment { //implements View.OnClickListene
             txtEndDate = (EditText) view.findViewById(R.id.txtEndDate);
             txtEndDate.setText(this.siteEntity.endDate);
 
-            proProgress = (ProgressBar) view.findViewById(R.id.proProgress);
-            proProgress.setProgress(Integer.parseInt(this.siteEntity.progress));
-
-            tvwProgressValue = (TextView) view.findViewById(R.id.tvwProgressValue);
-            tvwProgressValue.setText(this.siteEntity.progress + " %");
-        }
-
-        if (proProgress != null) {
-            proProgress.setOnClickListener(new View.OnClickListener() {
+            butTaskList = (Button) view.findViewById(R.id.butTaskList);
+            butTaskList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteProgressListFragment(projectEntity, siteEntity));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskListFragment(projectEntity, siteEntity));
+                }
+            });
+
+            Button butComment = (Button) view.findViewById(R.id.butComment);
+            butComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new CommentListFragment());
                 }
             });
         }
