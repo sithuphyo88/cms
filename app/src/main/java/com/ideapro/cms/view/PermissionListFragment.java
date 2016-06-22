@@ -14,8 +14,11 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.PermissionEntity;
+import com.ideapro.cms.data.RoleEntity;
 import com.ideapro.cms.view.listAdapter.PermissionListAdapter;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ public class PermissionListFragment extends Fragment {
     List<PermissionEntity> list;
     PermissionListAdapter adapter;
     Menu menu;
+    private DaoFactory daoFactory;
 
     public PermissionListFragment() {
     }
@@ -39,6 +43,8 @@ public class PermissionListFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_permission_list, container, false);
         setHasOptionsMenu(true);
+        //
+        daoFactory = new DaoFactory(view.getContext());
         bindData();
         return view;
     }
@@ -53,16 +59,19 @@ public class PermissionListFragment extends Fragment {
 
     private void bindData() {
         try {
-            list = new ArrayList<>();
+            // dummy data.
+           /* list = new ArrayList<>();
 
             for (int i = 0; i < 30; i++) {
                 PermissionEntity entity = new PermissionEntity();
                 entity.title = "Permission " + (i + 1);
                 entity.description = "XXXXXXXXXXXXXXXXXXXXXXXX";
                 list.add(entity);
-            }
+            }*/
+            Dao<PermissionEntity, String> permissionEntityDao = daoFactory.getPermissionEntityDao();
+            List<PermissionEntity> permissionEntities = permissionEntityDao.queryForAll();
 
-            adapter = new PermissionListAdapter(view.getContext(), getActivity(), list);
+            adapter = new PermissionListAdapter(view.getContext(), getActivity(), permissionEntities);
             ListView listView = (ListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
                     this.getResources().getColor(R.color.color_accent)

@@ -12,16 +12,21 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.AppSettingsEntity;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.RoleEntity;
+import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.RoleListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +39,7 @@ public class RoleListFragment extends Fragment {
     View view;
     List<RoleEntity> list;
     RoleListAdapter adapter;
+    private DaoFactory daoFactory;
 
     public RoleListFragment() {
         // Required empty public constructor
@@ -47,6 +53,8 @@ public class RoleListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_role_list, container, false);
         setHasOptionsMenu(true);
 
+        //
+        daoFactory = new DaoFactory(view.getContext());
         bindData();
         initializeUI();
         return view;
@@ -76,16 +84,21 @@ public class RoleListFragment extends Fragment {
 
     private void bindData() {
         try {
+            // dummy data
             list = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
+            /*for (int i = 0; i < 5; i++) {
                 RoleEntity entity = new RoleEntity();
                 entity.name = "Role " + (i + 1);
                 entity.description = "XXXXXXXXXX";
 
                 list.add(entity);
-            }
+            }*/
+            Dao<RoleEntity, String> roleEntityDao = daoFactory.getRoleEntityDao();
+            List<RoleEntity> roleEntities = roleEntityDao.queryForAll();
 
-            adapter = new RoleListAdapter(view.getContext(), getActivity(), list);
+
+
+            adapter = new RoleListAdapter(view.getContext(), getActivity(),roleEntities);
 
             SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(

@@ -12,6 +12,8 @@ import java.sql.SQLException;
 public class DaoFactory {
     DatabaseHelper db;
     Dao<AppSettingsEntity, String> appSettingsDao;
+    Dao<RoleEntity,String> roleEntityDao;
+    Dao<PermissionEntity,String> permissionEntityDao;
 
     public DaoFactory(Context context)
     {
@@ -26,4 +28,22 @@ public class DaoFactory {
 
         return appSettingsDao;
     }
+
+
+    // DAO for Role Entity
+    public Dao<RoleEntity, String> getRoleEntityDao() throws SQLException {
+        if (roleEntityDao == null) {
+            roleEntityDao = db.getDao(RoleEntity.class);
+        }
+        return roleEntityDao;
+    }
+
+    //DAO for Permission Entity
+    public Dao<PermissionEntity, String> getPermissionEntityDao() throws SQLException {
+        if (permissionEntityDao == null) {
+            permissionEntityDao = db.getDao(PermissionEntity.class);
+        }
+        return permissionEntityDao;
+    }
+
 }
