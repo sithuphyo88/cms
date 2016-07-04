@@ -16,12 +16,14 @@ import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.CustomerEntity;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.CustomerListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class CustomerListFragment extends Fragment {
     View view;
     List<CustomerEntity> list;
     CustomerListAdapter adapter;
+    DaoFactory daoFactory;
 
     public CustomerListFragment() {
         // Required empty public constructor
@@ -47,6 +50,8 @@ public class CustomerListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_customer_list, container, false);
         setHasOptionsMenu(true);
 
+
+        daoFactory = new DaoFactory(view.getContext());
         bindData();
         initializeUI();
         return view;
@@ -56,13 +61,13 @@ public class CustomerListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
         getActivity().setTitle(getString(R.string.label_customer));
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void initializeUI() {
         ImageButton imgAdd = (ImageButton) view.findViewById(R.id.imgAdd);
 
-        if(CommonUtils.CurrentUser.role.equals("admin")) {
+        if (CommonUtils.CurrentUser.role.equals("admin")) {
             imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -77,7 +82,8 @@ public class CustomerListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
+            // dummy data
+           /* for (int i = 0; i < 100; i++) {
                 CustomerEntity entity = new CustomerEntity();
                 entity.name = "Customer " + (i + 1);
                 entity.phone = "0979516247" + (i + 1);
@@ -85,11 +91,13 @@ public class CustomerListFragment extends Fragment {
                 entity.address = "Yangon " + (i + 1);
 
                 list.add(entity);
-            }
+            }*/
+            Dao<CustomerEntity, String> customerEntityDao = daoFactory.getCustomerEntityDao();
+            list = customerEntityDao.queryForAll();
 
             adapter = new CustomerListAdapter(view.getContext(), getActivity(), list);
 
-            SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
+            SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
                     this.getResources().getColor(R.color.color_accent)
             );
@@ -153,11 +161,12 @@ public class CustomerListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new CustomerAddFragment());
+                    CustomerAddFragment customerAddFragment =CustomerAddFragment.newInstance(list.get(position).id);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), customerAddFragment);
                 }
             });
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Error(e);
         }
     }
