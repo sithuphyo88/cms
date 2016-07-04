@@ -12,9 +12,13 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "task")
 public class TaskEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static String SITE_ID = "site_id";
 
     @DatabaseField(id = true)
     public String id;
+
+    @DatabaseField
+    public String site_id;
 
     @DatabaseField
     public String title;
