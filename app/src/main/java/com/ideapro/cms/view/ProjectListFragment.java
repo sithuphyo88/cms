@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.ProjectListAdapter;
@@ -22,6 +23,7 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class ProjectListFragment extends Fragment {
     View view;
     List<ProjectEntity> list;
     ProjectListAdapter adapter;
+    private DaoFactory daoFactory;
 
     public ProjectListFragment() {
         // Required empty public constructor
@@ -47,6 +50,7 @@ public class ProjectListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_project_list, container, false);
         setHasOptionsMenu(true);
 
+        daoFactory = new DaoFactory(view.getContext());
         bindData();
         initializeUI();
         return view;
@@ -80,7 +84,8 @@ public class ProjectListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
+
+            /*for (int i = 0; i < 100; i++) {
                 ProjectEntity entity = new ProjectEntity();
                 entity.name = "Project" + (i + 1);
                 entity.progress = String.valueOf(i + 1);
@@ -88,7 +93,11 @@ public class ProjectListFragment extends Fragment {
                 entity.endDate = "2016-05-" + (i + 1);
 
                 list.add(entity);
-            }
+            }*/
+            // get data from the database
+
+            Dao<ProjectEntity, String> projectEntityDao = daoFactory.getProjectEntityDao();
+            list = projectEntityDao.queryForAll();
 
             adapter = new ProjectListAdapter(view.getContext(), getActivity(), list);
 
