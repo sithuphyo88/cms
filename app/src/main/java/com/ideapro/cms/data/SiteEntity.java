@@ -9,12 +9,16 @@ import java.io.Serializable;
  * Created by stp on 4/10/2015.
  */
 
-@DatabaseTable(tableName = "design")
+@DatabaseTable(tableName = "site")
 public class SiteEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static String PROJECT_ID = "project_id";
 
     @DatabaseField(id = true)
     public String id;
+
+    @DatabaseField
+    public String project_id;
 
     @DatabaseField
     public String name;
