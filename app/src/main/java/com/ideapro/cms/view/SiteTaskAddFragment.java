@@ -10,11 +10,17 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
+import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.utils.CommonUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,21 +30,39 @@ public class SiteTaskAddFragment extends Fragment {
     View view;
     ProjectEntity projectEntity;
     SiteEntity siteEntity;
+    TaskEntity taskEntity;
     Button butEvidence;
     Button butBluePrint;
     Button butComment;
+
+    @BindView(R.id.txtTitle)
+    EditText txtTitle;
+
+    @BindView(R.id.txtDescription)
+    EditText txtDescritpion;
+
+    @BindView(R.id.txtStartDate)
+    EditText txtStartDate;
+
+    @BindView(R.id.txtEndDate)
+    EditText txtEndDate;
+
+    @BindView(R.id.tvwAssignee)
+    TextView tvwAssignee;
 
     public SiteTaskAddFragment() {
         // Required empty public constructor
     }
 
-    public SiteTaskAddFragment(ProjectEntity projectEntity, SiteEntity siteEntity) {
+    public SiteTaskAddFragment(ProjectEntity projectEntity, SiteEntity siteEntity, TaskEntity taskEntity) {
         if (projectEntity == null) {
             this.projectEntity = new ProjectEntity();
             this.siteEntity = new SiteEntity();
+            this.taskEntity = new TaskEntity();
         } else {
             this.projectEntity = projectEntity;
             this.siteEntity = siteEntity;
+            this.taskEntity = taskEntity;
         }
     }
 
@@ -49,6 +73,8 @@ public class SiteTaskAddFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_site_task_add, container, false);
         setHasOptionsMenu(true);
 
+        // thrid party library for findviewbyID
+        ButterKnife.bind(this, view);
         initializeUI();
         return view;
     }
@@ -61,6 +87,17 @@ public class SiteTaskAddFragment extends Fragment {
     }
 
     private void initializeUI() {
+        // title
+        txtTitle.setText(this.taskEntity.title);
+        // address
+        txtDescritpion.setText(this.taskEntity.description);
+        // start Date
+        txtStartDate.setText(this.taskEntity.startDate);
+        // end Date
+        txtEndDate.setText(this.taskEntity.endDate);
+        // asssingee
+        tvwAssignee.setText(this.taskEntity.assignee);
+
         butEvidence = (Button) view.findViewById(R.id.butEvidence);
         butEvidence.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,11 +14,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.SiteTaskListAdapter;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class SiteTaskListFragment extends Fragment {
     List<TaskEntity> list;
     SiteTaskListAdapter adapter;
     ImageButton imgAdd;
+    private DaoFactory daoFactory;
 
     public SiteTaskListFragment() {
         this.projectEntity = new ProjectEntity();
@@ -57,6 +60,7 @@ public class SiteTaskListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_site_task_list, container, false);
         setHasOptionsMenu(true);
 
+        daoFactory =  new DaoFactory(view.getContext());
         bindData();
         initializeUI();
         return view;
@@ -74,7 +78,10 @@ public class SiteTaskListFragment extends Fragment {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskAddFragment(projectEntity, siteEntity));
+                TaskEntity taskEntity = new TaskEntity();
+                taskEntity.title = "New Task";
+                taskEntity.description = "";
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskAddFragment(projectEntity, siteEntity,taskEntity));
             }
         });
     }
@@ -82,7 +89,9 @@ public class SiteTaskListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
+
+            // dummy data
+            /*for (int i = 0; i < 10; i++) {
                 TaskEntity entity = new TaskEntity();
                 entity.title = "Task " + (i + 1);
                 entity.description = "Description " + (i + 1);
@@ -91,7 +100,12 @@ public class SiteTaskListFragment extends Fragment {
                 entity.assignee = "Assignee " + (i + 1);
 
                 list.add(entity);
-            }
+            }*/
+
+            // data form database
+
+            Dao<TaskEntity,String> taskEntityDao =  daoFactory.getTaskEntityDao();
+            list = taskEntityDao.queryBuilder().where().eq(TaskEntity.SITE_ID,this.siteEntity.id).query();
 
             adapter = new SiteTaskListAdapter(view.getContext(), getActivity(), list);
             ListView listView = (ListView) view.findViewById(R.id.listView);
@@ -106,7 +120,7 @@ public class SiteTaskListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskAddFragment(projectEntity, siteEntity));
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskAddFragment(projectEntity, siteEntity,list.get(position)));
                 }
             });
 

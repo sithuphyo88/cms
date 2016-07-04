@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
@@ -23,6 +24,7 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class SiteListFragment extends Fragment {
     ProjectEntity projectEntity;
     List<SiteEntity> list;
     SiteListAdapter adapter;
+    private DaoFactory daoFactory;
 
     public SiteListFragment() {
         this.projectEntity = new ProjectEntity();
@@ -56,6 +59,7 @@ public class SiteListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_site_list, container, false);
         setHasOptionsMenu(true);
 
+        daoFactory = new DaoFactory(view.getContext());
         bindData();
         initializeUI();
         return view;
@@ -89,7 +93,8 @@ public class SiteListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 30; i++) {
+            // dummy data
+           /* for (int i = 0; i < 30; i++) {
                 SiteEntity entity = new SiteEntity();
                 entity.name = "Site " + (i + 1);
                 entity.address = "Address " + (i + 1);
@@ -98,7 +103,11 @@ public class SiteListFragment extends Fragment {
                 entity.endDate = "2016-05-" + (i + 1);
 
                 list.add(entity);
-            }
+            }*/
+
+            // data from database
+            Dao<SiteEntity, String> siteEntityDao = daoFactory.getSiteEntityDao();
+            list = siteEntityDao.queryBuilder().where().eq(SiteEntity.PROJECT_ID,this.projectEntity.id).query();
 
             adapter = new SiteListAdapter(view.getContext(), getActivity(), list);
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
