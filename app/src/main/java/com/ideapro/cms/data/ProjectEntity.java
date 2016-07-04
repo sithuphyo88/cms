@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by stp on 4/10/2015.
  */
 
-@DatabaseTable(tableName = "site")
+@DatabaseTable(tableName = "project")
 public class ProjectEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
