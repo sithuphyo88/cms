@@ -12,11 +12,19 @@ import java.sql.SQLException;
 public class DaoFactory {
     DatabaseHelper db;
     Dao<AppSettingsEntity, String> appSettingsDao;
-    Dao<RoleEntity,String> roleEntityDao;
-    Dao<PermissionEntity,String> permissionEntityDao;
+    Dao<RoleEntity, String> roleEntityDao;
+    Dao<PermissionEntity, String> permissionEntityDao;
+    // project Entity Dao
+    Dao<ProjectEntity, String> projectEntityDao;
+    // site Entity Dao
+    Dao<SiteEntity, String> siteEntityDao;
+    // task Entity Dao
+    Dao<TaskEntity, String> taskEntityDao;
+    // customer Entity Dao
+    Dao<CustomerEntity, String> customerEntityDao;
 
-    public DaoFactory(Context context)
-    {
+
+    public DaoFactory(Context context) {
         db = new DatabaseHelper(context);
 
     }
@@ -46,4 +54,35 @@ public class DaoFactory {
         return permissionEntityDao;
     }
 
+    // DAO for Project Entity
+    public Dao<ProjectEntity, String> getProjectEntityDao() throws SQLException {
+        if (projectEntityDao == null) {
+            projectEntityDao = db.getDao(ProjectEntity.class);
+        }
+        return projectEntityDao;
+    }
+
+    // DAO for Site Entity
+    public Dao<SiteEntity, String> getSiteEntityDao() throws SQLException {
+        if (siteEntityDao == null) {
+            siteEntityDao = db.getDao(SiteEntity.class);
+        }
+        return siteEntityDao;
+    }
+
+    // DAO for Task Entity
+    public Dao<TaskEntity, String> getTaskEntityDao() throws SQLException {
+        if (taskEntityDao == null) {
+            taskEntityDao = db.getDao(TaskEntity.class);
+        }
+        return taskEntityDao;
+    }
+
+    // DAO for Customer Entity
+    public Dao<CustomerEntity, String> getCustomerEntityDao() throws SQLException {
+        if (customerEntityDao == null) {
+            customerEntityDao = db.getDao(CustomerEntity.class);
+        }
+        return customerEntityDao;
+    }
 }
