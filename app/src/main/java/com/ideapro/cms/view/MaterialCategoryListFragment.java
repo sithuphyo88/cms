@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.MaterialCategoryEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.MaterialCategoryListAdapter;
@@ -22,6 +23,7 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class MaterialCategoryListFragment extends Fragment {
     View view;
     List<MaterialCategoryEntity> list;
     MaterialCategoryListAdapter adapter;
+    private DaoFactory daoFactory;
 
     public MaterialCategoryListFragment() {
         // Required empty public constructor
@@ -47,6 +50,7 @@ public class MaterialCategoryListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_material_category_list, container, false);
         setHasOptionsMenu(true);
 
+        daoFactory = new DaoFactory(view.getContext());
         bindData();
         initializeUI();
         return view;
@@ -77,17 +81,21 @@ public class MaterialCategoryListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
+            // Dummy Data
+            /*for (int i = 0; i < 5; i++) {
                 MaterialCategoryEntity entity = new MaterialCategoryEntity();
                 entity.name = "Material Category " + (i + 1);
                 entity.description = "Material Category XXXXXXXXXXXX";
 
                 list.add(entity);
-            }
+            }*/
+            Dao<MaterialCategoryEntity, String> materialCategoryEntityDao = daoFactory.getMaterialCategoryEntityDao();
+            list = materialCategoryEntityDao.queryForAll();
+
 
             adapter = new MaterialCategoryListAdapter(view.getContext(), getActivity(), list);
 
-            SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
+            final SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
                     this.getResources().getColor(R.color.color_accent)
             );
@@ -123,7 +131,8 @@ public class MaterialCategoryListFragment extends Fragment {
                     switch (index) {
                         case 0:
                             // edit
-                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new MaterialCategoryAddFragment());
+                            MaterialCategoryAddFragment fragment = MaterialCategoryAddFragment.newInstance(list.get(position).id);
+                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                             break;
                         case 1:
                             // delete
@@ -151,7 +160,8 @@ public class MaterialCategoryListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new MaterialCategoryAddFragment());
+                    MaterialCategoryAddFragment fragment = MaterialCategoryAddFragment.newInstance(list.get(position).id);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
 

@@ -12,9 +12,13 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "material")
 public class MaterialEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String MATERIAL_GROUP_ID ="materialCategoryId" ;
 
     @DatabaseField(id = true)
     public String id;
+
+    @DatabaseField
+    public String materialCategoryId;
 
     @DatabaseField
     public String name;

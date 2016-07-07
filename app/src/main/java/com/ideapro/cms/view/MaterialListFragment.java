@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.MaterialEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.MaterialListAdapter;
@@ -22,6 +23,7 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +33,24 @@ import java.util.List;
  */
 public class MaterialListFragment extends Fragment {
 
+    private static final String BARG_MATERIAL_GROUP_ID = "material_group_id";
     View view;
     List<MaterialEntity> list;
     MaterialListAdapter adapter;
+    DaoFactory daoFactory;
+    private String materialGroupId;
 
     public MaterialListFragment() {
         // Required empty public constructor
     }
 
+    public static MaterialListFragment newInstance(String materialGroupId) {
+        Bundle args = new Bundle();
+        args.putString(BARG_MATERIAL_GROUP_ID, materialGroupId);
+        MaterialListFragment fragment = new MaterialListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +58,7 @@ public class MaterialListFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_material_list, container, false);
         setHasOptionsMenu(true);
+        daoFactory = new DaoFactory(view.getContext());
 
         bindData();
         initializeUI();
@@ -66,7 +79,8 @@ public class MaterialListFragment extends Fragment {
             imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new MaterialAddFragment());
+                    MaterialAddFragment fragment = MaterialAddFragment.newInstance("", materialGroupId);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
         } else {
@@ -76,14 +90,19 @@ public class MaterialListFragment extends Fragment {
 
     private void bindData() {
         try {
+            Bundle bundle = getArguments();
+            materialGroupId = bundle.getString(BARG_MATERIAL_GROUP_ID);
             list = new ArrayList<>();
-            for (int i = 0; i < 15; i++) {
+            // Dummy Data
+           /* for (int i = 0; i < 15; i++) {
                 MaterialEntity entity = new MaterialEntity();
                 entity.name = "Material " + (i + 1);
                 entity.description = "Material XXXXXXXXXXXX";
 
                 list.add(entity);
-            }
+            }*/
+            Dao<MaterialEntity, String> materialEntityDao = daoFactory.getMaterialEntityDao();
+            list = materialEntityDao.queryBuilder().where().eq(MaterialEntity.MATERIAL_GROUP_ID, materialGroupId).query();
 
             adapter = new MaterialListAdapter(view.getContext(), getActivity(), list);
 
@@ -123,7 +142,8 @@ public class MaterialListFragment extends Fragment {
                     switch (index) {
                         case 0:
                             // edit
-                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new MaterialAddFragment());
+                            MaterialAddFragment fragment = MaterialAddFragment.newInstance(list.get(position).id, materialGroupId);
+                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                             break;
                         case 1:
                             // delete
@@ -151,7 +171,8 @@ public class MaterialListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new MaterialAddFragment());
+                    MaterialAddFragment fragment = MaterialAddFragment.newInstance(list.get(position).id, materialGroupId);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
 
