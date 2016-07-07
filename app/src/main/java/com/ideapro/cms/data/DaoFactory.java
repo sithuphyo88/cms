@@ -5,6 +5,7 @@ import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 /**
  * Created by stp on 4/10/2015.
@@ -22,6 +23,8 @@ public class DaoFactory {
     Dao<TaskEntity, String> taskEntityDao;
     // customer Entity Dao
     Dao<CustomerEntity, String> customerEntityDao;
+    // subContractor Dao
+    Dao<SubContractorEntity, UUID> subContratorEntityDao;
 
 
     public DaoFactory(Context context) {
@@ -84,5 +87,13 @@ public class DaoFactory {
             customerEntityDao = db.getDao(CustomerEntity.class);
         }
         return customerEntityDao;
+    }
+
+    // DAO for Sub Contractor Entity
+    public Dao<SubContractorEntity, UUID> getSubContractorEntityDao() throws SQLException {
+        if (subContratorEntityDao == null) {
+            subContratorEntityDao = db.getDao(SubContractorEntity.class);
+        }
+        return subContratorEntityDao;
     }
 }
