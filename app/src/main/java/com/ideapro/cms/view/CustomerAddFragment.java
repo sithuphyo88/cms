@@ -80,6 +80,7 @@ public class CustomerAddFragment extends Fragment {
     private void initializeUI() {
         Bundle bundle = getArguments();
         String customerId = "";
+        customer = new CustomerEntity();
         if (bundle != null) {
             customerId = bundle.getString(BARG_CUSTOMER_ID);
         }
@@ -144,7 +145,6 @@ public class CustomerAddFragment extends Fragment {
     }
 
     private void getData() {
-        customer = new CustomerEntity();
         customer.name = txtCustomerName.getText().toString();
         customer.phone = txtPhone.getText().toString();
         customer.address = txtAddress.getText().toString();
