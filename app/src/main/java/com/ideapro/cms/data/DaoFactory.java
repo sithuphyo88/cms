@@ -24,7 +24,11 @@ public class DaoFactory {
     // customer Entity Dao
     Dao<CustomerEntity, String> customerEntityDao;
     // subContractor Dao
-    Dao<SubContractorEntity, UUID> subContratorEntityDao;
+    Dao<SubContractorEntity, String> subContratorEntityDao;
+    // material Dao
+    Dao<MaterialEntity, String> materialEntityDao;
+    // material Category Dao
+    Dao<MaterialCategoryEntity, String> materialCategoryEntityDao;
 
 
     public DaoFactory(Context context) {
@@ -90,10 +94,27 @@ public class DaoFactory {
     }
 
     // DAO for Sub Contractor Entity
-    public Dao<SubContractorEntity, UUID> getSubContractorEntityDao() throws SQLException {
+    public Dao<SubContractorEntity, String> getSubContractorEntityDao() throws SQLException {
         if (subContratorEntityDao == null) {
             subContratorEntityDao = db.getDao(SubContractorEntity.class);
         }
         return subContratorEntityDao;
+    }
+
+    // DAO for material Entity
+    public Dao<MaterialEntity, String> getMaterialEntityDao() throws SQLException {
+        if (materialEntityDao == null) {
+            materialEntityDao = db.getDao(MaterialEntity.class);
+        }
+        return materialEntityDao;
+    }
+
+    // DAO for material group Entity
+
+    public Dao<MaterialCategoryEntity, String> getMaterialCategoryEntityDao() throws SQLException {
+        if (materialCategoryEntityDao == null) {
+            materialCategoryEntityDao = db.getDao(MaterialCategoryEntity.class);
+        }
+        return materialCategoryEntityDao;
     }
 }
