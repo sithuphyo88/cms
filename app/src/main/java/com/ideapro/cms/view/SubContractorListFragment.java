@@ -15,16 +15,20 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.SubContractorEntity;
+import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.SubContractorListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +38,7 @@ public class SubContractorListFragment extends Fragment {
     View view;
     List<SubContractorEntity> list;
     SubContractorListAdapter adapter;
+    private DaoFactory daoFactory;
 
     public SubContractorListFragment() {
         // Required empty public constructor
@@ -46,6 +51,7 @@ public class SubContractorListFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_sub_contractor_list, container, false);
         setHasOptionsMenu(true);
+        daoFactory =  new DaoFactory(view.getContext());
 
         bindData();
         initializeUI();
@@ -77,7 +83,8 @@ public class SubContractorListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
+            // Dummy data
+           /* for (int i = 0; i < 100; i++) {
                 SubContractorEntity entity = new SubContractorEntity();
                 entity.name = "Sub-Contractor " + (i + 1);
                 entity.phone = "0979516247" + (i + 1);
@@ -86,6 +93,9 @@ public class SubContractorListFragment extends Fragment {
 
                 list.add(entity);
             }
+*/
+            Dao<SubContractorEntity,String> subContractorDao =  daoFactory.getSubContractorEntityDao();
+            list = subContractorDao.queryForAll();
 
             adapter = new SubContractorListAdapter(view.getContext(), getActivity(), list);
 
@@ -153,7 +163,8 @@ public class SubContractorListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorAddFragment());
+                    SubContractorAddFragment fragment = SubContractorAddFragment.newInstance(list.get(position).subContracotr_id);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
 

@@ -15,7 +15,7 @@ public class SubContractorEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(id = true)
-    public UUID subContracotr_id = UUID.randomUUID();
+    public String subContracotr_id;
 
     @DatabaseField
     public String name;

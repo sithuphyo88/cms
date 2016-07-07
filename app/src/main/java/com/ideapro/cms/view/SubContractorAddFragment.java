@@ -80,6 +80,7 @@ public class SubContractorAddFragment extends Fragment {
 
         Bundle bundle = getArguments();
         String contractorId = "";
+        subContractor = new SubContractorEntity();
 
         if (bundle != null) {
             contractorId = bundle.getString(BARG_SUBCONTRACTOR_ID);
@@ -90,8 +91,8 @@ public class SubContractorAddFragment extends Fragment {
         } else {
             try {
                 flag_update = true;
-                Dao<SubContractorEntity, UUID> subContractorDao = daoFactory.getSubContractorEntityDao();
-                subContractor = subContractorDao.queryForId(UUID.fromString(contractorId));
+                Dao<SubContractorEntity, String> subContractorDao = daoFactory.getSubContractorEntityDao();
+                subContractor = subContractorDao.queryForId(contractorId);
 
                 etSubContractorName.setText(subContractor.name);
                 etPhone.setText(subContractor.phone);
@@ -120,6 +121,30 @@ public class SubContractorAddFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        try {
+            getData();
+            if (flag_update) {
+                updateData();
+            } else {
+                saveData();
+            }
+            reset();
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+        if (!flag_update) {
+            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Datas updated successfully", Toast.LENGTH_SHORT).show();
+        }
+
+        return true;
+    }
+*/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -137,7 +162,7 @@ public class SubContractorAddFragment extends Fragment {
         if (!flag_update) {
             Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Datas updated successfully", Toast.LENGTH_SHORT).show();
         }
 
         return true;
@@ -146,8 +171,8 @@ public class SubContractorAddFragment extends Fragment {
     private void saveData() {
         try {
             // This is how, a reference of DAO object can be done
-            Dao<SubContractorEntity, UUID> subContractorDao = daoFactory.getSubContractorEntityDao();
-
+            Dao<SubContractorEntity, String> subContractorDao = daoFactory.getSubContractorEntityDao();
+            subContractor.subContracotr_id = UUID.randomUUID().toString();
             //This is the way to update data into a database table
             subContractorDao.create(subContractor);
         } catch (Exception e) {
@@ -158,7 +183,7 @@ public class SubContractorAddFragment extends Fragment {
     private void updateData() {
         try {
             // This is how, a reference of DAO object can be done
-            Dao<SubContractorEntity, UUID> subContractorDao = daoFactory.getSubContractorEntityDao();
+            Dao<SubContractorEntity, String> subContractorDao = daoFactory.getSubContractorEntityDao();
 
             //This is the way to update data into a database table
             subContractorDao.update(subContractor);
