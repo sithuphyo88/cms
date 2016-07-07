@@ -47,6 +47,7 @@ public class CustomerAddFragment extends Fragment {
     DaoFactory daoFactory;
 
     CustomerEntity customer;
+    private boolean flag_update;
 
     public CustomerAddFragment() {
         // Required empty public constructor
@@ -68,10 +69,9 @@ public class CustomerAddFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_customer_add, container, false);
         setHasOptionsMenu(true);
 
-        // thirdy party for find view by id
+        // third party for find view by id
         ButterKnife.bind(this, view);
         daoFactory = new DaoFactory(view.getContext());
-
 
         initializeUI();
         return view;
@@ -87,9 +87,9 @@ public class CustomerAddFragment extends Fragment {
             reset();
         } else {
             try {
+                flag_update = true;
                 Dao<CustomerEntity, String> customerDao = daoFactory.getCustomerEntityDao();
                 customer = customerDao.queryForId(customerId);
-
                 txtCustomerName.setText(customer.name);
                 txtPhone.setText(customer.phone);
                 txtAddress.setText(customer.address);
@@ -99,8 +99,6 @@ public class CustomerAddFragment extends Fragment {
                 throw new Error(e);
             }
         }
-
-
     }
 
     @Override
@@ -115,12 +113,34 @@ public class CustomerAddFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
             getData();
-            saveData();
+            if (flag_update) {
+                updateData();
+            } else {
+                saveData();
+            }
+            reset();
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+        if (!flag_update) {
+            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+        }
+
+        return true;
+    }
+
+    private void updateData() {
+        try {
+            // This is how, a reference of DAO object can be done
+            Dao<CustomerEntity, String> customerDao = daoFactory.getCustomerEntityDao();
+
+            //This is the way to update data into a database table
+            customerDao.update(customer);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        return true;
     }
 
     private void getData() {
@@ -139,7 +159,6 @@ public class CustomerAddFragment extends Fragment {
 
             //This is the way to insert data into a database table
             customerDao.create(customer);
-            reset();
 
         } catch (Exception e) {
             e.printStackTrace();
