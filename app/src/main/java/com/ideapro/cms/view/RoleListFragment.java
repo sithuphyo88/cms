@@ -12,14 +12,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
-import com.ideapro.cms.data.AppSettingsEntity;
 import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.RoleEntity;
-import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.RoleListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
@@ -95,8 +92,6 @@ public class RoleListFragment extends Fragment {
             }*/
             Dao<RoleEntity, String> roleEntityDao = daoFactory.getRoleEntityDao();
             List<RoleEntity> roleEntities = roleEntityDao.queryForAll();
-
-
 
             adapter = new RoleListAdapter(view.getContext(), getActivity(),roleEntities);
 

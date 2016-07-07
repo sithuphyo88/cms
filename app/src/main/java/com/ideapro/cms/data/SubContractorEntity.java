@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Created by stp on 4/10/2015.
@@ -14,7 +15,7 @@ public class SubContractorEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(id = true)
-    public String id;
+    public UUID subContracotr_id = UUID.randomUUID();
 
     @DatabaseField
     public String name;
