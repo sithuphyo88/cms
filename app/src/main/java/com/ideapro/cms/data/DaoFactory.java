@@ -29,6 +29,8 @@ public class DaoFactory {
     Dao<MaterialEntity, String> materialEntityDao;
     // material Category Dao
     Dao<MaterialCategoryEntity, String> materialCategoryEntityDao;
+    // user Dao
+    Dao<UserEntity, String> userEntityDao;
 
 
     public DaoFactory(Context context) {
@@ -110,11 +112,18 @@ public class DaoFactory {
     }
 
     // DAO for material group Entity
-
     public Dao<MaterialCategoryEntity, String> getMaterialCategoryEntityDao() throws SQLException {
         if (materialCategoryEntityDao == null) {
             materialCategoryEntityDao = db.getDao(MaterialCategoryEntity.class);
         }
         return materialCategoryEntityDao;
+    }
+
+    // DAO for User Entity
+    public Dao<UserEntity, String> getUserEntityDao() throws SQLException {
+        if (userEntityDao == null) {
+            userEntityDao = db.getDao(UserEntity.class);
+        }
+        return userEntityDao;
     }
 }

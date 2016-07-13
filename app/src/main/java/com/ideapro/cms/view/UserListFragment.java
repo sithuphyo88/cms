@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
+import com.ideapro.cms.data.RoleEntity;
 import com.ideapro.cms.data.UserEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.UserListAdapter;
@@ -22,6 +24,7 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ public class UserListFragment extends Fragment {
     View view;
     List<UserEntity> list;
     UserListAdapter adapter;
+    DaoFactory daoFactory;
 
     public UserListFragment() {
         // Required empty public constructor
@@ -47,6 +51,7 @@ public class UserListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_user_list, container, false);
         setHasOptionsMenu(true);
 
+        daoFactory = new DaoFactory(view.getContext());
         bindData();
         initializeUI();
         return view;
@@ -66,7 +71,8 @@ public class UserListFragment extends Fragment {
             imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new UserAddFragment());
+                    UserAddFragment fragment = UserAddFragment.newInstance("");
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
         } else {
@@ -77,7 +83,7 @@ public class UserListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
+            /*for (int i = 0; i < 100; i++) {
                 UserEntity entity = new UserEntity();
                 entity.name = "User " + (i + 1);
                 entity.phone = "0979516247" + (i + 1);
@@ -85,7 +91,9 @@ public class UserListFragment extends Fragment {
                 entity.role = "Role " + (i + 1);
 
                 list.add(entity);
-            }
+            }*/
+            Dao<UserEntity, String> userDao = daoFactory.getUserEntityDao();
+            list = userDao.queryForAll();
 
             adapter = new UserListAdapter(view.getContext(), getActivity(), list);
 
@@ -125,7 +133,8 @@ public class UserListFragment extends Fragment {
                     switch (index) {
                         case 0:
                             // edit
-                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new UserAddFragment());
+                            UserAddFragment fragment = UserAddFragment.newInstance(list.get(position).id);
+                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                             break;
                         case 1:
                             // delete
@@ -153,7 +162,8 @@ public class UserListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new UserAddFragment());
+                    UserAddFragment fragment = UserAddFragment.newInstance(list.get(position).id);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
 

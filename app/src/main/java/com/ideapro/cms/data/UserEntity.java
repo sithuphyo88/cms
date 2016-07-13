@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by stp on 4/10/2015.
  */
 
-@DatabaseTable(tableName = "users")
+@DatabaseTable(tableName = "user")
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -27,4 +27,7 @@ public class UserEntity implements Serializable {
 
     @DatabaseField
     public String email;
+
+    @DatabaseField
+    public String password;
 }

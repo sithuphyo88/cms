@@ -71,7 +71,8 @@ public class RoleListFragment extends Fragment {
             imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new RoleAddFragment());
+                    RoleAddFragment fragment = RoleAddFragment.newInstance("");
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
         } else {
@@ -91,9 +92,9 @@ public class RoleListFragment extends Fragment {
                 list.add(entity);
             }*/
             Dao<RoleEntity, String> roleEntityDao = daoFactory.getRoleEntityDao();
-            List<RoleEntity> roleEntities = roleEntityDao.queryForAll();
+            list = roleEntityDao.queryForAll();
 
-            adapter = new RoleListAdapter(view.getContext(), getActivity(),roleEntities);
+            adapter = new RoleListAdapter(view.getContext(), getActivity(), list);
 
             SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
@@ -131,7 +132,8 @@ public class RoleListFragment extends Fragment {
                     switch (index) {
                         case 0:
                             // edit
-                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new RoleAddFragment());
+                            RoleAddFragment fragment = RoleAddFragment.newInstance(list.get(position).id);
+                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                             break;
                         case 1:
                             // delete
@@ -159,7 +161,8 @@ public class RoleListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new RoleAddFragment());
+                    RoleAddFragment fragment = RoleAddFragment.newInstance(list.get(position).id);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
 
