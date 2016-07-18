@@ -20,6 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"></FrameLayout>
 
+       <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.4"
+            android:padding="@dimen/margin_medium_2"
+            android:text="@string/msg_search_jokes_guide"
+            android:textSize="@dimen/text_regular_3x"
+            android:visibility="invisible" />
+
+
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

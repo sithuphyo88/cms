@@ -11,4 +11,29 @@
     <dimen name="list_item_margin">5dp</dimen>
 
     <dimen name="floating_action_button_margin">20dp</dimen>
+
+    <!-- Generic with ratio -->
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_medium_2">16dp</dimen>
+    <dimen name="margin_medium_3">18dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_xlarge">32dp</dimen>
+
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_regular">14sp</dimen>
+    <dimen name="text_regular_2x">16sp</dimen>
+    <dimen name="text_regular_3x">20sp</dimen>
+    <dimen name="text_heading_1x">24sp</dimen>
+    <dimen name="text_heading_2x">32sp</dimen>
+    <dimen name="text_big">40sp</dimen>
+    <dimen name="text_big_2x">60sp</dimen>
+    <dimen name="text_big_3x">80sp</dimen>
+
+    <dimen name="screen_title_size">22sp</dimen>
+
+    <dimen name="margin_bottom_home_fab">60dp</dimen>
+    <dimen name="status_bar_height">25dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+
 </resources>
