@@ -1,18 +1,23 @@
 package com.ideapro.cms.view;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.DaoFactory;
@@ -25,18 +30,29 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProjectListFragment extends Fragment {
+public class ProjectListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     View view;
     List<ProjectEntity> list;
     ProjectListAdapter adapter;
     private DaoFactory daoFactory;
+
+    // start 2016/07/19 add search listner
+    private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
+    // end 2016/07/19
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mOnActionExpandListener = (MenuItemCompat.OnActionExpandListener) context;
+    }
+
 
     public ProjectListFragment() {
         // Required empty public constructor
@@ -53,6 +69,7 @@ public class ProjectListFragment extends Fragment {
         daoFactory = new DaoFactory(view.getContext());
         bindData();
         initializeUI();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -60,20 +77,30 @@ public class ProjectListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
         getActivity().setTitle(getString(R.string.label_project));
-        super.onCreateOptionsMenu(menu,inflater);
+
+        // start 2016/07/19
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem, mOnActionExpandListener);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        searchView.setIconifiedByDefault(true); //iconify the widget
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        // end 2016/07/19
+
     }
 
     private void initializeUI() {
         ImageButton imgAdd = (ImageButton) view.findViewById(R.id.imgAdd);
 
-        if(CommonUtils.CurrentUser.role.equals("admin")) {
+        if (CommonUtils.CurrentUser.role.equals("admin")) {
             imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ProjectEntity entity = new ProjectEntity();
-                    entity.name =  "New Project";
-                    entity.progress = "0";
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(entity));
+                    /*ProjectEntity entity = new ProjectEntity();
+                    entity.name = "New Project";
+                    entity.progress = "0";*/
+                    ProjectAddFragment fragment = ProjectAddFragment.newInstance("");
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
         } else {
@@ -96,12 +123,12 @@ public class ProjectListFragment extends Fragment {
             }*/
             // get data from the database
 
-            Dao<ProjectEntity, String> projectEntityDao = daoFactory.getProjectEntityDao();
+            final Dao<ProjectEntity, String> projectEntityDao = daoFactory.getProjectEntityDao();
             list = projectEntityDao.queryForAll();
 
             adapter = new ProjectListAdapter(view.getContext(), getActivity(), list);
 
-            SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
+            SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
                     this.getResources().getColor(R.color.color_accent)
             );
@@ -135,7 +162,15 @@ public class ProjectListFragment extends Fragment {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            list.remove(position);
+
+                                            // delete data from the table
+                                            try {
+                                                projectEntityDao.deleteById(list.get(position).id);
+                                                list.remove(position);
+                                            } catch (SQLException e) {
+                                                throw new Error(e);
+                                            }
+
                                             adapter.notifyDataSetChanged();
                                         }
                                     },
@@ -155,11 +190,12 @@ public class ProjectListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(list.get(position)));
+                    ProjectAddFragment fragment = ProjectAddFragment.newInstance(list.get(position).id);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Error(e);
         }
     }
@@ -167,5 +203,16 @@ public class ProjectListFragment extends Fragment {
     private int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getResources().getDisplayMetrics());
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Toast.makeText(getContext(), query, Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

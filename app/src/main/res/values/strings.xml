@@ -246,5 +246,6 @@
     <string name="label_description">Description</string>
     <string name="label_credit_amount">Credit Amount</string>
     <string name="label_paid_amount">Paid Amount</string>
+    <string name="msg_search_jokes_guide">Please type you would liket to search</string>
 
 </resources>

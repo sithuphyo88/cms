@@ -50,6 +50,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         String myPath = DB_PATH + DB_NAME;
         File file = new File(myPath);
         isExist = file.exists();
+        if(isExist){
+            file.setExecutable(true);
+        }
 
         return isExist;
     }
