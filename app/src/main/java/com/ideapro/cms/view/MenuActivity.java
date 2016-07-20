@@ -194,5 +194,4 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
         tvSearchGuide.setText(getResources().getText(R.string.data_no_found));
         tvSearchGuide.setVisibility(View.VISIBLE);
     }
-
 }
