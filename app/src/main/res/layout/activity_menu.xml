@@ -28,7 +28,7 @@
             android:gravity="center"
             android:lineSpacingMultiplier="1.4"
             android:padding="@dimen/margin_medium_2"
-            android:text="@string/msg_search_jokes_guide"
+            android:text="@string/msg_search_guide"
             android:textSize="@dimen/text_regular_3x"
             android:visibility="invisible" />
 
