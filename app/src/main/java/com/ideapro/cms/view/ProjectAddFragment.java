@@ -1,6 +1,7 @@
 package com.ideapro.cms.view;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,9 +23,11 @@ import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.j256.ormlite.dao.Dao;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +37,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
-public class ProjectAddFragment extends Fragment {
+public class ProjectAddFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private static String BARG_PROJECT_ID = "project_id";
     View view;
@@ -62,6 +65,8 @@ public class ProjectAddFragment extends Fragment {
     Spinner spnCustomer;
     private boolean flag_update;
     DaoFactory daoFactory;
+    private boolean flag_start_date_click;
+    private boolean flag_end_date_click;
 
     public ProjectAddFragment() {
         // Required empty public constructor
@@ -166,6 +171,38 @@ public class ProjectAddFragment extends Fragment {
                 throw new Error(e);
             }
         }
+
+        txtStartDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    showStartDatePicker();
+                }
+            }
+        });
+
+        txtStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStartDatePicker();
+            }
+        });
+
+        txtEndDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    showEndDatePicker();
+                }
+            }
+        });
+
+        txtEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEndDatePicker();
+            }
+        });
         // 2016/07/18
 
         spnCustomer = (Spinner) view.findViewById(R.id.spnCustomer);
@@ -229,4 +266,41 @@ public class ProjectAddFragment extends Fragment {
         projectEntity.endDate = txtEndDate.getText().toString();
         projectEntity.progress = String.valueOf(proProgress.getProgress());
     }
+
+    private void showStartDatePicker() {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog thirdPartyDatePicker = DatePickerDialog.newInstance(
+                this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        thirdPartyDatePicker.show(getActivity().getFragmentManager(), "showStartDatePicker");
+
+    }
+
+    private void showEndDatePicker() {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog thirdPartyDatePicker = DatePickerDialog.newInstance(
+                this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        thirdPartyDatePicker.show(getActivity().getFragmentManager(), "showEndDatePicker");
+
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        Toast.makeText(getContext(), "Year : " + year + " Month : " + monthOfYear + " Day : " + dayOfMonth, Toast.LENGTH_SHORT).show();
+        if (view.getTag().toString().equals("showStartDatePicker")) {
+            txtStartDate.setText(year + "-" + String.format("%02d", monthOfYear) + "-" + String.format("%02d", dayOfMonth));
+        }
+        if (view.getTag().toString().equals("showEndDatePicker")) {
+            txtEndDate.setText(year + "-" + String.format("%02d", monthOfYear) + "-" + String.format("%02d", dayOfMonth));
+        }
+
+    }
+
 }
