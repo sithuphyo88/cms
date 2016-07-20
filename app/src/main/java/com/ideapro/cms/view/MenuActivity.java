@@ -19,14 +19,17 @@ import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.view.Controller.ProjectController;
 
 
-public class MenuActivity extends ActionBarActivity implements MenuItemCompat.OnActionExpandListener {
+public class MenuActivity extends ActionBarActivity implements MenuItemCompat.OnActionExpandListener, ProjectController {
 
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private FrameLayout flContainer;
     private TextView tvSearchGuide;
+    private static final int FRAGMENT_PROJECT = 100;
+    private int intTranFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_item_project:
                         updateDisplay(new ProjectListFragment());
+                        intTranFragment = FRAGMENT_PROJECT;
                         break;
 
                     case R.id.navigation_item_customer:
@@ -118,6 +122,7 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
         ftr.commit();
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -160,6 +165,7 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
         flContainer.setVisibility(View.GONE);
+        tvSearchGuide.setText(getResources().getText(R.string.msg_search_guide));
         tvSearchGuide.setVisibility(View.VISIBLE);
         return true;
     }
@@ -168,6 +174,25 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
     public boolean onMenuItemActionCollapse(MenuItem item) {
         flContainer.setVisibility(View.VISIBLE);
         tvSearchGuide.setVisibility(View.GONE);
+        switch (intTranFragment) {
+            case FRAGMENT_PROJECT:
+                updateDisplay(new ProjectListFragment());
+                break;
+        }
         return true;
     }
+
+    @Override
+    public void OnFound(String text) {
+        flContainer.setVisibility(View.VISIBLE);
+        tvSearchGuide.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void OnNoFound(String text) {
+        flContainer.setVisibility(View.GONE);
+        tvSearchGuide.setText(getResources().getText(R.string.data_no_found));
+        tvSearchGuide.setVisibility(View.VISIBLE);
+    }
+
 }

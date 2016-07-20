@@ -23,12 +23,15 @@ import com.ideapro.cms.R;
 import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.view.Controller.ProjectController;
 import com.ideapro.cms.view.listAdapter.ProjectListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,14 +46,17 @@ public class ProjectListFragment extends Fragment implements SearchView.OnQueryT
     List<ProjectEntity> list;
     ProjectListAdapter adapter;
     private DaoFactory daoFactory;
-
+    ProjectController mController;
     // start 2016/07/19 add search listner
     private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
+
+
     // end 2016/07/19
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mOnActionExpandListener = (MenuItemCompat.OnActionExpandListener) context;
+        mController = (ProjectController) context;
     }
 
 
@@ -207,7 +213,33 @@ public class ProjectListFragment extends Fragment implements SearchView.OnQueryT
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Toast.makeText(getContext(), query, Toast.LENGTH_LONG).show();
+        // start 2016/07/20
+        Dao<ProjectEntity, String> projectEntityDao = null;
+        try {
+            QueryBuilder<ProjectEntity, String> qb = daoFactory.getProjectEntityDao().queryBuilder();
+            qb.where().like(ProjectEntity.PROJECT_NAME, "%" + query.toString() + "%");
+            PreparedQuery<ProjectEntity> pq = qb.prepare();
+            list = daoFactory.getProjectEntityDao().query(pq);
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
+
+        adapter = new ProjectListAdapter(view.getContext(), getActivity(), list);
+
+        SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
+        ColorDrawable myColor = new ColorDrawable(
+                this.getResources().getColor(R.color.color_accent)
+        );
+        listView.setDivider(myColor);
+        listView.setDividerHeight(1);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        if (list.size() != 0) {
+            mController.OnFound("project");
+        }else{
+            mController.OnNoFound("project");
+        }
+        // end 2016/07/20
         return false;
     }
 
@@ -215,4 +247,5 @@ public class ProjectListFragment extends Fragment implements SearchView.OnQueryT
     public boolean onQueryTextChange(String newText) {
         return false;
     }
+
 }
