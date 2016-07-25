@@ -49,8 +49,6 @@ public class ProjectListFragment extends Fragment implements SearchView.OnQueryT
     ProjectController mController;
     // start 2016/07/19 add search listner
     private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
-
-
     // end 2016/07/19
     @Override
     public void onAttach(Context context) {

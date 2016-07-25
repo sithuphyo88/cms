@@ -12,6 +12,7 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "site")
 public class SiteEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String NAME = "name";
     public static String PROJECT_ID = "project_id";
 
     @DatabaseField(id = true)
