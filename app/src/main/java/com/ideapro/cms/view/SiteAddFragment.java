@@ -126,7 +126,8 @@ public class SiteAddFragment extends Fragment implements DatePickerDialog.OnDate
         butTaskList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskListFragment(projectEntity, siteEntity));
+                SiteTaskListFragment fragment = SiteTaskListFragment.newInstance(siteEntity.id, siteEntity.name);
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
             }
         });
 

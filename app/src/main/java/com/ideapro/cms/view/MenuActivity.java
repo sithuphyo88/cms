@@ -177,6 +177,7 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
         switch (intTranFragment) {
             case FRAGMENT_PROJECT:
                 updateDisplay(new ProjectListFragment());
+                intTranFragment=0;
                 break;
         }
         return true;

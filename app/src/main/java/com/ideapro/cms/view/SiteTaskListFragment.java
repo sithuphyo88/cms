@@ -1,12 +1,16 @@
 package com.ideapro.cms.view;
 
 
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,17 +23,25 @@ import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.view.Controller.ProjectController;
+import com.ideapro.cms.view.listAdapter.SiteListAdapter;
 import com.ideapro.cms.view.listAdapter.SiteTaskListAdapter;
+import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SiteTaskListFragment extends Fragment {
+public class SiteTaskListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
+    private static final String BARG_SITE_NAME = "site_name";
+    private static final String BARG_SITE_ID = "site_id";
     View view;
     ProjectEntity projectEntity;
     SiteEntity siteEntity;
@@ -37,6 +49,28 @@ public class SiteTaskListFragment extends Fragment {
     SiteTaskListAdapter adapter;
     ImageButton imgAdd;
     private DaoFactory daoFactory;
+
+    ProjectController mController;
+    // start 2016/07/25 add search listner
+    private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
+    // end 2016/07/25
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mOnActionExpandListener = (MenuItemCompat.OnActionExpandListener) context;
+        mController = (ProjectController) context;
+    }
+
+    public static SiteTaskListFragment newInstance(String siteId, String siteName) {
+
+        Bundle args = new Bundle();
+        args.putString(BARG_SITE_ID, siteId);
+        args.putString(BARG_SITE_NAME, siteName);
+        SiteTaskListFragment fragment = new SiteTaskListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public SiteTaskListFragment() {
         this.projectEntity = new ProjectEntity();
@@ -60,7 +94,7 @@ public class SiteTaskListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_site_task_list, container, false);
         setHasOptionsMenu(true);
 
-        daoFactory =  new DaoFactory(view.getContext());
+        daoFactory = new DaoFactory(view.getContext());
         bindData();
         initializeUI();
         return view;
@@ -71,6 +105,16 @@ public class SiteTaskListFragment extends Fragment {
         inflater.inflate(R.menu.menu_search, menu);
         getActivity().setTitle(getString(R.string.label_task_list));
         super.onCreateOptionsMenu(menu, inflater);
+
+        // start 2016/07/25
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem, mOnActionExpandListener);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        searchView.setIconifiedByDefault(true); //iconify the widget
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        // end 2016/07/25
+
     }
 
     private void initializeUI() {
@@ -81,7 +125,9 @@ public class SiteTaskListFragment extends Fragment {
                 TaskEntity taskEntity = new TaskEntity();
                 taskEntity.title = "New Task";
                 taskEntity.description = "";
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskAddFragment(projectEntity, siteEntity,taskEntity));
+
+                SiteTaskAddFragment fragment = SiteTaskAddFragment.newInstance(getSiteId(), "", getSiteName());
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
             }
         });
     }
@@ -104,8 +150,8 @@ public class SiteTaskListFragment extends Fragment {
 
             // data form database
 
-            Dao<TaskEntity,String> taskEntityDao =  daoFactory.getTaskEntityDao();
-            list = taskEntityDao.queryBuilder().where().eq(TaskEntity.SITE_ID,this.siteEntity.id).query();
+            Dao<TaskEntity, String> taskEntityDao = daoFactory.getTaskEntityDao();
+            list = taskEntityDao.queryBuilder().where().eq(TaskEntity.SITE_ID, getSiteId()).query();
 
             adapter = new SiteTaskListAdapter(view.getContext(), getActivity(), list);
             ListView listView = (ListView) view.findViewById(R.id.listView);
@@ -120,7 +166,8 @@ public class SiteTaskListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteTaskAddFragment(projectEntity, siteEntity,list.get(position)));
+                    SiteTaskAddFragment fragment = SiteTaskAddFragment.newInstance(getSiteId(), list.get(position).id, getSiteName());
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
 
@@ -128,4 +175,73 @@ public class SiteTaskListFragment extends Fragment {
             throw new Error(e);
         }
     }
+
+    private String getSiteId() {
+        Bundle bundle = getArguments();
+        String siteId = "";
+        if (bundle != null) {
+            siteId = bundle.getString(BARG_SITE_ID);
+        }
+        return siteId;
+    }
+
+    private String getSiteName() {
+        Bundle bundle = getArguments();
+        String siteName = "";
+        if (bundle != null) {
+            siteName = bundle.getString(BARG_SITE_NAME);
+        }
+        return siteName;
+    }
+
+    // 2016/07/25
+    @Override
+    public boolean onQueryTextSubmit(String taskName) {
+        int condCount = 0;
+        try {
+            QueryBuilder<TaskEntity, String> qb = daoFactory.getTaskEntityDao().queryBuilder();
+            Where<TaskEntity, String> where = qb.where();
+            if (!getSiteId().isEmpty()) {
+                where.eq(TaskEntity.SITE_ID, getSiteId());
+                condCount++;
+            }
+            if (taskName.toString() != null) {
+                where.like(TaskEntity.TITLE, "%" + taskName.toString() + "%");
+                condCount++;
+            }
+            if (condCount > 0) {
+                where.and(condCount);
+            }
+            // do the query
+            list = qb.query();
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
+
+        adapter = new SiteTaskListAdapter(view.getContext(), getActivity(), list);
+
+        adapter = new SiteTaskListAdapter(view.getContext(), getActivity(), list);
+        ListView listView = (ListView) view.findViewById(R.id.listView);
+        ColorDrawable myColor = new ColorDrawable(
+                this.getResources().getColor(R.color.color_accent)
+        );
+        listView.setDivider(myColor);
+        listView.setDividerHeight(1);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        if (list.size() != 0) {
+            mController.OnFound("task");
+        } else {
+            mController.OnNoFound("task");
+        }
+        // end 2016/07/25
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
 }

@@ -233,7 +233,6 @@ public class SiteListFragment extends Fragment implements SearchView.OnQueryText
     // 2016/07/25
     @Override
     public boolean onQueryTextSubmit(String siteName) {
-        Dao<ProjectEntity, String> projectEntityDao = null;
         int condCount=0;
         try {
             QueryBuilder<SiteEntity, String> qb = daoFactory.getSiteEntityDao().queryBuilder();

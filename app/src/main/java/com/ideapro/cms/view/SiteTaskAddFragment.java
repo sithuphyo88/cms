@@ -7,17 +7,27 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.CustomerEntity;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.j256.ormlite.dao.Dao;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,8 +35,11 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SiteTaskAddFragment extends Fragment {
+public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
+    private static final String BARG_SITE_ID = "site_id";
+    private static final String BARG_TASK_ID = "task_id";
+    private static final String BARG_SITE_NAME = "site_name";
     View view;
     ProjectEntity projectEntity;
     SiteEntity siteEntity;
@@ -34,6 +47,8 @@ public class SiteTaskAddFragment extends Fragment {
     Button butEvidence;
     Button butBluePrint;
     Button butComment;
+
+    private DaoFactory daoFactory;
 
     @BindView(R.id.txtTitle)
     EditText txtTitle;
@@ -49,9 +64,21 @@ public class SiteTaskAddFragment extends Fragment {
 
     @BindView(R.id.tvwAssignee)
     TextView tvwAssignee;
+    private boolean flag_update;
 
     public SiteTaskAddFragment() {
         // Required empty public constructor
+    }
+
+    public static SiteTaskAddFragment newInstance(String siteId, String taskId, String siteName) {
+
+        Bundle args = new Bundle();
+        args.putString(BARG_SITE_ID, siteId);
+        args.putString(BARG_TASK_ID, taskId);
+        args.putString(BARG_SITE_NAME, siteName);
+        SiteTaskAddFragment fragment = new SiteTaskAddFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public SiteTaskAddFragment(ProjectEntity projectEntity, SiteEntity siteEntity, TaskEntity taskEntity) {
@@ -72,6 +99,7 @@ public class SiteTaskAddFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_site_task_add, container, false);
         setHasOptionsMenu(true);
+        daoFactory = new DaoFactory(view.getContext());
 
         // thrid party library for findviewbyID
         ButterKnife.bind(this, view);
@@ -82,21 +110,51 @@ public class SiteTaskAddFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_save, menu);
-        getActivity().setTitle(getString(R.string.label_site_task_entry) + " for " + this.siteEntity.name);
+        getActivity().setTitle(getString(R.string.label_site_task_entry) + " for " + getSiteName());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void initializeUI() {
-        // title
-        txtTitle.setText(this.taskEntity.title);
-        // address
-        txtDescritpion.setText(this.taskEntity.description);
-        // start Date
-        txtStartDate.setText(this.taskEntity.startDate);
-        // end Date
-        txtEndDate.setText(this.taskEntity.endDate);
-        // asssingee
-        tvwAssignee.setText(this.taskEntity.assignee);
+
+        if (!getTaskId().isEmpty()) {
+            setData();
+        } else {
+            reset();
+        }
+
+
+        // start 2016/07/23
+        txtStartDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    showStartDatePicker();
+                }
+            }
+        });
+
+        txtStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStartDatePicker();
+            }
+        });
+
+        txtEndDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    showEndDatePicker();
+                }
+            }
+        });
+
+        txtEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEndDatePicker();
+            }
+        });
 
         butEvidence = (Button) view.findViewById(R.id.butEvidence);
         butEvidence.setOnClickListener(new View.OnClickListener() {
@@ -123,10 +181,176 @@ public class SiteTaskAddFragment extends Fragment {
         });
     }
 
+    private void reset() {
+        // title
+        txtTitle.setText("");
+        // address
+        txtDescritpion.setText("");
+        // start Date
+        txtStartDate.setText("");
+        // end Date
+        txtEndDate.setText("");
+        // asssingee
+        tvwAssignee.setText("");
+
+        taskEntity= new TaskEntity();
+    }
+
+    private void setData() {
+
+        flag_update = true;
+        try {
+            Dao<TaskEntity, String> taskEntityDao = daoFactory.getTaskEntityDao();
+            taskEntity = taskEntityDao.queryForId(getSiteId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // title
+        txtTitle.setText(this.taskEntity.title);
+        // address
+        txtDescritpion.setText(this.taskEntity.description);
+        // start Date
+        txtStartDate.setText(this.taskEntity.startDate);
+        // end Date
+        txtEndDate.setText(this.taskEntity.endDate);
+        // asssingee
+        tvwAssignee.setText(this.taskEntity.assignee);
+
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
         }
     }
+
+    private String getSiteId() {
+        Bundle bundle = getArguments();
+        String siteId = "";
+        if (bundle != null) {
+            siteId = bundle.getString(BARG_SITE_ID);
+        }
+        return siteId;
+    }
+
+    private String getTaskId() {
+        Bundle bundle = getArguments();
+        String taskId = "";
+        if (bundle != null) {
+            taskId = bundle.getString(BARG_TASK_ID);
+        }
+        return taskId;
+    }
+
+    private String getSiteName() {
+        Bundle bundle = getArguments();
+        String siteName = "";
+        if (bundle != null) {
+            siteName = bundle.getString(BARG_SITE_NAME);
+        }
+        return siteName;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        try {
+            getData();
+            if (flag_update) {
+                updateData();
+            } else {
+                saveData();
+            }
+            reset();
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+        if (!flag_update) {
+            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+        }
+
+        return true;
+    }
+
+    private void saveData() {
+        try {
+            // This is how, a reference of DAO object can be done
+            Dao<TaskEntity, String> taskDao = daoFactory.getTaskEntityDao();
+
+            taskEntity.id = UUID.randomUUID().toString();
+            taskEntity.site_id = getSiteId();
+
+            //This is the way to insert data into a database table
+            taskDao.create(taskEntity);
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    private void updateData() {
+        try {
+            // This is how, a reference of DAO object can be done
+            Dao<TaskEntity, String> taskDao = daoFactory.getTaskEntityDao();
+
+            //This is the way to update data into a database table
+            taskDao.update(taskEntity);
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    private void getData() {
+        // title
+        taskEntity.title = txtTitle.getText().toString();
+        // description
+        taskEntity.description = txtDescritpion.getText().toString();
+        // start Date
+        taskEntity.startDate = txtStartDate.getText().toString();
+        // end Date
+        taskEntity.endDate = txtEndDate.getText().toString();
+        // asssingee
+        taskEntity.assignee = tvwAssignee.getText().toString();
+
+    }
+
+    // start 2016/07/23
+    private void showStartDatePicker() {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog thirdPartyDatePicker = DatePickerDialog.newInstance(
+                this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        thirdPartyDatePicker.show(getActivity().getFragmentManager(), "showStartDatePicker");
+
+    }
+
+    private void showEndDatePicker() {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog thirdPartyDatePicker = DatePickerDialog.newInstance(
+                this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        thirdPartyDatePicker.show(getActivity().getFragmentManager(), "showEndDatePicker");
+
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        Toast.makeText(getContext(), "Year : " + year + " Month : " + monthOfYear + " Day : " + dayOfMonth, Toast.LENGTH_SHORT).show();
+        if (view.getTag().toString().equals("showStartDatePicker")) {
+            txtStartDate.setText(year + "-" + String.format("%02d", monthOfYear) + "-" + String.format("%02d", dayOfMonth));
+        }
+        if (view.getTag().toString().equals("showEndDatePicker")) {
+            txtEndDate.setText(year + "-" + String.format("%02d", monthOfYear) + "-" + String.format("%02d", dayOfMonth));
+        }
+    }
+
+
 }
