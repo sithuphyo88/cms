@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.PurchaseOrderEntity;
 import com.ideapro.cms.utils.CommonUtils;
@@ -23,6 +24,7 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class PurchaseOrderListFragment extends Fragment {
     ProjectEntity projectEntity;
     List<PurchaseOrderEntity> list;
     PurchaseOrderListAdapter adapter;
+    private DaoFactory daoFactory;
 
     public PurchaseOrderListFragment() {
         this.projectEntity = new ProjectEntity();
@@ -55,6 +58,7 @@ public class PurchaseOrderListFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_site_list, container, false);
         setHasOptionsMenu(true);
+        daoFactory = new DaoFactory(view.getContext());
 
         bindData();
         initializeUI();
@@ -91,6 +95,7 @@ public class PurchaseOrderListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
+/*
             PurchaseOrderEntity zentity = new PurchaseOrderEntity();
             zentity.purchaseOrderNo = "PO-0";
             zentity.date = "2016-04-28";
@@ -107,6 +112,10 @@ public class PurchaseOrderListFragment extends Fragment {
 
                 list.add(entity);
             }
+*/
+            Dao<PurchaseOrderEntity, String> purchaseOrderEntityDao = daoFactory.getPurchaseOrderEntityDao();
+            list = purchaseOrderEntityDao.queryBuilder().where().eq(PurchaseOrderEntity.PROJECT_ID, projectEntity.id).query();
+
 
             adapter = new PurchaseOrderListAdapter(view.getContext(), getActivity(), list);
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);

@@ -106,7 +106,7 @@ public class PurchaseOrderAddFragment extends Fragment {
             this.txtPurchaseOrderNo.setText(purchaseOrderEntity.purchaseOrderNo);
             this.txtPurchaseOrderDate.setText(purchaseOrderEntity.date);
 
-            for (int i = 0; i < 30; i++) {
+            /*for (int i = 0; i < 30; i++) {
                 PurchaseOrderItemEntity entity = new PurchaseOrderItemEntity();
                 entity.purchaseOrderDate = "2016-06-" + (i + 1);
                 entity.targetedDate = "2016-06-" + (i + 2);
@@ -118,6 +118,8 @@ public class PurchaseOrderAddFragment extends Fragment {
 
                 list.add(entity);
             }
+*/
+
 
             adapter = new PurchaseOrderItemListAdapter(view.getContext(), getActivity(), list);
             ColorDrawable myColor = new ColorDrawable(

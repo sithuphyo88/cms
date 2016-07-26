@@ -103,6 +103,15 @@ public class BluePrintListFragment extends Fragment {
         try {
             list = new ArrayList<>();
 
+            int size = 10;
+            for (int i = 0; i < size; i++) {
+                BluePrintEntity entity = new BluePrintEntity();
+                /*entity.siteName = siteEntity.name;*/
+                entity.name = "name"+i;
+
+                list.add(entity);
+            }
+
             adapter = new BluePrintListAdapter(this, view.getContext(), getActivity(), list);
             SwipeMenuListView listView = (SwipeMenuListView)view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(

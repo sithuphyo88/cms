@@ -12,9 +12,13 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "purchaseOrder")
 public class PurchaseOrderEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String PROJECT_ID = "projectId";
 
     @DatabaseField(id = true)
     public String id;
+
+    @DatabaseField
+    public String projectId;
 
     @DatabaseField
     public String purchaseOrderNo;

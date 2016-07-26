@@ -31,6 +31,8 @@ public class DaoFactory {
     Dao<MaterialCategoryEntity, String> materialCategoryEntityDao;
     // user Dao
     Dao<UserEntity, String> userEntityDao;
+    // purchaseOrder Dao
+    Dao<PurchaseOrderEntity, String> purchaseOrderEntityDao;
 
 
     public DaoFactory(Context context) {
@@ -126,4 +128,13 @@ public class DaoFactory {
         }
         return userEntityDao;
     }
+
+    // DAO for PurchaseOrder Entity
+    public Dao<PurchaseOrderEntity, String> getPurchaseOrderEntityDao() throws SQLException {
+        if (purchaseOrderEntityDao == null) {
+            purchaseOrderEntityDao = db.getDao(PurchaseOrderEntity.class);
+        }
+        return purchaseOrderEntityDao;
+    }
 }
+

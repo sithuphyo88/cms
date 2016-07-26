@@ -65,7 +65,7 @@ public class SiteProgressListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        getActivity().setTitle(getString(R.string.label_progress) + " of " + this.siteEntity.name);
+        /*getActivity().setTitle(getString(R.string.label_progress) + " of " + this.siteEntity.name);*/
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -82,10 +82,12 @@ public class SiteProgressListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            int size = Integer.parseInt(siteEntity.progress);
+            /*int size = Integer.parseInt(siteEntity.progress);*/
+            int size = 10;
             for (int i = 0; i < size; i++) {
                 SiteProgressHistoryEntity entity = new SiteProgressHistoryEntity();
-                entity.siteName = siteEntity.name;
+                /*entity.siteName = siteEntity.name;*/
+                entity.siteName = "site1";
                 entity.date = "2016-05- " + (i + 1);
                 entity.engineerName = "Engineer - Mg Ba";
                 entity.description = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXYYYYYYYYYYYYYYYYYY";

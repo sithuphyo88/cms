@@ -9,12 +9,15 @@ import java.io.Serializable;
  * Created by stp on 4/10/2015.
  */
 
-@DatabaseTable(tableName = "purchaseOrder")
+@DatabaseTable(tableName = "purchaseOrderItem")
 public class PurchaseOrderItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(id = true)
     public String id;
+
+    @DatabaseField
+    public String purchaseOrderId;
 
     @DatabaseField
     public String purchaseOrderDate;
