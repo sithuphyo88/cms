@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
+import com.ideapro.cms.data.DatabaseHelper;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.PurchaseOrderEntity;
 import com.ideapro.cms.data.PurchaseOrderItemEntity;
@@ -25,6 +27,8 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.GenericRawResults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,24 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class PurchaseOrderAddFragment extends Fragment {
+
+    private static final String QUERY_SELECT_PURCHASE_ORDER_ITEM = "SELECT poi.id\n" +
+            ",purchaseOrderId\n" +
+            ",purchaseOrderDate\n" +
+            ",targetedDate\n" +
+            ",mc.name as materialCategory\n" +
+            ",m.name as materialItem\n" +
+            ",u.name as uom\n" +
+            ",orderedQuantity\n" +
+            ",receivedQuantity\n" +
+            ",remarks\n" +
+            "FROM purchaseOrderItem poi\n" +
+            "INNER JOIN materialCategory mc ON\n" +
+            "mc.id = poi.materialCategory\n" +
+            "INNER JOIN material m ON\n" +
+            "m.id= poi.materialItem\n" +
+            "INNER JOIN UOM u ON\n" +
+            "u.id= poi.uom" ;
 
     View view;
     ProjectEntity projectEntity;
@@ -43,6 +65,8 @@ public class PurchaseOrderAddFragment extends Fragment {
     EditText txtPurchaseOrderDate;
     SwipeMenuListView lstItems;
     Menu menu;
+
+    private DaoFactory daoFactory;
 
     public PurchaseOrderAddFragment() {
         this.projectEntity = new ProjectEntity();
@@ -65,6 +89,8 @@ public class PurchaseOrderAddFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_purchase_order_add, container, false);
         this.menu = menu;
+        daoFactory = new DaoFactory(view.getContext());
+
         initializeUI();
         bindData();
         return view;
@@ -74,7 +100,7 @@ public class PurchaseOrderAddFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_save, menu);
         getActivity().setTitle(getString(R.string.label_purchase_order_details) + " for " + this.purchaseOrderEntity.purchaseOrderNo);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void initializeUI() {
@@ -120,6 +146,16 @@ public class PurchaseOrderAddFragment extends Fragment {
             }
 */
 
+            Dao<PurchaseOrderItemEntity, String> purchaseOrderEntityDao = daoFactory.getPurchaseOrderItemDao();
+
+            String whereParameter = " WHERE poi.purchaseOrderId=" + purchaseOrderEntity.id.toString();
+            /*purchaseOrderEntityDao.queryRaw()*/
+            GenericRawResults<String[]> rawResults = purchaseOrderEntityDao.queryRaw(QUERY_SELECT_PURCHASE_ORDER_ITEM + whereParameter);
+
+            list = ConvertToObject(rawResults);
+            rawResults.close();
+            // page through the results
+
 
             adapter = new PurchaseOrderItemListAdapter(view.getContext(), getActivity(), list);
             ColorDrawable myColor = new ColorDrawable(
@@ -156,7 +192,7 @@ public class PurchaseOrderAddFragment extends Fragment {
                     switch (index) {
                         case 0:
                             // edit
-                            //CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteAddFragment(projectEntity, list.get(position)));
+                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, purchaseOrderEntity, list.get(position)));
                             break;
                         case 1:
                             // delete
@@ -193,9 +229,29 @@ public class PurchaseOrderAddFragment extends Fragment {
                 }
             });
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Error(e);
         }
+    }
+
+    private List<PurchaseOrderItemEntity> ConvertToObject(GenericRawResults<String[]> rawResults) {
+        List<PurchaseOrderItemEntity> tmplist = new ArrayList<>();
+        for (String[] resultArray : rawResults) {
+            PurchaseOrderItemEntity entity = new PurchaseOrderItemEntity();
+            entity.id = resultArray[entity.COLUMN_ID];                                                  //1
+            entity.purchaseOrderId = resultArray[entity.COLUMN_PURCHASE_ORDER_ID];                 //2
+            entity.purchaseOrderDate = resultArray[entity.COLUMN_PURCHASE_ORDER_DATE];            //3
+            entity.targetedDate = resultArray[entity.COLUMN_TARGETED_DATE];                         //4
+            entity.materialCategory = resultArray[entity.COLUMN_MATERIAL_CATEGORY];                //5
+            entity.materialItem = resultArray[entity.COLUMN_MATERIAL_ITEM];                         //6
+            entity.uom = resultArray[entity.COLUMN_UOM];                                                //7
+            entity.orderedQuantity = Integer.parseInt(resultArray[entity.COLUMN_ORDER_QUANTITY]);   //8
+            entity.receivedQuantity = Integer.parseInt(resultArray[entity.COLUMN_RECEIVE_QUANTITY]);//9
+            entity.remarks = resultArray[entity.COLUMN_REMARKS];                                         //10
+
+            tmplist.add(entity);
+        }
+        return tmplist;
     }
 
     private int dp2px(int dp) {

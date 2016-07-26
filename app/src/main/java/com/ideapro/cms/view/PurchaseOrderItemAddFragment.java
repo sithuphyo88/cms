@@ -32,6 +32,8 @@ public class PurchaseOrderItemAddFragment extends Fragment {
     Spinner spnMaterial;
     Spinner spnUOM;
     EditText txtQuantity;
+    EditText txtReceivedQuantity;
+    EditText txtRemarks;
 
     public PurchaseOrderItemAddFragment() {
         this.projectEntity = new ProjectEntity();
@@ -65,7 +67,7 @@ public class PurchaseOrderItemAddFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_save, menu);
         getActivity().setTitle(getString(R.string.label_purchase_order_item_details));
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void initializeUI() {
@@ -75,6 +77,16 @@ public class PurchaseOrderItemAddFragment extends Fragment {
         spnMaterial = (Spinner) view.findViewById(R.id.spnMaterial);
         spnUOM = (Spinner) view.findViewById(R.id.spnUOM);
         txtQuantity = (EditText) view.findViewById(R.id.txtQuantity);
+        txtReceivedQuantity = (EditText) view.findViewById(R.id.txtReceivedQuantity);
+        txtRemarks = (EditText) view.findViewById(R.id.txtRemarks);
+
+        if (purchaseOrderItemEntity != null) {
+            txtPurchaseOrderDate.setText(purchaseOrderItemEntity.purchaseOrderDate);
+            txtTargetedDate.setText(purchaseOrderItemEntity.targetedDate);
+            txtQuantity.setText(String.valueOf(purchaseOrderItemEntity.orderedQuantity));
+            txtReceivedQuantity.setText(String.valueOf(purchaseOrderItemEntity.receivedQuantity));
+            txtRemarks.setText(purchaseOrderItemEntity.remarks);
+        }
 
         ArrayAdapter<String> mcAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.spinner_textview,
                 getActivity().getResources().getStringArray(R.array.materialCategories));
