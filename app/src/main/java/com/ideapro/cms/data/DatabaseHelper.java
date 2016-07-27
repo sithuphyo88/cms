@@ -2,8 +2,10 @@ package com.ideapro.cms.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Environment;
 
+import com.ideapro.cms.cmsApp;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
@@ -15,7 +17,7 @@ import java.io.OutputStream;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static String DB_PATH = Environment.getExternalStorageDirectory().getPath()+ "/data/com.ideapro.tmf/databases/";
+    private static String DB_PATH = getSaveRootDir(cmsApp.getContext()).toString() + "/data/com.ideapro.tmf/databases/";
     private static String DB_NAME = "tmf.db";
     private static final int DB_VERSION = 1;
     private Context context;
@@ -31,10 +33,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public void createDatabase() throws IOException{
+    public void createDatabase() throws IOException {
         boolean dbExist = checkDatabase();
 
-        if(!dbExist){
+        if (!dbExist) {
             try {
                 copyDatabase(context);
             } catch (IOException e) {
@@ -43,28 +45,28 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private boolean checkDatabase(){
+    private boolean checkDatabase() {
 
         boolean isExist = false;
 
         String myPath = DB_PATH + DB_NAME;
         File file = new File(myPath);
         isExist = file.exists();
-        if(isExist){
+        if (isExist) {
             file.setExecutable(true);
         }
 
         return isExist;
     }
 
-    private static void copyDatabase(Context context) throws IOException{
+    private static void copyDatabase(Context context) throws IOException {
 
         InputStream myInput = context.getAssets().open(DB_NAME);
 
         String outFileName = DB_PATH + DB_NAME;
 
         File fileDirectory = new File(DB_PATH);
-        if(!fileDirectory.exists()){
+        if (!fileDirectory.exists()) {
             fileDirectory.mkdirs();
         }
 
@@ -72,7 +74,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = myInput.read(buffer))>0){
+        while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
         }
 
@@ -92,5 +94,21 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             case 2:
                 break;
         }
+    }
+
+    private static File getSaveRootDir(Context context) {
+        File saveDir = context.getExternalFilesDir(null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            File dirs[] = context.getExternalFilesDirs(null);
+            for (File dir : dirs) {
+                // dir can be null if the device contains an external SD card slot but no SD card is present.
+                if (dir != null && Environment.isExternalStorageRemovable(dir)) {
+                    saveDir = dir;
+                    break;
+                }
+            }
+        }
+        return saveDir;
     }
 }
