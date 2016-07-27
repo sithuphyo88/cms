@@ -54,7 +54,7 @@ public class PurchaseOrderAddFragment extends Fragment {
             "INNER JOIN material m ON\n" +
             "m.id= poi.materialItem\n" +
             "INNER JOIN UOM u ON\n" +
-            "u.id= poi.uom" ;
+            "u.id= poi.uom";
 
     View view;
     ProjectEntity projectEntity;
@@ -113,6 +113,7 @@ public class PurchaseOrderAddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PurchaseOrderItemEntity entity = new PurchaseOrderItemEntity();
+                entity.id="";
                 entity.purchaseOrderDate = "2016-06-05";
                 entity.targetedDate = "2016-06-06";
                 entity.materialCategory = "MC1";
@@ -120,7 +121,6 @@ public class PurchaseOrderAddFragment extends Fragment {
                 entity.uom = "UOM1";
                 entity.receivedQuantity = 1;
                 entity.orderedQuantity = 1;
-
                 CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, purchaseOrderEntity, entity));
             }
         });
@@ -145,17 +145,17 @@ public class PurchaseOrderAddFragment extends Fragment {
                 list.add(entity);
             }
 */
+            if (purchaseOrderEntity.id != null) {
+                Dao<PurchaseOrderItemEntity, String> purchaseOrderEntityDao = daoFactory.getPurchaseOrderItemDao();
 
-            Dao<PurchaseOrderItemEntity, String> purchaseOrderEntityDao = daoFactory.getPurchaseOrderItemDao();
-
-            String whereParameter = " WHERE poi.purchaseOrderId=" + purchaseOrderEntity.id.toString();
+                String whereParameter = " WHERE poi.purchaseOrderId=" + purchaseOrderEntity.id.toString().trim();
             /*purchaseOrderEntityDao.queryRaw()*/
-            GenericRawResults<String[]> rawResults = purchaseOrderEntityDao.queryRaw(QUERY_SELECT_PURCHASE_ORDER_ITEM + whereParameter);
+                GenericRawResults<String[]> rawResults = purchaseOrderEntityDao.queryRaw(QUERY_SELECT_PURCHASE_ORDER_ITEM + whereParameter);
 
-            list = ConvertToObject(rawResults);
-            rawResults.close();
-            // page through the results
-
+                list = ConvertToObject(rawResults);
+                rawResults.close();
+                // page through the results
+            }
 
             adapter = new PurchaseOrderItemListAdapter(view.getContext(), getActivity(), list);
             ColorDrawable myColor = new ColorDrawable(
