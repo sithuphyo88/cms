@@ -25,6 +25,7 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,6 +153,16 @@ public class MaterialListFragment extends Fragment {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             list.remove(position);
+
+                                            // START delete statment yha 2016/07/31
+                                            try {
+                                                Dao<MaterialEntity, String> materialEntityDao = daoFactory.getMaterialEntityDao();
+                                                int i =materialEntityDao.delete(list.get(position));
+                                            } catch (SQLException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            // END delete statment yha 2016/07/31
                                             adapter.notifyDataSetChanged();
                                         }
                                     },
