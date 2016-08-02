@@ -15,10 +15,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.UserEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.EngineerListAdapter;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.GenericRawResults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,9 @@ import java.util.List;
  */
 public class EngineerListFragment extends Fragment {
 
+    private static final String QUERY_SELECT_ENGINEER_ASSIGN = "SELECT engineer_id\n" +
+            "FROM projects_engineers";
+    private static final String ROLE_ENGINEER = "5";
     View view;
     ProjectEntity projectEntity;
     List<UserEntity> list;
@@ -35,6 +41,7 @@ public class EngineerListFragment extends Fragment {
     EngineerListAdapter adapter;
     ImageButton imgAdd;
     Menu menu;
+    DaoFactory daoFactory;
 
     public EngineerListFragment() {
     }
@@ -53,6 +60,8 @@ public class EngineerListFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_engineer_list, container, false);
         setHasOptionsMenu(true);
+        daoFactory = new DaoFactory(view.getContext());
+
         bindData();
         initializeUI();
         return view;
@@ -63,7 +72,7 @@ public class EngineerListFragment extends Fragment {
         this.menu = menu;
         inflater.inflate(R.menu.menu_search, menu);
         getActivity().setTitle(getString(R.string.label_engineer_assign) + " for " + this.projectEntity.name);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void initializeUI() {
@@ -71,7 +80,7 @@ public class EngineerListFragment extends Fragment {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new ProjectAddFragment(projectEntity));
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), ProjectAddFragment.newInstance(projectEntity.id));
             }
         });
 
@@ -81,17 +90,44 @@ public class EngineerListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
+            List<UserEntity> selectedEngineerList = new ArrayList<>();
             selectedList = new ArrayList<Boolean>();
 
-            for (int i = 0; i < 30; i++) {
+
+           /* for (int i = 0; i < 30; i++) {
                 UserEntity entity = new UserEntity();
                 entity.name = "Engineer " + (i + 1);
                 list.add(entity);
                 selectedList.add(false);
+            }*/
+
+            Dao<UserEntity, String> userDao = daoFactory.getUserEntityDao();
+
+            String whereParameter = " WHERE project_id=" + projectEntity.id.toString().trim();
+
+            GenericRawResults<String[]> rawResults = userDao.queryRaw(QUERY_SELECT_ENGINEER_ASSIGN + whereParameter);
+
+            selectedEngineerList = ConvertToObject(rawResults);
+            rawResults.close();
+            // page through the results
+
+            list = userDao.queryForEq(UserEntity.ROLE_ID, ROLE_ENGINEER);
+
+
+            for (int i = 0; i < list.size(); i++) {
+                selectedList.add(false);
+                UserEntity engineer = list.get(i);
+                for (int j = 0; j < selectedEngineerList.size(); j++) {
+                    UserEntity selectedEngineer = selectedEngineerList.get(j);
+                    if (selectedEngineer.id.equals(engineer.id)) {
+                        selectedList.set(i, true);
+                        break;
+                    }
+                }
             }
 
-            adapter = new EngineerListAdapter(this, view.getContext(), getActivity(), list);
-            ListView listView = (ListView)view.findViewById(R.id.listView);
+            adapter = new EngineerListAdapter(this, view.getContext(), getActivity(), list, selectedList);
+            ListView listView = (ListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
                     this.getResources().getColor(R.color.color_accent)
             );
@@ -103,21 +139,31 @@ public class EngineerListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View innerView, int position, long id) {
-                    CheckBox chkEngineerName = (CheckBox)innerView.findViewById(position);
+                    CheckBox chkEngineerName = (CheckBox) innerView.findViewById(position);
                     chkEngineerName.setChecked(!chkEngineerName.isChecked());
                 }
             });
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Error(e);
         }
+    }
+
+    private List<UserEntity> ConvertToObject(GenericRawResults<String[]> rawResults) {
+        List<UserEntity> userEntities = new ArrayList<>();
+        for (String[] resultArray : rawResults) {
+            UserEntity userEntity = new UserEntity();
+            userEntity.id = resultArray[UserEntity.COLUMN_ID];
+            userEntities.add(userEntity);
+        }
+        return userEntities;
     }
 
     public void selectCheckBox(View v) {
         CheckBox cb = (CheckBox) v;
         selectedList.set(cb.getId(), cb.isChecked());
 
-        if(hasSelectedEngineer()) {
+        if (hasSelectedEngineer()) {
             imgAdd.setVisibility(View.VISIBLE);
         } else {
             imgAdd.setVisibility(View.GONE);
@@ -126,7 +172,7 @@ public class EngineerListFragment extends Fragment {
 
     private boolean hasSelectedEngineer() {
         for (int i = 0; i < this.selectedList.size(); i++) {
-            if(this.selectedList.get(i)) {
+            if (this.selectedList.get(i)) {
                 return true;
             }
         }
