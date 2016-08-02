@@ -23,6 +23,7 @@ import com.ideapro.cms.view.listAdapter.EngineerListAdapter;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,8 @@ public class EngineerListFragment extends Fragment {
     private static final String QUERY_SELECT_ENGINEER_ASSIGN = "SELECT engineer_id\n" +
             "FROM projects_engineers";
     private static final String ROLE_ENGINEER = "5";
+    private static final String QUERY_INSERT_ENGINEER_ASSIGN = "INSERT INTO `projects_engineers`(`project_id`,`engineer_id`) VALUES ";
+    private static final String QUERY_DELETE_ENGINEER_ASSIGN = "DELETE FROM `projects_engineers` WHERE `project_id`= ";
     View view;
     ProjectEntity projectEntity;
     List<UserEntity> list;
@@ -80,6 +83,25 @@ public class EngineerListFragment extends Fragment {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // add data to the database
+
+                try {
+                    Dao<UserEntity, String> userDao = daoFactory.getUserEntityDao();
+                    String whereParameter = projectEntity.id.toString().trim();
+                    GenericRawResults<String[]> rawResults = userDao.queryRaw(QUERY_DELETE_ENGINEER_ASSIGN + whereParameter);
+                    for (int i = 0; i < list.size(); i++) {
+                        if (selectedList.get(i) == true) {
+                            UserEntity userEntity = list.get(i);
+                            String insertParamenter =" (" + projectEntity.id + "," + userEntity.id + ")";
+                            userDao.queryRaw(QUERY_INSERT_ENGINEER_ASSIGN + insertParamenter);
+                        }
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+
                 CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), ProjectAddFragment.newInstance(projectEntity.id));
             }
         });
