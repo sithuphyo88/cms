@@ -23,11 +23,13 @@ public class EngineerListAdapter extends ArrayAdapter<UserEntity> {
 
     EngineerListFragment fragment;
     private Activity activity;
+    List<Boolean> selectedList;
 
-    public EngineerListAdapter(EngineerListFragment fragment, Context context, Activity activity, List<UserEntity> files) {
+    public EngineerListAdapter(EngineerListFragment fragment, Context context, Activity activity, List<UserEntity> files, List<Boolean> selectedList) {
         super(context, 0, files);
         this.fragment = fragment;
         this.activity = activity;
+        this.selectedList = selectedList;
     }
 
     @Override
@@ -49,6 +51,7 @@ public class EngineerListAdapter extends ArrayAdapter<UserEntity> {
         convertView.setBackground(activity.getResources().getDrawable(R.drawable.list_item));
 
         viewHolder.chkEngineerName.setId(position);
+        viewHolder.chkEngineerName.setChecked(selectedList.get(position));
 
         viewHolder.tvwEngineerName.setText(entity.name);
         viewHolder.chkEngineerName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
