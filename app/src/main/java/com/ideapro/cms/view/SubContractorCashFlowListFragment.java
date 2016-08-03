@@ -82,7 +82,10 @@ public class SubContractorCashFlowListFragment extends Fragment {
             imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorCashFlowAddFragment());
+                    SubContractorCashFlowEntity subContractorCashFlowEntity = new SubContractorCashFlowEntity();
+                    subContractorCashFlowEntity.project_id = projectEntity.id;
+                    subContractorCashFlowEntity.subContractor_id = subContractorEntity.subContracotr_id;
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorCashFlowAddFragment(subContractorCashFlowEntity));
                 }
             });
         } else {
