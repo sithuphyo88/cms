@@ -23,11 +23,13 @@ public class SubContractorSelectBoxListAdapter extends ArrayAdapter<SubContracto
 
     SubContractorSelectedBoxListFragment fragment;
     private Activity activity;
+    List<Boolean> selectedList;
 
-    public SubContractorSelectBoxListAdapter(SubContractorSelectedBoxListFragment fragment, Context context, Activity activity, List<SubContractorEntity> files) {
+    public SubContractorSelectBoxListAdapter(SubContractorSelectedBoxListFragment fragment, Context context, Activity activity, List<SubContractorEntity> files, List<Boolean> selectedList) {
         super(context, 0, files);
         this.activity = activity;
         this.fragment = fragment;
+        this.selectedList = selectedList;
     }
 
     @Override
@@ -54,6 +56,7 @@ public class SubContractorSelectBoxListAdapter extends ArrayAdapter<SubContracto
         viewHolder.tvwAddress.setText(entity.address);
 
         viewHolder.chkSubContractorName.setId(position);
+        viewHolder.chkSubContractorName.setChecked(selectedList.get(position));
         viewHolder.chkSubContractorName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -13,6 +13,11 @@ import java.util.UUID;
 @DatabaseTable(tableName = "subContractor")
 public class SubContractorEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final int COLUMN_ID = 0;
+    public static final int COLUMN_NAME = 1;
+    public static final int COLUMN_PHONE = 2;
+    public static final int COLUMN_EMAIL = 3;
+    public static final int COLUMN_ADDRESS = 4;
 
     @DatabaseField(id = true)
     public String subContracotr_id;

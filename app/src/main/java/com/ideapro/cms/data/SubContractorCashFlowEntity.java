@@ -12,9 +12,17 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "subContractorCashFlow")
 public class SubContractorCashFlowEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String PROJECT_ID = "project_id";
+    public static final String SUB_CONTRACTOR_ID = "subContractor_id";
 
     @DatabaseField(id = true)
     public String id;
+
+    @DatabaseField
+    public String project_id;
+
+    @DatabaseField
+    public String subContractor_id;
 
     @DatabaseField
     public String date;

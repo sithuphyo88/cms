@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
+import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SubContractorEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.SubContractorListAdapter;
@@ -22,6 +24,8 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.GenericRawResults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +35,28 @@ import java.util.List;
  */
 public class SubContractorSelectedListFragment extends Fragment {
 
+    private static final String QUERY_SELECT_SUB_CONTRACTOR_ASSIGN = "SELECT subContracotr_id\n" +
+            "\t\t\t, name\n" +
+            "\t\t\t, phone\n" +
+            "\t\t\t, email\n" +
+            "\t\t\t, address\n" +
+            "FROM subContractor s\n" +
+            "INNER JOIN projects_sub_contractors ps\n" +
+            "ON ps.sub_contractor_id = s.subContracotr_id \n" +
+            "WHERE ps.project_id= ";
     View view;
     List<SubContractorEntity> list;
     SubContractorListAdapter adapter;
+    DaoFactory daoFactory;
+    ProjectEntity projectEntity;
 
-    public SubContractorSelectedListFragment() {
-        // Required empty public constructor
+
+    public SubContractorSelectedListFragment(ProjectEntity projectEntity) {
+        if (projectEntity == null) {
+            this.projectEntity = new ProjectEntity();
+        } else {
+            this.projectEntity = projectEntity;
+        }
     }
 
 
@@ -46,6 +66,8 @@ public class SubContractorSelectedListFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_sub_contractor_list, container, false);
         setHasOptionsMenu(true);
+
+        daoFactory = new DaoFactory(view.getContext());
 
         bindData();
         initializeUI();
@@ -66,7 +88,7 @@ public class SubContractorSelectedListFragment extends Fragment {
             imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorSelectedBoxListFragment());
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorSelectedBoxListFragment(projectEntity));
                 }
             });
         } else {
@@ -77,7 +99,8 @@ public class SubContractorSelectedListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
+
+            /*for (int i = 0; i < 5; i++) {
                 SubContractorEntity entity = new SubContractorEntity();
                 entity.name = "Sub-Contractor " + (i + 1);
                 entity.phone = "0979516247" + (i + 1);
@@ -85,7 +108,19 @@ public class SubContractorSelectedListFragment extends Fragment {
                 entity.address = "Yangon " + (i + 1);
 
                 list.add(entity);
-            }
+            }*/
+
+            // get data from database
+
+            Dao<SubContractorEntity, String> subDao = daoFactory.getSubContractorEntityDao();
+
+            String whereParameter = projectEntity.id.toString().trim();
+
+            GenericRawResults<String[]> rawResults = subDao.queryRaw(QUERY_SELECT_SUB_CONTRACTOR_ASSIGN + whereParameter);
+
+            list = ConvertToObject(rawResults);
+            rawResults.close();
+            // page through the results
 
             adapter = new SubContractorListAdapter(view.getContext(), getActivity(), list);
 
@@ -143,13 +178,27 @@ public class SubContractorSelectedListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorCashFlowListFragment());
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorCashFlowListFragment(projectEntity,list.get(position)));
                 }
             });
 
         } catch (Exception e) {
             throw new Error(e);
         }
+    }
+
+    private List<SubContractorEntity> ConvertToObject(GenericRawResults<String[]> rawResults) {
+        List<SubContractorEntity> subContractorEntities = new ArrayList<>();
+        for (String[] resultArray : rawResults) {
+            SubContractorEntity subContractorEntity = new SubContractorEntity();
+            subContractorEntity.subContracotr_id = resultArray[SubContractorEntity.COLUMN_ID];
+            subContractorEntity.name = resultArray[SubContractorEntity.COLUMN_NAME];
+            subContractorEntity.phone = resultArray[SubContractorEntity.COLUMN_PHONE];
+            subContractorEntity.email = resultArray[SubContractorEntity.COLUMN_EMAIL];
+            subContractorEntity.address = resultArray[SubContractorEntity.COLUMN_ADDRESS];
+            subContractorEntities.add(subContractorEntity);
+        }
+        return subContractorEntities;
     }
 
     private int dp2px(int dp) {

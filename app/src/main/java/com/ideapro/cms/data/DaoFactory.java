@@ -37,6 +37,8 @@ public class DaoFactory {
     private Dao<PurchaseOrderItemEntity, String> purchaseOrderItemEntityDao;
     // UOM Dao
     private Dao<UnitOfMeasurementEntity, String> unitOfMeasurementEntityDao;
+    // Sub Contractor Cash Flow Dao
+    private Dao<SubContractorCashFlowEntity, String> subContractorCashFlowEntityDao;
 
 
     public DaoFactory(Context context) {
@@ -155,6 +157,14 @@ public class DaoFactory {
             unitOfMeasurementEntityDao = db.getDao(UnitOfMeasurementEntity.class);
         }
         return unitOfMeasurementEntityDao;
+    }
+
+    // DAO for Sub Contractor Cash Flow Entity
+    public Dao<SubContractorCashFlowEntity, String> getSubContractorCashFlowEntityDao() throws SQLException {
+        if (subContractorCashFlowEntityDao == null) {
+            subContractorCashFlowEntityDao = db.getDao(SubContractorCashFlowEntity.class);
+        }
+        return subContractorCashFlowEntityDao;
     }
 }
 

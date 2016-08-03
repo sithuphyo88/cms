@@ -36,7 +36,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void createDatabase() throws IOException {
         boolean dbExist = checkDatabase();
 
-        if (!dbExist) {
+        if (dbExist) {
             try {
                 copyDatabase(context);
             } catch (IOException e) {

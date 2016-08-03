@@ -135,7 +135,7 @@ public class ProjectAddFragment extends Fragment implements DatePickerDialog.OnD
         butSubContractor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorSelectedListFragment());
+                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorSelectedListFragment(projectEntity));
             }
         });
 

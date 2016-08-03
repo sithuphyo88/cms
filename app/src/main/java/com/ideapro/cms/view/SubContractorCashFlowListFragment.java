@@ -15,14 +15,21 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
+import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SubContractorCashFlowEntity;
+import com.ideapro.cms.data.SubContractorEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.SubContractorCashFlowListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +41,18 @@ public class SubContractorCashFlowListFragment extends Fragment {
     View view;
     List<SubContractorCashFlowEntity> list;
     SubContractorCashFlowListAdapter adapter;
+    private DaoFactory daoFactory;
+    ProjectEntity projectEntity;
+    SubContractorEntity subContractorEntity;
 
-    public SubContractorCashFlowListFragment() {
-        // Required empty public constructor
+    public SubContractorCashFlowListFragment(ProjectEntity projectEntity, SubContractorEntity subContractorEntity) {
+        this.projectEntity = projectEntity;
+        this.subContractorEntity = subContractorEntity;
     }
 
+    public SubContractorCashFlowListFragment() {
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +60,8 @@ public class SubContractorCashFlowListFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_sub_contractor_cash_flow_list, container, false);
         setHasOptionsMenu(true);
+
+        daoFactory = new DaoFactory(view.getContext());
 
         bindData();
         initializeUI();
@@ -77,6 +93,7 @@ public class SubContractorCashFlowListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
+/*
             for (int i = 0; i < 30; i++) {
                 SubContractorCashFlowEntity entity = new SubContractorCashFlowEntity();
                 entity.date = "2016-06- " + (i + 1);
@@ -86,6 +103,32 @@ public class SubContractorCashFlowListFragment extends Fragment {
 
                 list.add(entity);
             }
+*/
+
+            int condCount = 0;
+            try {
+
+                QueryBuilder<SubContractorCashFlowEntity, String> qb = daoFactory.getSubContractorCashFlowEntityDao().queryBuilder();
+                Where<SubContractorCashFlowEntity, String> where = qb.where();
+                if (this.projectEntity.id != null) {
+                    where.eq(SubContractorCashFlowEntity.PROJECT_ID, this.projectEntity.id);
+                    condCount++;
+                }
+                if (subContractorEntity != null) {
+                    where.eq(SubContractorCashFlowEntity.SUB_CONTRACTOR_ID, subContractorEntity.subContracotr_id.toString());
+                    condCount++;
+                }
+                if (condCount > 0) {
+                    where.and(condCount);
+                }
+
+                // do the query
+                list = qb.query();
+
+            } catch (SQLException e) {
+                throw new Error(e);
+            }
+
 
             adapter = new SubContractorCashFlowListAdapter(view.getContext(), getActivity(), list);
 
@@ -125,7 +168,7 @@ public class SubContractorCashFlowListFragment extends Fragment {
                     switch (index) {
                         case 0:
                             // edit
-                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorCashFlowAddFragment());
+                            CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorCashFlowAddFragment(list.get(position)));
                             break;
                         case 1:
                             // delete
@@ -153,7 +196,7 @@ public class SubContractorCashFlowListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorCashFlowAddFragment());
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SubContractorCashFlowAddFragment(list.get(position)));
                 }
             });
 
