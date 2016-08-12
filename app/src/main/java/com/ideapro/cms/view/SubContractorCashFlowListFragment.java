@@ -179,6 +179,14 @@ public class SubContractorCashFlowListFragment extends Fragment {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            try {
+
+                                                Dao<SubContractorCashFlowEntity, String> subCashFlowDao = daoFactory.getSubContractorCashFlowEntityDao();
+                                                subCashFlowDao.deleteById(list.get(position).id);
+
+                                            } catch (SQLException e) {
+                                                new Error (e);
+                                            }
                                             list.remove(position);
                                             adapter.notifyDataSetChanged();
                                         }

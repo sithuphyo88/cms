@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
+import com.ideapro.cms.data.SubContractorCashFlowEntity;
 import com.ideapro.cms.data.SubContractorEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.SubContractorListAdapter;
@@ -26,7 +27,9 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,6 +161,20 @@ public class SubContractorSelectedListFragment extends Fragment {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            try {
+                                                String subContractorId=list.get(position).subContracotr_id;
+                                                Dao<SubContractorEntity, String> subDao = daoFactory.getSubContractorEntityDao();
+                                                Dao<SubContractorCashFlowEntity, String> subCashFlowDao = daoFactory.getSubContractorCashFlowEntityDao();
+
+                                                DeleteBuilder<SubContractorCashFlowEntity,String> dbSubCashFlow = subCashFlowDao.deleteBuilder();
+                                                dbSubCashFlow.where().eq(SubContractorCashFlowEntity.SUB_CONTRACTOR_ID,subContractorId);
+                                                dbSubCashFlow.delete();
+                                                subDao.deleteById(subContractorId);
+
+                                            } catch (SQLException e) {
+                                                new Error(e);
+                                            }
+
                                             list.remove(position);
                                             adapter.notifyDataSetChanged();
                                         }
