@@ -23,10 +23,8 @@ import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.utils.CommonUtils;
-import com.ideapro.cms.view.Controller.ProjectController;
-import com.ideapro.cms.view.listAdapter.SiteListAdapter;
+import com.ideapro.cms.view.Controller.SearchController;
 import com.ideapro.cms.view.listAdapter.SiteTaskListAdapter;
-import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
@@ -50,7 +48,7 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
     ImageButton imgAdd;
     private DaoFactory daoFactory;
 
-    ProjectController mController;
+    SearchController mController;
     // start 2016/07/25 add search listner
     private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
     // end 2016/07/25
@@ -59,7 +57,7 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
     public void onAttach(Context context) {
         super.onAttach(context);
         mOnActionExpandListener = (MenuItemCompat.OnActionExpandListener) context;
-        mController = (ProjectController) context;
+        mController = (SearchController) context;
     }
 
     public static SiteTaskListFragment newInstance(String siteId, String siteName) {
@@ -230,9 +228,9 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         if (list.size() != 0) {
-            mController.OnFound("task");
+            mController.OnFound();
         } else {
-            mController.OnNoFound("task");
+            mController.OnNoFound();
         }
         // end 2016/07/25
 

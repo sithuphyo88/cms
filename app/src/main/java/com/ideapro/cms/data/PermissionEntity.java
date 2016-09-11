@@ -12,6 +12,7 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "permission")
 public class PermissionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final int COLUMN_ID = 0;
 
     @DatabaseField(id = true)
     public String id;

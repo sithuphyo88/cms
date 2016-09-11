@@ -14,6 +14,7 @@ public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     public static final String ROLE_ID = "role";
     public static final int COLUMN_ID = 0;
+    public static final String USER_NAME = "name";
 
     @DatabaseField(id = true)
     public String id;

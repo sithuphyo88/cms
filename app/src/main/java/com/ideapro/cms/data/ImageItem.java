@@ -9,11 +9,15 @@ public class ImageItem {
     private Bitmap image;
     private String title;
     private boolean isSelected;
+    private String localPath;
 
     public ImageItem(Bitmap image, String title) {
         super();
         this.image = image;
         this.title = title;
+    }
+
+    public ImageItem() {
     }
 
     public Bitmap getImage() {
@@ -38,5 +42,13 @@ public class ImageItem {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
     }
 }

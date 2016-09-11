@@ -23,7 +23,7 @@ import com.ideapro.cms.R;
 import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.utils.CommonUtils;
-import com.ideapro.cms.view.Controller.ProjectController;
+import com.ideapro.cms.view.Controller.SearchController;
 import com.ideapro.cms.view.listAdapter.ProjectListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
@@ -46,15 +46,16 @@ public class ProjectListFragment extends Fragment implements SearchView.OnQueryT
     List<ProjectEntity> list;
     ProjectListAdapter adapter;
     private DaoFactory daoFactory;
-    ProjectController mController;
+    SearchController mController;
     // start 2016/07/19 add search listner
     private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
+
     // end 2016/07/19
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mOnActionExpandListener = (MenuItemCompat.OnActionExpandListener) context;
-        mController = (ProjectController) context;
+        mController = (SearchController) context;
     }
 
 
@@ -233,9 +234,9 @@ public class ProjectListFragment extends Fragment implements SearchView.OnQueryT
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         if (list.size() != 0) {
-            mController.OnFound("project");
-        }else{
-            mController.OnNoFound("project");
+            mController.OnFound();
+        } else {
+            mController.OnNoFound();
         }
         // end 2016/07/20
         return false;

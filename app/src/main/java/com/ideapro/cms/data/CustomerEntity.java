@@ -12,6 +12,7 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "customer")
 public class CustomerEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String NAME = "name";
 
     @DatabaseField(id = true)
     public String id;

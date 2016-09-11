@@ -7,20 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.view.UserAddFragment;
+
+import java.util.List;
 
 /**
  * Created by stp on 4/12/2015.
  */
 public class RoleSpinnerAdapter extends ArrayAdapter<String> {
 
+    private final List<Boolean> selectedList;
     private Activity activity;
+    UserAddFragment fragment;
 
-    public RoleSpinnerAdapter(Context context, Activity activity, String[] files) {
+    public RoleSpinnerAdapter(UserAddFragment userAddFragment, Context context, Activity activity, String[] files, List<Boolean> selectedList) {
         super(context, 0, files);
         this.activity = activity;
+        this.fragment = userAddFragment;
+        this.selectedList = selectedList;
     }
 
     @Override
@@ -49,6 +57,15 @@ public class RoleSpinnerAdapter extends ArrayAdapter<String> {
         }
 
         viewHolder.tvwValue.setText(entity);
+
+        viewHolder.chkChoose.setId(position);
+        viewHolder.chkChoose.setChecked(selectedList.get(position));
+        viewHolder.chkChoose.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fragment.selectCheckBox(buttonView);
+            }
+        });
 
         // Return the completed view to render on screen
         return convertView;

@@ -3,6 +3,7 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -74,7 +75,15 @@ public class RoleAddFragment extends Fragment {
         butAssignPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PermissionListFragment());
+                // START Added 2016/09/10 Sai Num Town
+                if (validation()) {
+                    // END Added 2016/09/10 Sai Num Town
+                    PermissionListFragment fragment = PermissionListFragment.newInstance(role.id);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
+                    // START Added 2016/09/10 Sai Num Town
+                }
+                // END Added 2016/09/10 Sai Num Town
+
             }
         });
 
@@ -114,23 +123,28 @@ public class RoleAddFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-                updateData();
-            } else {
-                saveData();
+        // START Added 2016/09/09 Sai Num Town
+        if (validation()) {
+            // END Added 2016/09/09 Sai Num Town
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+                reset();
+            } catch (Exception e) {
+                throw new Error(e);
             }
-            reset();
-        } catch (Exception e) {
-            throw new Error(e);
+            if (!flag_update) {
+                Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+            }
+            // START Added 2016/09/10 Sai Num Town
         }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
-        }
-
+        // END Added 2016/09/10 Sai Num Town
         return true;
     }
 
@@ -158,4 +172,24 @@ public class RoleAddFragment extends Fragment {
         getActivity().setTitle(getString(R.string.label_role));
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
+    // START Added 2016/09/10 Sai Num Town
+    private boolean validation() {
+        boolean flag = true;
+        // Check role name
+        if (TextUtils.isEmpty(tvRoleName.getText().toString())) {
+            tvRoleName.setError(getString(R.string.error_missing_role_name));
+            flag = false;
+        }
+
+        // Check role name
+        if (TextUtils.isEmpty(tvDescription.getText().toString())) {
+            tvDescription.setError(getString(R.string.error_missing_role_description));
+            flag = false;
+        }
+
+        return flag;
+    }
+    // END Added 2016/09/10 Sai Num Town
 }

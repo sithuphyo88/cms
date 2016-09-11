@@ -3,6 +3,7 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.CustomerEntity;
 import com.ideapro.cms.data.DaoFactory;
+import com.ideapro.cms.utils.CommonUtils;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
@@ -112,23 +114,28 @@ public class CustomerAddFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-                updateData();
-            } else {
-                saveData();
+        // START Added 2016/09/09 Sai Num Town
+        if (validation()) {
+            // END Added 2016/09/09 Sai Num Town
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+                reset();
+            } catch (Exception e) {
+                throw new Error(e);
             }
-            reset();
-        } catch (Exception e) {
-            throw new Error(e);
+            if (!flag_update) {
+                Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+            }
+            // START Added 2016/09/09 Sai Num Town
         }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
-        }
-
+        // END Added 2016/09/09 Sai Num Town
         return true;
     }
 
@@ -171,4 +178,32 @@ public class CustomerAddFragment extends Fragment {
         txtAddress.setText("");
         txtEmail.setText("");
     }
+
+    // START Added 2016/09/09 Sai Num Town
+    private boolean validation() {
+        boolean flag = true;
+        // Check user name
+        if (TextUtils.isEmpty(txtCustomerName.getText().toString())) {
+            txtCustomerName.setError(getString(R.string.error_missing_customer_name));
+            flag = false;
+        }
+
+        // check phone number
+        if (!TextUtils.isEmpty(txtPhone.getText().toString())) {
+            if (!CommonUtils.isValidPhoneNumber(txtPhone.getText().toString())) {
+                txtPhone.setError(getString(R.string.error_wrong_format_phone_number));
+                flag = false;
+            }
+        }
+
+        // check email
+        if (!TextUtils.isEmpty(txtEmail.getText().toString())) {
+            if (!CommonUtils.isEmailValid(txtEmail.getText().toString())) {
+                txtEmail.setError(getString(R.string.error_wrong_email_format));
+                flag = false;
+            }
+        }
+        return flag;
+    }
+    // END Added 2016/09/09 Sai Num Town
 }

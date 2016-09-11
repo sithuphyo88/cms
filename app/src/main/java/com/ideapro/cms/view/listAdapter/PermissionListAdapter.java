@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.PermissionEntity;
+import com.ideapro.cms.view.PermissionListFragment;
 
 import java.util.List;
 
@@ -19,11 +21,15 @@ import java.util.List;
  */
 public class PermissionListAdapter extends ArrayAdapter<PermissionEntity> {
 
+    PermissionListFragment fragment;
     private Activity activity;
+    List<Boolean> selectedList;
 
-    public PermissionListAdapter(Context context, Activity activity, List<PermissionEntity> files) {
+    public PermissionListAdapter(PermissionListFragment permissionListFragment,Context context, Activity activity, List<PermissionEntity> files, List<Boolean> selectedList) {
         super(context, 0, files);
         this.activity = activity;
+        this.selectedList = selectedList;
+        this.fragment =permissionListFragment;
     }
 
     @Override
@@ -49,6 +55,14 @@ public class PermissionListAdapter extends ArrayAdapter<PermissionEntity> {
         viewHolder.tvwPermission.setText(entity.title);
         viewHolder.tvwDescription.setText(entity.description);
 
+        viewHolder.chkPermission.setId(position);
+        viewHolder.chkPermission.setChecked(selectedList.get(position));
+        viewHolder.chkPermission.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fragment.selectCheckBox(buttonView);
+            }
+        });
         // Return the completed view to render on screen
         return convertView;
     }

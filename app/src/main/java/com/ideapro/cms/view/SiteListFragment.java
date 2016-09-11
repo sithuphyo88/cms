@@ -23,14 +23,13 @@ import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
-import com.ideapro.cms.view.Controller.ProjectController;
+import com.ideapro.cms.view.Controller.SearchController;
 import com.ideapro.cms.view.listAdapter.SiteListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
@@ -50,7 +49,7 @@ public class SiteListFragment extends Fragment implements SearchView.OnQueryText
     List<SiteEntity> list;
     SiteListAdapter adapter;
     private DaoFactory daoFactory;
-    ProjectController mController;
+    SearchController mController;
     // start 2016/07/25 add search listner
     private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
     // end 2016/07/25
@@ -59,7 +58,7 @@ public class SiteListFragment extends Fragment implements SearchView.OnQueryText
     public void onAttach(Context context) {
         super.onAttach(context);
         mOnActionExpandListener = (MenuItemCompat.OnActionExpandListener) context;
-        mController = (ProjectController) context;
+        mController = (SearchController) context;
     }
 
     public SiteListFragment() {
@@ -265,9 +264,9 @@ public class SiteListFragment extends Fragment implements SearchView.OnQueryText
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         if (list.size() != 0) {
-            mController.OnFound("site");
+            mController.OnFound();
         } else {
-            mController.OnNoFound("site");
+            mController.OnNoFound();
         }
         // end 2016/07/25
 

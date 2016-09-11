@@ -3,6 +3,7 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,22 +104,28 @@ public class MaterialAddFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-                updateData();
-            } else {
-                saveData();
+        // START Added 2016/09/09 Sai Num Town
+        if (validation()) {
+            // END Added 2016/09/09 Sai Num Town
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+            } catch (Exception e) {
+                throw new Error(e);
             }
-        } catch (Exception e) {
-            throw new Error(e);
+            if (!flag_update) {
+                Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+            }
+            reset();
+            // START Added 2016/09/09 Sai Num Town
         }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
-        }
-        reset();
+        // END Added 2016/09/09 Sai Num Town
         return true;
     }
 
@@ -146,4 +153,24 @@ public class MaterialAddFragment extends Fragment {
         getActivity().setTitle(getString(R.string.label_material_list));
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
+    // START Added 2016/09/09 Sai Num Town
+    private boolean validation() {
+        boolean flag = false;
+        if (TextUtils.isEmpty(txtMaterialName.getText().toString()) || TextUtils.isEmpty(txtDescription.getText().toString())) {
+            flag = false;
+            // One of the required data is empty
+            if (TextUtils.isEmpty(txtMaterialName.getText().toString())) {
+                txtMaterialName.setError(getString(R.string.error_missing_material));
+            }
+            if (TextUtils.isEmpty(txtDescription.getText().toString())) {
+                txtDescription.setError(getString(R.string.error_missing_category_description));
+            }
+        } else {
+            flag = true;
+        }
+        return flag;
+    }
+    // END Added 2016/09/09 Sai Num Town
 }

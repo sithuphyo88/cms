@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class MaterialEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     public static final String MATERIAL_GROUP_ID ="materialCategoryId" ;
+    public static final String MATERIAL_NAME = "name";
 
     @DatabaseField(id = true)
     public String id;

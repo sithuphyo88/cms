@@ -3,6 +3,7 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -73,8 +74,14 @@ public class MaterialCategoryAddFragment extends Fragment {
         butMaterials.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaterialListFragment fragment = MaterialListFragment.newInstance(materialCategory.id);
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
+                // START Added 2016/09/09 Sai Num Town
+                if (validation()) {
+                // END Added 2016/09/09 Sai Num Town
+                    MaterialListFragment fragment = MaterialListFragment.newInstance(materialCategory.id);
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
+                // START Added 2016/09/09 Sai Num Town
+                }
+                // END Added 2016/09/09 Sai Num Town
             }
         });
 
@@ -121,26 +128,49 @@ public class MaterialCategoryAddFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-
-                updateData();
-
-            } else {
-                saveData();
+        // START Added 2016/09/09 Sai Num Town
+        if (validation()) {
+        // END Added 2016/09/09 Sai Num Town
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+            } catch (Exception e) {
+                throw new Error(e);
             }
-        } catch (Exception e) {
-            throw new Error(e);
+            if (!flag_update) {
+                Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+            }
+            reset();
+        // START Added 2016/09/09 Sai Num Town
         }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
-        }
-        reset();
+        // END Added 2016/09/09 Sai Num Town
         return true;
     }
+
+    // START Added 2016/09/09 Sai Num Town
+    private boolean validation() {
+        boolean flag = false;
+        if (TextUtils.isEmpty(txtMaterialCategoryName.getText().toString()) || TextUtils.isEmpty(txtDescription.getText().toString())) {
+            flag = false;
+            // One of the required data is empty
+            if (TextUtils.isEmpty(txtMaterialCategoryName.getText().toString())) {
+                txtMaterialCategoryName.setError(getString(R.string.error_missing_category_name));
+            }
+            if (TextUtils.isEmpty(txtDescription.getText().toString())) {
+                txtDescription.setError(getString(R.string.error_missing_category_description));
+            }
+        } else {
+            flag = true;
+        }
+        return flag;
+    }
+    // END Added 2016/09/09 Sai Num Town
 
     private void saveData() throws SQLException {
         Dao<MaterialCategoryEntity, String> materialCategoryEntityDao = daoFactory.getMaterialCategoryEntityDao();

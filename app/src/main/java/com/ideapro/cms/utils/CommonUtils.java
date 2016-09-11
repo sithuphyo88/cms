@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.cmsApp;
 import com.ideapro.cms.data.UserEntity;
 
 import org.apache.http.HttpEntity;
@@ -37,6 +38,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommonUtils {
 
@@ -264,5 +267,26 @@ public class CommonUtils {
             }
         }
         return null;
+    }
+
+    public static boolean isEmailValid(String email) {
+        Pattern pattern = Pattern.compile(cmsAppConstants.EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.matches()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isValidPhoneNumber(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            if (target.length() < 6 || target.length() > 13) {
+                return false;
+            } else {
+                return android.util.Patterns.PHONE.matcher(target).matches();
+            }
+        }
     }
 }

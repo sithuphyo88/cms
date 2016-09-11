@@ -1,14 +1,18 @@
 package com.ideapro.cms.view;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,25 +22,42 @@ import com.ideapro.cms.R;
 import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.RoleEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.view.Controller.SearchController;
 import com.ideapro.cms.view.listAdapter.RoleListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RoleListFragment extends Fragment {
+public class RoleListFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     View view;
     List<RoleEntity> list;
     RoleListAdapter adapter;
     private DaoFactory daoFactory;
+
+    // start 2016/09/10 add search listner
+    private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
+    SearchController msController;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mOnActionExpandListener = (MenuItemCompat.OnActionExpandListener) context;
+        msController = (SearchController) context;
+    }
+    // end 2016/09/10 add search listner
+
 
     public RoleListFragment() {
         // Required empty public constructor
@@ -61,6 +82,17 @@ public class RoleListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
         getActivity().setTitle(getString(R.string.label_role));
+
+        // start 2016/09/10
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem, mOnActionExpandListener);
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        searchView.setIconifiedByDefault(true); //iconify the widget
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnCloseListener(this);
+        // end 2016/09/10
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -141,6 +173,14 @@ public class RoleListFragment extends Fragment {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            // START delete statment yha 2016/09/10
+                                            try {
+                                                Dao<RoleEntity, String> roleDao = daoFactory.getRoleEntityDao();
+                                                int i = roleDao.delete(list.get(position));
+                                            } catch (SQLException e) {
+                                                new Error(e.getMessage());
+                                            }
+                                            // END delete statment yha 2016/09/10
                                             list.remove(position);
                                             adapter.notifyDataSetChanged();
                                         }
@@ -174,5 +214,51 @@ public class RoleListFragment extends Fragment {
     private int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getResources().getDisplayMetrics());
+    }
+
+    @Override
+    public boolean onClose() {
+        initializeUI();
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Dao<RoleEntity, String> roleDao = null;
+        try {
+            QueryBuilder<RoleEntity, String> qb = daoFactory.getRoleEntityDao().queryBuilder();
+            qb.where().like(RoleEntity.NAME, "%" + query.toString() + "%");
+
+            PreparedQuery<RoleEntity> pq = qb.prepare();
+            list = daoFactory.getRoleEntityDao().query(pq);
+
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
+
+        // configure with adapter with data.
+        adapter = new RoleListAdapter(view.getContext(), getActivity(), list);
+
+        // Swipe menu
+        SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
+        ColorDrawable myColor = new ColorDrawable(
+                this.getResources().getColor(R.color.color_accent)
+        );
+        listView.setDivider(myColor);
+        listView.setDividerHeight(1);
+        listView.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+        if (list.size() != 0) {
+            msController.OnFound();
+        } else {
+            msController.OnNoFound();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

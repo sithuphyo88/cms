@@ -19,17 +19,20 @@ import android.widget.TextView;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.utils.CommonUtils;
-import com.ideapro.cms.view.Controller.ProjectController;
+import com.ideapro.cms.view.Controller.SearchController;
 
 
-public class MenuActivity extends ActionBarActivity implements MenuItemCompat.OnActionExpandListener, ProjectController {
+public class MenuActivity extends ActionBarActivity implements MenuItemCompat.OnActionExpandListener, SearchController {
 
+    private static final int FRAGMENT_MATERIAL_CATEGORY = 300;
+    private static final int FRAGMENT_MATERIAL = 400;
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private FrameLayout flContainer;
     private TextView tvSearchGuide;
     private static final int FRAGMENT_PROJECT = 100;
     private int intTranFragment;
+    private static final int FRAGMENT_CUSTOMER = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
 
                     case R.id.navigation_item_customer:
                         updateDisplay(new CustomerListFragment());
+                        intTranFragment = FRAGMENT_CUSTOMER;
                         break;
 
                     case R.id.navigation_item_subContractor:
@@ -78,6 +82,7 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
 
                     case R.id.navigation_item_material_category:
                         updateDisplay(new MaterialCategoryListFragment());
+                        intTranFragment = FRAGMENT_MATERIAL_CATEGORY;
                         break;
 
                     case R.id.navigation_item_settings:
@@ -176,23 +181,45 @@ public class MenuActivity extends ActionBarActivity implements MenuItemCompat.On
         tvSearchGuide.setVisibility(View.GONE);
         switch (intTranFragment) {
             case FRAGMENT_PROJECT:
-                updateDisplay(new ProjectListFragment());
-                intTranFragment=0;
+                updateDisplay2(new ProjectListFragment());
+                intTranFragment = 0;
+                break;
+            case FRAGMENT_CUSTOMER:
+                updateDisplay2(new CustomerListFragment());
+                intTranFragment = 0;
+                break;
+            case FRAGMENT_MATERIAL_CATEGORY:
+                updateDisplay2(new MaterialCategoryListFragment());
+                intTranFragment = 0;
+                break;
+            case FRAGMENT_MATERIAL:
+                updateDisplay2(new MaterialListFragment());
+                intTranFragment = 0;
                 break;
         }
         return true;
     }
 
     @Override
-    public void OnFound(String text) {
+    public void OnFound() {
         flContainer.setVisibility(View.VISIBLE);
         tvSearchGuide.setVisibility(View.GONE);
     }
 
     @Override
-    public void OnNoFound(String text) {
+    public void OnNoFound() {
         flContainer.setVisibility(View.GONE);
         tvSearchGuide.setText(getResources().getText(R.string.data_no_found));
         tvSearchGuide.setVisibility(View.VISIBLE);
+    }
+
+    private void updateDisplay2(Fragment fragment) {
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ftr = fragmentManager.beginTransaction();
+        ftr.replace(R.id.frame_container, fragment);
+        ftr.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ftr.addToBackStack(null);
+        ftr.commit();
+       getSupportFragmentManager().popBackStack();
     }
 }

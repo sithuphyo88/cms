@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.ImageItem;
 import com.ideapro.cms.view.BluePrintPhotoListFragment;
@@ -72,7 +73,12 @@ public class BluePrintPhotoListAdapter extends ArrayAdapter<ImageItem> {
 
         ImageItem item = data.get(position);
         holder.imageTitle.setText(item.getTitle());
-        holder.image.setImageBitmap(item.getImage());
+        /*holder.image.setImageBitmap(item.getImage());*/
+
+        Glide.with(context)
+                .load(item.getLocalPath())
+                .asBitmap().centerCrop()
+                .into(holder.image);
         holder.chkImage.setChecked(item.isSelected());
         return row;
     }

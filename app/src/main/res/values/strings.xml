@@ -246,7 +246,23 @@
     <string name="label_description">Description</string>
     <string name="label_credit_amount">Credit Amount</string>
     <string name="label_paid_amount">Paid Amount</string>
-    <string name="msg_search_guide">Please type you would liket to search</string>
+    <string name="msg_search_guide">Please type you would like to search</string>
     <string name="data_no_found">There is no matched data.</string>
+
+    <string name="select_picture">Select Picture</string>
+
+    // error message
+    <string name="error_missing_category_name">Need to enter category name.</string>
+    <string name="error_missing_category_description">Need to enter description.</string>
+    <string name="error_missing_material">Need to enter material</string>
+    <string name="error_missing_customer_name">Need to enter customer name</string>
+    <string name="error_wrong_format_phone_number">Need to enter phone number correctly.</string>
+    <string name="error_wrong_email_format">Need to enter email correctly.</string>
+    <string name="error_missing_role_name">Need to enter role name.</string>
+    <string name="error_missing_role_description">Need to enter role description</string>
+    <string name="error_missing_check">PLease check for one.</string>
+    <string name="info_register_succesfully">Register successfully</string>
+    <string name="error_missing_user_name">Need to enter user name</string>
+    <string name="error_missing_password">Need to enter password.</string>
 
 </resources>
