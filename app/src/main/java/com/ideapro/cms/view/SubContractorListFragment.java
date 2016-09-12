@@ -26,6 +26,7 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -51,7 +52,7 @@ public class SubContractorListFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_sub_contractor_list, container, false);
         setHasOptionsMenu(true);
-        daoFactory =  new DaoFactory(view.getContext());
+        daoFactory = new DaoFactory(view.getContext());
 
         bindData();
         initializeUI();
@@ -94,7 +95,7 @@ public class SubContractorListFragment extends Fragment {
                 list.add(entity);
             }
 */
-            Dao<SubContractorEntity,String> subContractorDao =  daoFactory.getSubContractorEntityDao();
+            final Dao<SubContractorEntity, String> subContractorDao = daoFactory.getSubContractorEntityDao();
             list = subContractorDao.queryForAll();
 
             adapter = new SubContractorListAdapter(view.getContext(), getActivity(), list);
@@ -143,6 +144,13 @@ public class SubContractorListFragment extends Fragment {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            try {
+                                                subContractorDao.deleteById(list.get(position).subContracotr_id);
+
+                                            } catch (SQLException e) {
+                                                throw new Error(e);
+                                            }
+
                                             list.remove(position);
                                             adapter.notifyDataSetChanged();
                                         }
