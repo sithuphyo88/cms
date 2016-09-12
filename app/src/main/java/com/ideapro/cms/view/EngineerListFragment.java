@@ -19,6 +19,7 @@ import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.UserEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.utils.cmsAppConstants;
 import com.ideapro.cms.view.listAdapter.EngineerListAdapter;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
@@ -133,7 +134,7 @@ public class EngineerListFragment extends Fragment {
             rawResults.close();
             // page through the results
 
-            list = userDao.queryForEq(UserEntity.ROLE_ID, ROLE_ENGINEER);
+            list = userDao.queryForEq(UserEntity.ROLE_ID, cmsAppConstants.ROLE_ENGINEER);
 
 
             for (int i = 0; i < list.size(); i++) {

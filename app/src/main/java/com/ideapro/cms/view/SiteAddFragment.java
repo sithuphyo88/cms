@@ -1,9 +1,11 @@
 package com.ideapro.cms.view;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.view.fragments.BaseFragment;
 import com.j256.ormlite.dao.Dao;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -35,7 +38,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
-public class SiteAddFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class SiteAddFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener {
     private static final String BARG_SITE_ID = "site_id"; //implements View.OnClickListener
     private static final String BARG_PROJECT_ID = "project_id";
     private static final String BARG_PROJECT_NAME = "project_name";
@@ -126,7 +129,7 @@ public class SiteAddFragment extends Fragment implements DatePickerDialog.OnDate
         butTaskList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SiteTaskListFragment fragment = SiteTaskListFragment.newInstance(siteEntity.id, siteEntity.name);
+                SiteTaskListFragment fragment = SiteTaskListFragment.newInstance(getProjectId(),siteEntity.id, siteEntity.name);
                 CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
             }
         });
@@ -258,24 +261,50 @@ public class SiteAddFragment extends Fragment implements DatePickerDialog.OnDate
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-                updateData();
-            } else {
-                saveData();
+        if (validation()) {
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+                reset();
+            } catch (Exception e) {
+                throw new Error(e);
             }
-            reset();
-        } catch (Exception e) {
-            throw new Error(e);
+            if (!flag_update) {
+                showDialogDelay(1000,getString(R.string.message_save_success));
+            } else {
+                showDialogDelay(1000,getString(R.string.message_update_success));
+            }
         }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
-        }
-
         return true;
+    }
+
+    private boolean validation() {
+        boolean flag = true;
+        // check name
+        if (TextUtils.isEmpty(txtSiteName.getText().toString())) {
+            flag = false;
+            txtSiteName.setError(getString(R.string.error_missing_site_name));
+        }
+        // check start date
+        if (TextUtils.isEmpty(txtStartDate.getText().toString())) {
+            flag = false;
+            txtStartDate.setError(getString(R.string.error_missing_site_start_date));
+        }
+        // check end date
+        if (TextUtils.isEmpty(txtEndDate.getText().toString())) {
+            flag = false;
+            txtEndDate.setError(getString(R.string.error_missing_site_end_date));
+        }
+        // check address
+        if (TextUtils.isEmpty(txtAddress.getText().toString())) {
+            flag = false;
+            txtAddress.setError(getString(R.string.error_missing_site_address));
+        }
+        return flag;
     }
 
     private void saveData() throws SQLException {
@@ -306,6 +335,7 @@ public class SiteAddFragment extends Fragment implements DatePickerDialog.OnDate
         siteEntity.startDate = txtStartDate.getText().toString();
         siteEntity.endDate = txtEndDate.getText().toString();
         siteEntity.address = txtAddress.getText().toString();
+        siteEntity.progress = String.valueOf(proProgress.getProgress());
     }
 
     // end 2016/07/23

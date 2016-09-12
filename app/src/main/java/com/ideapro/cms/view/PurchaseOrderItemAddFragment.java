@@ -3,6 +3,7 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -253,7 +254,7 @@ public class PurchaseOrderItemAddFragment extends Fragment implements DatePicker
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    showTargetDatePicker();
+                    showOrderDatePicker();
                 }
             }
         });
@@ -261,7 +262,7 @@ public class PurchaseOrderItemAddFragment extends Fragment implements DatePicker
         txtPurchaseOrderDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showTargetDatePicker();
+                showOrderDatePicker();
             }
         });
 
@@ -320,24 +321,66 @@ public class PurchaseOrderItemAddFragment extends Fragment implements DatePicker
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-                updateData();
-            } else {
-                saveData();
+        if (validation()) {
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+                reset();
+            } catch (Exception e) {
+                throw new Error(e);
             }
-            reset();
-        } catch (Exception e) {
-            throw new Error(e);
-        }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+            if (!flag_update) {
+                Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+            }
         }
 
         return true;
+    }
+
+    private boolean validation() {
+        boolean flag = true;
+
+        // purchase date
+        if (TextUtils.isEmpty(txtPurchaseOrderDate.getText().toString())) {
+            flag = false;
+            txtPurchaseOrderDate.setError(getString(R.string.error_missing_purchase_order_date_empty));
+        }
+
+        // target date
+        if (TextUtils.isEmpty(txtTargetedDate.getText().toString())) {
+            flag = false;
+            txtTargetedDate.setError(getString(R.string.error_missing_purchase_target_date_empty));
+        }
+
+        // quantity
+        if (TextUtils.isEmpty(txtQuantity.getText().toString())) {
+            flag = false;
+            txtQuantity.setError(getString(R.string.error_missing_purchase_quantiy_empty));
+        }
+
+        // receive quantity
+        if (TextUtils.isEmpty(txtReceivedQuantity.getText().toString())) {
+            flag = false;
+            txtReceivedQuantity.setError(getString(R.string.error_missing_purchase_receive_quantiy_empty));
+        }
+
+        if (!TextUtils.isEmpty(txtReceivedQuantity.getText().toString()) && !TextUtils.isEmpty(txtQuantity.getText().toString())) {
+            flag = false;
+            int quantity = Integer.parseInt(String.valueOf(txtQuantity.getText()));
+            int recieveQuantity = Integer.parseInt(String.valueOf(txtReceivedQuantity.getText()));
+
+            if (recieveQuantity > quantity) {
+                txtReceivedQuantity.setError(getString(R.string.error_missing_purchase_receive_more_than_quantity));
+            }
+        }
+
+        return flag;
     }
 
     private void reset() {
@@ -363,7 +406,7 @@ public class PurchaseOrderItemAddFragment extends Fragment implements DatePicker
     }
 
     private void getData() {
-        purchaseOrderItemEntity.purchaseOrderId = purchaseOrderEntity.id.trim().toString();
+        purchaseOrderItemEntity.purchaseOrderId = purchaseOrderItemEntity.purchaseOrderId.trim().toString();
         purchaseOrderItemEntity.purchaseOrderDate = txtPurchaseOrderDate.getText().toString();
         purchaseOrderItemEntity.targetedDate = txtTargetedDate.getText().toString();
         purchaseOrderItemEntity.materialCategory = (mcList.get(spnMaterialCategory.getSelectedItemPosition())).id.toString();

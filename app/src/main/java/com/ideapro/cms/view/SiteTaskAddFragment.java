@@ -4,6 +4,7 @@ package com.ideapro.cms.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,12 +23,18 @@ import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.data.TaskEntity;
+import com.ideapro.cms.data.UserEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.utils.cmsAppConstants;
+import com.ideapro.cms.view.fragments.BaseFragment;
+import com.ideapro.cms.view.listAdapter.CustomSpannerAdapter;
 import com.j256.ormlite.dao.Dao;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -35,11 +43,12 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class SiteTaskAddFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener {
 
     private static final String BARG_SITE_ID = "site_id";
     private static final String BARG_TASK_ID = "task_id";
     private static final String BARG_SITE_NAME = "site_name";
+    private static final String BARG_PROJECT_ID = "project_id";
     View view;
     ProjectEntity projectEntity;
     SiteEntity siteEntity;
@@ -47,6 +56,9 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
     Button butEvidence;
     Button butBluePrint;
     Button butComment;
+
+    @BindView(R.id.spnAssignee)
+    Spinner spnAsignee;
 
     private DaoFactory daoFactory;
 
@@ -64,15 +76,19 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
 
     @BindView(R.id.tvwAssignee)
     TextView tvwAssignee;
+
+    private CustomSpannerAdapter mAdapter;
+    private List<UserEntity> enigneerlist;
     private boolean flag_update;
 
     public SiteTaskAddFragment() {
         // Required empty public constructor
     }
 
-    public static SiteTaskAddFragment newInstance(String siteId, String taskId, String siteName) {
+    public static SiteTaskAddFragment newInstance(String project_id, String siteId, String taskId, String siteName) {
 
         Bundle args = new Bundle();
+        args.putString(BARG_PROJECT_ID, project_id);
         args.putString(BARG_SITE_ID, siteId);
         args.putString(BARG_TASK_ID, taskId);
         args.putString(BARG_SITE_NAME, siteName);
@@ -121,7 +137,8 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
         } else {
             reset();
         }
-
+        // engineer spinner setting
+        engineerSpinnerSetting();
 
         // start 2016/07/23
         txtStartDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -181,6 +198,41 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
         });
     }
 
+    private void engineerSpinnerSetting() {
+        Dao<UserEntity, String> userDao = null;
+        try {
+            userDao = daoFactory.getUserEntityDao();
+            enigneerlist = userDao.queryForEq(UserEntity.ROLE_ID, cmsAppConstants.ROLE_ENGINEER);
+        } catch (SQLException e) {
+            new Error(e.getMessage());
+        }
+
+        List<String> engineers = new ArrayList<>();
+        for (int i = 0; i < enigneerlist.size(); i++) {
+            engineers.add(enigneerlist.get(i).name);
+        }
+        engineers.add(getString(R.string.choose_engineer));
+
+        mAdapter = new CustomSpannerAdapter(view.getContext(), R.layout.spinner_textview, engineers);
+        mAdapter.setDropDownViewResource(R.layout.spinner_textview);
+
+        spnAsignee.setAdapter(mAdapter);
+        spnAsignee.setPrompt(getString(R.string.choose_engineer));
+
+        if (taskEntity.assignee == null) {
+            spnAsignee.setSelection(mAdapter.getCount());
+        } else {
+            int index = -1;
+            for (int i = 0; i < enigneerlist.size(); i++) {
+                if (enigneerlist.get(i).id.equals(taskEntity.assignee)) {
+                    index = i;
+                    break;
+                }
+            }
+            spnAsignee.setSelection(index);
+        }
+    }
+
     private void reset() {
         // title
         txtTitle.setText("");
@@ -193,7 +245,7 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
         // asssingee
         tvwAssignee.setText("");
 
-        taskEntity= new TaskEntity();
+        taskEntity = new TaskEntity();
     }
 
     private void setData() {
@@ -201,7 +253,7 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
         flag_update = true;
         try {
             Dao<TaskEntity, String> taskEntityDao = daoFactory.getTaskEntityDao();
-            taskEntity = taskEntityDao.queryForId(getSiteId());
+            taskEntity = taskEntityDao.queryForId(getTaskId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -255,24 +307,55 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-                updateData();
-            } else {
-                saveData();
+        if (validation()) {
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+                reset();
+            } catch (Exception e) {
+                throw new Error(e);
             }
-            reset();
-        } catch (Exception e) {
-            throw new Error(e);
+            if (!flag_update) {
+                showDialogDelay(1000, getString(R.string.message_save_success));
+            } else {
+                showDialogDelay(1000, getString(R.string.message_update_success));
+            }
         }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    private boolean validation() {
+        boolean flag = true;
+
+        // check name
+        if (TextUtils.isEmpty(txtTitle.getText().toString())) {
+            flag = false;
+            txtTitle.setError(getString(R.string.error_missing_task_name));
         }
 
-        return true;
+        // check start date
+        if (TextUtils.isEmpty(txtStartDate.getText().toString())) {
+            flag = false;
+            txtStartDate.setError(getString(R.string.error_missing_task_start_date));
+        }
+
+        // check end date
+        if (TextUtils.isEmpty(txtEndDate.getText().toString())) {
+            flag = false;
+            txtEndDate.setError(getString(R.string.error_missing_task_end_date));
+        }
+
+        // check engineer
+        if (spnAsignee.getSelectedItemPosition() == mAdapter.getCount()) {
+            flag = false;
+            ((TextView) spnAsignee.getChildAt(0)).setError(getString(R.string.error_missing_task_asignee));
+        }
+
+        return flag;
     }
 
     private void saveData() {
@@ -282,12 +365,22 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
 
             taskEntity.id = UUID.randomUUID().toString();
             taskEntity.site_id = getSiteId();
+            taskEntity.project_id = getProjectId();
 
             //This is the way to insert data into a database table
             taskDao.create(taskEntity);
         } catch (Exception e) {
             throw new Error(e);
         }
+    }
+
+    private String getProjectId() {
+        Bundle bundle = getArguments();
+        String projectId = "";
+        if (bundle != null) {
+            projectId = bundle.getString(BARG_PROJECT_ID);
+        }
+        return projectId;
     }
 
     private void updateData() {
@@ -312,7 +405,7 @@ public class SiteTaskAddFragment extends Fragment implements DatePickerDialog.On
         // end Date
         taskEntity.endDate = txtEndDate.getText().toString();
         // asssingee
-        taskEntity.assignee = tvwAssignee.getText().toString();
+        taskEntity.assignee = String.valueOf(enigneerlist.get((Integer) spnAsignee.getSelectedItemPosition()).id);
 
     }
 

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,8 +31,10 @@ import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,18 +115,54 @@ public class PurchaseOrderAddFragment extends Fragment {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PurchaseOrderItemEntity entity = new PurchaseOrderItemEntity();
-                entity.id="";
-                entity.purchaseOrderDate = "2016-06-05";
-                entity.targetedDate = "2016-06-06";
-                entity.materialCategory = "MC1";
-                entity.materialItem = "M1";
-                entity.uom = "UOM1";
-                entity.receivedQuantity = 1;
-                entity.orderedQuantity = 1;
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, purchaseOrderEntity, entity));
+                if (validation()) {
+                    getDataProjectOrder();
+                    try {
+                        Dao<PurchaseOrderEntity, String> purchaseOrderEntityDao = daoFactory.getPurchaseOrderEntityDao();
+                        if (purchaseOrderEntity.id == null) {
+                            purchaseOrderEntity.id = UUID.randomUUID().toString();
+                            purchaseOrderEntityDao.create(purchaseOrderEntity);
+                        } else {
+                            purchaseOrderEntityDao.update(purchaseOrderEntity);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    PurchaseOrderItemEntity entity = new PurchaseOrderItemEntity();
+                    entity.id = "";
+                    entity.purchaseOrderId = purchaseOrderEntity.id;
+                    entity.purchaseOrderDate = "";
+                    entity.targetedDate = "";
+                    entity.materialCategory = "MC1";
+                    entity.materialItem = "M1";
+                    entity.uom = "UOM1";
+                    entity.receivedQuantity = 1;
+                    entity.orderedQuantity = 1;
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new PurchaseOrderItemAddFragment(projectEntity, purchaseOrderEntity, entity));
+                }
+            }
+
+            private void getDataProjectOrder() {
+                purchaseOrderEntity.purchaseOrderNo = txtPurchaseOrderNo.getText().toString();
+                purchaseOrderEntity.date = txtPurchaseOrderDate.getText().toString();
             }
         });
+    }
+
+    private boolean validation() {
+        boolean flag = true;
+        if (TextUtils.isEmpty(txtPurchaseOrderDate.getText().toString().trim())) {
+            flag = false;
+            txtPurchaseOrderDate.setError(getString(R.string.error_missing_PurchaseOrderDate));
+        }
+
+        if (TextUtils.isEmpty(txtPurchaseOrderNo.getText().toString().trim())) {
+            flag = false;
+            txtPurchaseOrderNo.setError(getString(R.string.error_missing_PurchaseOrderNo));
+        }
+
+        return flag;
     }
 
     private void bindData() {
@@ -148,9 +187,10 @@ public class PurchaseOrderAddFragment extends Fragment {
             if (purchaseOrderEntity.id != null) {
                 Dao<PurchaseOrderItemEntity, String> purchaseOrderEntityDao = daoFactory.getPurchaseOrderItemDao();
 
-                String whereParameter = " WHERE poi.purchaseOrderId=" + purchaseOrderEntity.id.toString().trim();
+                String whereParameter = " WHERE poi.purchaseOrderId = ?";
+                String[] args = new String[]{purchaseOrderEntity.id.toString()};
             /*purchaseOrderEntityDao.queryRaw()*/
-                GenericRawResults<String[]> rawResults = purchaseOrderEntityDao.queryRaw(QUERY_SELECT_PURCHASE_ORDER_ITEM + whereParameter);
+                GenericRawResults<String[]> rawResults = purchaseOrderEntityDao.queryRaw(QUERY_SELECT_PURCHASE_ORDER_ITEM + whereParameter, args);
 
                 list = ConvertToObject(rawResults);
                 rawResults.close();

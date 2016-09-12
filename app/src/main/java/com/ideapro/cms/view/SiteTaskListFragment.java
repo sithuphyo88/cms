@@ -40,6 +40,7 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
 
     private static final String BARG_SITE_NAME = "site_name";
     private static final String BARG_SITE_ID = "site_id";
+    private static final String BARG_PROJECT_ID = "project_id";
     View view;
     ProjectEntity projectEntity;
     SiteEntity siteEntity;
@@ -60,11 +61,12 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
         mController = (SearchController) context;
     }
 
-    public static SiteTaskListFragment newInstance(String siteId, String siteName) {
+    public static SiteTaskListFragment newInstance(String projectId, String siteId, String siteName) {
 
         Bundle args = new Bundle();
         args.putString(BARG_SITE_ID, siteId);
         args.putString(BARG_SITE_NAME, siteName);
+        args.putString(BARG_PROJECT_ID, projectId);
         SiteTaskListFragment fragment = new SiteTaskListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -124,7 +126,7 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
                 taskEntity.title = "New Task";
                 taskEntity.description = "";
 
-                SiteTaskAddFragment fragment = SiteTaskAddFragment.newInstance(getSiteId(), "", getSiteName());
+                SiteTaskAddFragment fragment = SiteTaskAddFragment.newInstance(getProjectId(), getSiteId(), "", getSiteName());
                 CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
             }
         });
@@ -164,7 +166,7 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    SiteTaskAddFragment fragment = SiteTaskAddFragment.newInstance(getSiteId(), list.get(position).id, getSiteName());
+                    SiteTaskAddFragment fragment = SiteTaskAddFragment.newInstance(getProjectId(), getSiteId(), list.get(position).id, getSiteName());
                     CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
                 }
             });
@@ -181,6 +183,15 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
             siteId = bundle.getString(BARG_SITE_ID);
         }
         return siteId;
+    }
+
+    private String getProjectId() {
+        Bundle bundle = getArguments();
+        String projectId = "";
+        if (bundle != null) {
+            projectId = bundle.getString(BARG_PROJECT_ID);
+        }
+        return projectId;
     }
 
     private String getSiteName() {

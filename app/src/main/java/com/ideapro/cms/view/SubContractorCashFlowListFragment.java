@@ -1,14 +1,18 @@
 package com.ideapro.cms.view;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +24,8 @@ import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SubContractorCashFlowEntity;
 import com.ideapro.cms.data.SubContractorEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.view.Controller.SearchController;
+import com.ideapro.cms.view.listAdapter.MaterialListAdapter;
 import com.ideapro.cms.view.listAdapter.SubContractorCashFlowListAdapter;
 import com.ideapro.cms.view.swipeMenu.SwipeMenu;
 import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
@@ -36,7 +42,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SubContractorCashFlowListFragment extends Fragment {
+public class SubContractorCashFlowListFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     View view;
     List<SubContractorCashFlowEntity> list;
@@ -44,6 +50,19 @@ public class SubContractorCashFlowListFragment extends Fragment {
     private DaoFactory daoFactory;
     ProjectEntity projectEntity;
     SubContractorEntity subContractorEntity;
+
+    // start 2016/09/12 add search listner
+    private MenuItemCompat.OnActionExpandListener mOnActionExpandListener;
+    SearchController msController;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mOnActionExpandListener = (MenuItemCompat.OnActionExpandListener) context;
+        msController = (SearchController) context;
+    }
+    // end 2016/09/12 add search listner
+
 
     public SubContractorCashFlowListFragment(ProjectEntity projectEntity, SubContractorEntity subContractorEntity) {
         this.projectEntity = projectEntity;
@@ -72,6 +91,18 @@ public class SubContractorCashFlowListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
         getActivity().setTitle(getString(R.string.label_cash_flow));
+
+        // start 2016/09/12
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem, mOnActionExpandListener);
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        searchView.setIconifiedByDefault(true); //iconify the widget
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnCloseListener(this);
+        // end 2016/09/12
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -185,7 +216,7 @@ public class SubContractorCashFlowListFragment extends Fragment {
                                                 subCashFlowDao.deleteById(list.get(position).id);
 
                                             } catch (SQLException e) {
-                                                new Error (e);
+                                                new Error(e);
                                             }
                                             list.remove(position);
                                             adapter.notifyDataSetChanged();
@@ -219,5 +250,66 @@ public class SubContractorCashFlowListFragment extends Fragment {
     private int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getResources().getDisplayMetrics());
+    }
+
+    @Override
+    public boolean onClose() {
+        initializeUI();
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        int condCount = 0;
+        Dao<SubContractorCashFlowEntity, String> scfDao = null;
+        try {
+            QueryBuilder<SubContractorCashFlowEntity, String> qb = daoFactory.getSubContractorCashFlowEntityDao().queryBuilder();
+            Where<SubContractorCashFlowEntity, String> where = qb.where();
+            if (this.projectEntity.id != null) {
+                where.eq(SubContractorCashFlowEntity.PROJECT_ID, this.projectEntity.id);
+                condCount++;
+            }
+            if (this.subContractorEntity.subContracotr_id != null) {
+                where.eq(SubContractorCashFlowEntity.SUB_CONTRACTOR_ID, this.subContractorEntity.subContracotr_id.toString());
+                condCount++;
+            }
+            if (query.toString() != null) {
+                where.like(SubContractorCashFlowEntity.DESC, "%" + query.toString() + "%");
+                condCount++;
+            }
+            if (condCount > 0) {
+                where.and(condCount);
+            }
+            // do the query
+            list = qb.query();
+
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
+
+        // configure with adapter with data.
+        adapter = new SubContractorCashFlowListAdapter(view.getContext(), getActivity(), list);
+
+        // Swipe menu
+        SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
+        ColorDrawable myColor = new ColorDrawable(
+                this.getResources().getColor(R.color.color_accent)
+        );
+        listView.setDivider(myColor);
+        listView.setDividerHeight(1);
+        listView.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+        if (list.size() != 0) {
+            msController.OnFound();
+        } else {
+            msController.OnNoFound();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

@@ -19,6 +19,9 @@ public class TaskEntity implements Serializable {
     public String id;
 
     @DatabaseField
+    public String project_id;
+
+    @DatabaseField
     public String site_id;
 
     @DatabaseField

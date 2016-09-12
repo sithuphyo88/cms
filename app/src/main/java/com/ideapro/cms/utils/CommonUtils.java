@@ -37,6 +37,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -101,18 +103,16 @@ public class CommonUtils {
 
                 BufferedReader in =
                         new BufferedReader(new InputStreamReader(entity.getContent()));
-                String line="";
+                String line = "";
                 StringBuffer returnFromServer = new StringBuffer();
 
-                while ((line=in.readLine())!=null)
-                {
+                while ((line = in.readLine()) != null) {
                     returnFromServer.append(line);
                 }
 
                 return returnFromServer.toString();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new Error(e);
         }
         return null;
@@ -147,18 +147,16 @@ public class CommonUtils {
 
                 BufferedReader in =
                         new BufferedReader(new InputStreamReader(entity.getContent()));
-                String line="";
+                String line = "";
                 StringBuffer returnFromServer = new StringBuffer();
 
-                while ((line=in.readLine())!=null)
-                {
+                while ((line = in.readLine()) != null) {
                     returnFromServer.append(line);
                 }
 
                 return returnFromServer.toString();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new Error(e);
         }
         return null;
@@ -167,11 +165,10 @@ public class CommonUtils {
     public static boolean checkUrl(String url) {
         try {
             HttpURLConnection.setFollowRedirects(false);
-            HttpURLConnection con =  (HttpURLConnection)(new URL(url).openConnection());
+            HttpURLConnection con = (HttpURLConnection) (new URL(url).openConnection());
             con.setRequestMethod("HEAD");
             return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -225,7 +222,7 @@ public class CommonUtils {
         int targetWidth = radius;
         int targetHeight = radius;
         Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
-                targetHeight,Bitmap.Config.ARGB_8888);
+                targetHeight, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(targetBitmap);
         Path path = new Path();
@@ -249,7 +246,7 @@ public class CommonUtils {
         packageContext.startActivity(intent);
     }
 
-    public static void transitToFragment(Fragment sourceFragment, Fragment destFragment){
+    public static void transitToFragment(Fragment sourceFragment, Fragment destFragment) {
         android.support.v4.app.FragmentTransaction ftr = sourceFragment.getFragmentManager().beginTransaction();
         ftr.replace(sourceFragment.getId(), destFragment);
         ftr.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -257,10 +254,10 @@ public class CommonUtils {
         ftr.commit();
     }
 
-    public static Fragment getVisibleFragment(FragmentManager fragmentManager){
+    public static Fragment getVisibleFragment(FragmentManager fragmentManager) {
         List<Fragment> fragments = fragmentManager.getFragments();
 
-        if(fragments != null) {
+        if (fragments != null) {
             for (Fragment fragment : fragments) {
                 if (fragment != null && fragment.isVisible())
                     return fragment;
@@ -288,5 +285,12 @@ public class CommonUtils {
                 return android.util.Patterns.PHONE.matcher(target).matches();
             }
         }
+    }
+
+    public static String getCurrentDate() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat(cmsAppConstants.DATE_FORMAT);
+        String currentDate = df.format(c.getTime());
+        return currentDate;
     }
 }

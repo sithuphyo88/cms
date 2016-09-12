@@ -3,6 +3,7 @@ package com.ideapro.cms.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -113,8 +114,8 @@ public class SubContractorCashFlowAddFragment extends Fragment implements DatePi
     private void reset() {
         etDate.setText("");
         etDescription.setText("");
-        etCreditAmount.setText("");
-        etPaidAmount.setText("");
+        etCreditAmount.setText("0");
+        etPaidAmount.setText("0");
     }
 
     @Override
@@ -127,23 +128,28 @@ public class SubContractorCashFlowAddFragment extends Fragment implements DatePi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-                updateData();
-            } else {
-                saveData();
+        // START Added 2016/09/12 Sai Num Town
+        if (validation()) {
+            // END Added 2016/09/12 Sai Num Town
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+                reset();
+            } catch (Exception e) {
+                throw new Error(e);
             }
-            reset();
-        } catch (Exception e) {
-            throw new Error(e);
+            if (!flag_update) {
+                Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+            }
+            // START Added 2016/09/12 Sai Num Town
         }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
-        }
-
+        // END Added 2016/09/12 Sai Num Town
         return true;
     }
 
@@ -202,4 +208,30 @@ public class SubContractorCashFlowAddFragment extends Fragment implements DatePi
         }
 
     }
+
+    // START Added 2016/09/12 Sai Num Town
+    private boolean validation() {
+        boolean flag = false;
+        if (TextUtils.isEmpty(etDate.getText().toString()) || TextUtils.isEmpty(etDescription.getText().toString().trim())
+                || TextUtils.isEmpty((etCreditAmount.getText().toString())) || TextUtils.isEmpty((etPaidAmount.getText().toString()))) {
+            flag = false;
+            // One of the required data is empty
+            if (TextUtils.isEmpty(etDate.getText().toString())) {
+                etDate.setError(getString(R.string.error_missing_date));
+            }
+            if (TextUtils.isEmpty(etDescription.getText().toString().trim())) {
+                etDescription.setError(getString(R.string.error_missing_description));
+            }
+            if (TextUtils.isEmpty(etCreditAmount.getText().toString())) {
+                etCreditAmount.setError(getString(R.string.error_missing_credit_amount));
+            }
+            if (TextUtils.isEmpty(etPaidAmount.getText().toString())) {
+                etPaidAmount.setError(getString(R.string.error_missing_paid_amount));
+            }
+        } else {
+            flag = true;
+        }
+        return flag;
+    }
+    // END Added 2016/09/12 Sai Num Town
 }

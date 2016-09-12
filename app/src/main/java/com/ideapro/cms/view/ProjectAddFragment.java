@@ -1,16 +1,15 @@
 package com.ideapro.cms.view;
 
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -19,9 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.CustomerEntity;
 import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.utils.CommonUtils;
+import com.ideapro.cms.view.fragments.BaseFragment;
+import com.ideapro.cms.view.listAdapter.CustomSpannerAdapter;
 import com.j256.ormlite.dao.Dao;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -37,7 +39,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
-public class ProjectAddFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class ProjectAddFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener {
 
     private static String BARG_PROJECT_ID = "project_id";
     View view;
@@ -67,6 +69,8 @@ public class ProjectAddFragment extends Fragment implements DatePickerDialog.OnD
     DaoFactory daoFactory;
     private boolean flag_start_date_click;
     private boolean flag_end_date_click;
+    private List<CustomerEntity> list;
+    private CustomSpannerAdapter mAdapter;
 
     public ProjectAddFragment() {
         // Required empty public constructor
@@ -150,6 +154,7 @@ public class ProjectAddFragment extends Fragment implements DatePickerDialog.OnD
         // 2016/07/18 get project data from table
         Bundle bundle = getArguments();
         String projectId = "";
+
         projectEntity = new ProjectEntity();
         if (bundle != null) {
             projectId = bundle.getString(BARG_PROJECT_ID);
@@ -204,19 +209,42 @@ public class ProjectAddFragment extends Fragment implements DatePickerDialog.OnD
             }
         });
         // 2016/07/18
-
         spnCustomer = (Spinner) view.findViewById(R.id.spnCustomer);
 
-        //TODO change the dummy to table data
-        List<String> customers = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            customers.add("Customer " + (i + 1));
+        // get the customer list from db
+        Dao<CustomerEntity, String> customerEntityDao = null;
+        try {
+            customerEntityDao = daoFactory.getCustomerEntityDao();
+            list = customerEntityDao.queryForAll();
+        } catch (SQLException e) {
+            new Error(e);
         }
 
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.spinner_textview,
-                customers);
+        // for customer list
+        List<String> customers = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            customers.add(list.get(i).name);
+        }
+
+        customers.add(getString(R.string.choose_customer));
+
+        mAdapter = new CustomSpannerAdapter(view.getContext(), R.layout.spinner_textview, customers);
         mAdapter.setDropDownViewResource(R.layout.spinner_textview);
         spnCustomer.setAdapter(mAdapter);
+        spnCustomer.setPrompt(getString(R.string.choose_customer));
+
+        if (projectEntity.customerId == null) {
+            spnCustomer.setSelection(mAdapter.getCount());
+        } else {
+            int index = -1;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).id.equals(projectEntity.customerId)) {
+                    index = i;
+                    break;
+                }
+            }
+            spnCustomer.setSelection(index);
+        }
     }
 
     private void reset() {
@@ -225,28 +253,61 @@ public class ProjectAddFragment extends Fragment implements DatePickerDialog.OnD
         txtEndDate.setText("");
         proProgress.setProgress(0);
         tvwProgressValue.setText("0 %");
+        if (list != null)
+            spnCustomer.setSelection(mAdapter.getCount());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            getData();
-            if (flag_update) {
-                updateData();
-            } else {
-                saveData();
+        if (validation()) {
+            try {
+                getData();
+                if (flag_update) {
+                    updateData();
+                } else {
+                    saveData();
+                }
+                reset();
+            } catch (Exception e) {
+                throw new Error(e);
             }
-            reset();
-        } catch (Exception e) {
-            throw new Error(e);
+            if (!flag_update) {
+                showDialogDelay(1000, getString(R.string.message_save_success));
+            } else {
+                showDialogDelay(1000, getString(R.string.message_update_success));
+            }
         }
-        if (!flag_update) {
-            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Data updated successfully", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    private boolean validation() {
+        boolean flag = true;
+
+        // check name
+        if (TextUtils.isEmpty(txtSiteName.getText().toString())) {
+            flag = false;
+            txtSiteName.setError(getString(R.string.error_missing_project_name));
         }
 
-        return true;
+        // check start date
+        if (TextUtils.isEmpty(txtStartDate.getText().toString())) {
+            flag = false;
+            txtStartDate.setError(getString(R.string.error_missing_project_start_date));
+        }
+
+        // check end date
+        if (TextUtils.isEmpty(txtEndDate.getText().toString())) {
+            flag = false;
+            txtEndDate.setError(getString(R.string.error_missing_project_end_date));
+        }
+
+        // check customer
+        if (spnCustomer.getSelectedItemPosition() == mAdapter.getCount()) {
+            flag = false;
+            ((TextView) spnCustomer.getChildAt(0)).setError(getString(R.string.error_missing_project_customer));
+        }
+
+        return flag;
     }
 
     private void saveData() throws SQLException {
@@ -264,6 +325,7 @@ public class ProjectAddFragment extends Fragment implements DatePickerDialog.OnD
         projectEntity.name = txtSiteName.getText().toString();
         projectEntity.startDate = txtStartDate.getText().toString();
         projectEntity.endDate = txtEndDate.getText().toString();
+        projectEntity.customerId = String.valueOf(list.get((Integer) spnCustomer.getSelectedItemPosition()).id);
         projectEntity.progress = String.valueOf(proProgress.getProgress());
     }
 

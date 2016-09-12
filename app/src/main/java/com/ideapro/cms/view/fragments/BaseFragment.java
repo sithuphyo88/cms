@@ -10,9 +10,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.cmsApp;
@@ -101,7 +105,7 @@ public class BaseFragment extends Fragment {
                 // where id is equal to
                 String sel = MediaStore.Images.Media._ID + "=?";
 
-                Cursor imageCursor =getActivity(). getContentResolver().
+                Cursor imageCursor = getActivity().getContentResolver().
                         query(uri,
                                 column, sel, new String[]{id}, null);
 
@@ -140,6 +144,21 @@ public class BaseFragment extends Fragment {
     }
 
     public void onPictureTaken(String localPath) {
+
+    }
+
+    public void showDialogDelay(int timer, final String message) {
+        final ProgressDialog mDialog = ProgressDialog.show(getActivity(), "Loading", "Wait while loading...");
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after timer
+                getFragmentManager().popBackStack();
+                mDialog.dismiss();
+                Toast.makeText(cmsApp.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        }, timer);
 
     }
 }

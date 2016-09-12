@@ -28,4 +28,7 @@ public class ProjectEntity implements Serializable {
 
     @DatabaseField
     public String progress;
+
+    @DatabaseField
+    public String customerId;
 }

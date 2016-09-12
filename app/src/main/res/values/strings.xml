@@ -264,5 +264,32 @@
     <string name="info_register_succesfully">Register successfully</string>
     <string name="error_missing_user_name">Need to enter user name</string>
     <string name="error_missing_password">Need to enter password.</string>
+    <string name="error_missing_date">Need to select date.</string>
+    <string name="error_missing_description">Need to enter description</string>
+    <string name="error_missing_credit_amount">Need to enter credit amount.</string>
+    <string name="error_missing_paid_amount">Need to enter paid amount</string>
+    <string name="error_missing_PurchaseOrderDate">Need to select purchase date</string>
+    <string name="error_missing_PurchaseOrderNo">Need to enter Purcahse Order Number</string>
+    <string name="error_missing_purchase_order_date_empty">Need to select purchase date</string>
+    <string name="error_missing_purchase_target_date_empty">Need to select target date</string>
+    <string name="error_missing_purchase_quantiy_empty">Need to enter quantity</string>
+    <string name="error_missing_purchase_receive_quantiy_empty">Need to enter receive quantity</string>
+    <string name="error_missing_purchase_receive_more_than_quantity">Recevie quantity more than order quantity</string>
+    <string name="error_missing_project_name">Need to enter project name</string>
+    <string name="error_missing_project_start_date">Need to select start date of project</string>
+    <string name="error_missing_project_end_date">Need to select end date of project</string>
+    <string name="choose_customer">Choose customer</string>
+    <string name="error_missing_project_customer">Need to select customer</string>
+    <string name="error_missing_site_name">Need to enter site name</string>
+    <string name="error_missing_site_start_date">Need to select site start date</string>
+    <string name="error_missing_site_end_date">Need to select site end date</string>
+    <string name="error_missing_site_address">Need to enter site address</string>
+    <string name="message_save_success">Data saved successfully</string>
+    <string name="message_update_success">Data updated successfully</string>
+    <string name="choose_engineer">Choose engineer</string>
+    <string name="error_missing_task_name">Need to enter task name</string>
+    <string name="error_missing_task_start_date">Need to select start date of task.</string>
+    <string name="error_missing_task_end_date">Need to select end date of task</string>
+    <string name="error_missing_task_asignee">Need to select assignee</string>
 
 </resources>

@@ -81,6 +81,7 @@ public class PurchaseOrderListFragment extends Fragment {
                 public void onClick(View v) {
                     PurchaseOrderEntity orderEntity = new PurchaseOrderEntity();
                     orderEntity.purchaseOrderNo = "PO-0";
+                    orderEntity.projectId = projectEntity.id;
                     orderEntity.date = "2016-04-28";
                     orderEntity.receivedNumber = 5;
                     orderEntity.purchasedNumber = 5;

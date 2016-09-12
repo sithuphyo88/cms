@@ -14,6 +14,7 @@ public class SubContractorCashFlowEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     public static final String PROJECT_ID = "project_id";
     public static final String SUB_CONTRACTOR_ID = "subContractor_id";
+    public static final String DESC = "description";
 
     @DatabaseField(id = true)
     public String id;
