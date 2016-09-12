@@ -2,11 +2,13 @@ package com.ideapro.cms.view;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +27,10 @@ import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.Controller.SearchController;
 import com.ideapro.cms.view.listAdapter.SiteTaskListAdapter;
+import com.ideapro.cms.view.swipeMenu.SwipeMenu;
+import com.ideapro.cms.view.swipeMenu.SwipeMenuCreator;
+import com.ideapro.cms.view.swipeMenu.SwipeMenuItem;
+import com.ideapro.cms.view.swipeMenu.SwipeMenuListView;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
@@ -150,18 +156,80 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
 
             // data form database
 
-            Dao<TaskEntity, String> taskEntityDao = daoFactory.getTaskEntityDao();
+            final Dao<TaskEntity, String> taskEntityDao = daoFactory.getTaskEntityDao();
             list = taskEntityDao.queryBuilder().where().eq(TaskEntity.SITE_ID, getSiteId()).query();
 
             adapter = new SiteTaskListAdapter(view.getContext(), getActivity(), list);
-            ListView listView = (ListView) view.findViewById(R.id.listView);
+            SwipeMenuListView listView = (SwipeMenuListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
                     this.getResources().getColor(R.color.color_accent)
             );
+
             listView.setDivider(myColor);
             listView.setDividerHeight(1);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            if (CommonUtils.CurrentUser.role.equals("admin")) {
+                SwipeMenuCreator creator = new SwipeMenuCreator() {
+                    @Override
+                    public void create(SwipeMenu menu) {
+                        SwipeMenuItem editItem = new SwipeMenuItem(view.getContext());
+                        editItem.setWidth(dp2px(50));
+                        editItem.setTitle("edit");
+                        editItem.setIcon(R.drawable.ic_edit);
+                        menu.addMenuItem(editItem);
+
+                        SwipeMenuItem deleteItem = new SwipeMenuItem(view.getContext());
+                        deleteItem.setWidth(dp2px(50));
+                        editItem.setTitle("delete");
+                        deleteItem.setIcon(R.drawable.ic_delete);
+                        menu.addMenuItem(deleteItem);
+                    }
+                };
+
+                listView.setMenuCreator(creator);
+                listView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+
+                listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
+                        switch (index) {
+                            case 0:
+                                // edit
+                                SiteTaskAddFragment fragment = SiteTaskAddFragment.newInstance(getProjectId(), getSiteId(), list.get(position).id, getSiteName());
+                                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
+                                break;
+                            case 1:
+                                // delete
+                                CommonUtils.showConfirmDialogBox(getActivity(), getString(R.string.message_confirmation_delete),
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // delete data from the table
+                                                try {
+                                                    taskEntityDao.deleteById(list.get(position).id);
+
+                                                } catch (SQLException e) {
+                                                    throw new Error(e);
+                                                }
+                                                list.remove(position);
+                                                adapter.notifyDataSetChanged();
+                                            }
+                                        },
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                return;
+                                            }
+                                        });
+                                break;
+                        }
+                        // false : close the menu; true : not close the menu
+                        return false;
+                    }
+                });
+            }
+
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -253,4 +321,9 @@ public class SiteTaskListFragment extends Fragment implements SearchView.OnQuery
         return false;
     }
 
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
+
+    }
 }

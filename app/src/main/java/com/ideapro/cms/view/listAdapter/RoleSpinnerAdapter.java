@@ -67,8 +67,15 @@ public class RoleSpinnerAdapter extends ArrayAdapter<String> {
             }
         });
 
+
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        int count = super.getCount();
+        return count > 0 ? count - 1 : count;
     }
 
     private class RoleSpinnerViewHolder {

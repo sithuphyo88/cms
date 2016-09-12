@@ -23,6 +23,8 @@ public class PurchaseOrderItemEntity implements Serializable {
     public static final int COLUMN_RECEIVE_QUANTITY =8;
     public static final int COLUMN_REMARKS =9;
 
+    public static final String PurchaseOrderId ="purchaseOrderId";
+
     @DatabaseField(id = true)
     public String id;
 

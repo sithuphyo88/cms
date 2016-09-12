@@ -139,7 +139,7 @@ public class SiteListFragment extends Fragment implements SearchView.OnQueryText
             }*/
 
             // data from database
-            Dao<SiteEntity, String> siteEntityDao = daoFactory.getSiteEntityDao();
+            final Dao<SiteEntity, String> siteEntityDao = daoFactory.getSiteEntityDao();
             list = siteEntityDao.queryBuilder().where().eq(SiteEntity.PROJECT_ID, this.projectEntity.id).query();
 
             adapter = new SiteListAdapter(view.getContext(), getActivity(), list);
@@ -188,6 +188,13 @@ public class SiteListFragment extends Fragment implements SearchView.OnQueryText
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                // delete data from the table
+                                                try {
+                                                    siteEntityDao.deleteById(list.get(position).id);
+
+                                                } catch (SQLException e) {
+                                                    throw new Error(e);
+                                                }
                                                 list.remove(position);
                                                 adapter.notifyDataSetChanged();
                                             }
@@ -232,19 +239,19 @@ public class SiteListFragment extends Fragment implements SearchView.OnQueryText
     // 2016/07/25
     @Override
     public boolean onQueryTextSubmit(String siteName) {
-        int condCount=0;
+        int condCount = 0;
         try {
             QueryBuilder<SiteEntity, String> qb = daoFactory.getSiteEntityDao().queryBuilder();
             Where<SiteEntity, String> where = qb.where();
-            if(this.projectEntity.id!=null){
+            if (this.projectEntity.id != null) {
                 where.eq(SiteEntity.PROJECT_ID, this.projectEntity.id);
                 condCount++;
             }
-            if(siteName.toString()!=null){
+            if (siteName.toString() != null) {
                 where.like(SiteEntity.NAME, "%" + siteName.toString() + "%");
                 condCount++;
             }
-            if(condCount > 0){
+            if (condCount > 0) {
                 where.and(condCount);
             }
             // do the query

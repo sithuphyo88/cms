@@ -291,5 +291,6 @@
     <string name="error_missing_task_start_date">Need to select start date of task.</string>
     <string name="error_missing_task_end_date">Need to select end date of task</string>
     <string name="error_missing_task_asignee">Need to select assignee</string>
+    <string name="choose_role">Choose Role</string>
 
 </resources>

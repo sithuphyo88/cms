@@ -329,6 +329,7 @@ public class PurchaseOrderItemAddFragment extends Fragment implements DatePicker
                 } else {
                     saveData();
                 }
+                updatePurchaseItems();
                 reset();
             } catch (Exception e) {
                 throw new Error(e);
@@ -341,6 +342,33 @@ public class PurchaseOrderItemAddFragment extends Fragment implements DatePicker
         }
 
         return true;
+    }
+
+    private void updatePurchaseItems() {
+        try {
+            Dao<PurchaseOrderItemEntity, String> poiDao = daoFactory.getPurchaseOrderItemDao();
+            Dao<PurchaseOrderEntity, String> poDao = daoFactory.getPurchaseOrderEntityDao();
+
+            PurchaseOrderEntity purchaseOrder = poDao.queryForId(purchaseOrderItemEntity.purchaseOrderId.toString());
+            List<PurchaseOrderItemEntity> list = poiDao.queryBuilder().where().eq(PurchaseOrderItemEntity.PurchaseOrderId, purchaseOrderItemEntity.purchaseOrderId).query();
+
+            int intReceiveQuantity = 0;
+            int intOrderQuantity = 0;
+            for (int i = 0; i < list.size(); i++) {
+                PurchaseOrderItemEntity poie = list.get(i);
+
+                intOrderQuantity += Integer.parseInt(String.valueOf(poie.orderedQuantity));
+                intReceiveQuantity += Integer.parseInt(String.valueOf(poie.receivedQuantity));
+            }
+
+            purchaseOrder.purchasedNumber = intOrderQuantity;
+            purchaseOrder.receivedNumber = intReceiveQuantity;
+
+            poDao.update(purchaseOrder);
+
+        } catch (SQLException e) {
+            new Error(e.getMessage());
+        }
     }
 
     private boolean validation() {
@@ -371,11 +399,11 @@ public class PurchaseOrderItemAddFragment extends Fragment implements DatePicker
         }
 
         if (!TextUtils.isEmpty(txtReceivedQuantity.getText().toString()) && !TextUtils.isEmpty(txtQuantity.getText().toString())) {
-            flag = false;
             int quantity = Integer.parseInt(String.valueOf(txtQuantity.getText()));
             int recieveQuantity = Integer.parseInt(String.valueOf(txtReceivedQuantity.getText()));
 
             if (recieveQuantity > quantity) {
+                flag = false;
                 txtReceivedQuantity.setError(getString(R.string.error_missing_purchase_receive_more_than_quantity));
             }
         }

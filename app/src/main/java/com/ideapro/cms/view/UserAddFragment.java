@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.ideapro.cms.R;
 import com.ideapro.cms.data.DaoFactory;
+import com.ideapro.cms.data.RoleEntity;
 import com.ideapro.cms.data.UserEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.RoleSpinnerAdapter;
@@ -40,7 +41,10 @@ public class UserAddFragment extends Fragment {
     private static String BARG_USER_ID;
     View view;
     Menu menu;
+
+    @BindView(R.id.spnRole)
     Spinner spnRole;
+
     @BindView(R.id.txtUserName)
     TextView tvUserName;
 
@@ -60,6 +64,7 @@ public class UserAddFragment extends Fragment {
     UserEntity user;
     private boolean flag_update;
     List<Boolean> selectedList;
+    List<RoleEntity> roleList;
 
 
     public static UserAddFragment newInstance(String userId) {
@@ -112,27 +117,56 @@ public class UserAddFragment extends Fragment {
             user = userDao.queryForId(userId);
 
             selectedList = new ArrayList<Boolean>();
-            spnRole = (Spinner) view.findViewById(R.id.spnRole);
-            String[] customers = new String[]{"Manager", "Designer", "Buyer", "Engineer"};
-            if (user.role.isEmpty()) {
-                String[] selectedUsers = new String[]{"Engineer"};
-            }
-            String[] selectedUsers = user.role.split(",");
 
-            for (int i = 0; i < customers.length; i++) {
+            Dao<RoleEntity, String> roleDao = daoFactory.getRoleEntityDao();
+            roleList = roleDao.queryForAll();
+
+            // for role list
+            String[] roles = new String[roleList.size() + 1];
+            String[] selectedUsers;
+
+            for (int i = 0; i < roleList.size(); i++) {
+                roles[i] = roleList.get(i).name;
+            }
+            roles[roleList.size()] = getString(R.string.choose_role);
+
+            if (user == null) {
+                selectedUsers = new String[]{};
+            } else {
+                selectedUsers = user.role.split(",");
+                if (selectedUsers.length == 0) {
+                    selectedUsers[0] = user.role;
+                }
+            }
+
+            for (int i = 0; i < roles.length - 1; i++) {
                 selectedList.add(false);
-                String userRole = customers[i];
+                String roleId = roleList.get(i).id;
                 for (int j = 0; j < selectedUsers.length; j++) {
-                    String selectedUserRole = selectedUsers[j];
-                    if (selectedUserRole.equals(userRole)) {
+                    String selectedUserRoleId = selectedUsers[j];
+                    if (selectedUserRoleId.equals(roleId)) {
                         selectedList.set(i, true);
                         break;
                     }
                 }
             }
 
-            ArrayAdapter<String> mAdapter = new RoleSpinnerAdapter(this, view.getContext(), getActivity(), customers, selectedList);
+            ArrayAdapter<String> mAdapter = new RoleSpinnerAdapter(this, view.getContext(), getActivity(), roles, selectedList);
             spnRole.setAdapter(mAdapter);
+
+            spnRole.setSelection(-1);
+           /* if (userId.isEmpty()) {
+                spnRole.setSelection(mAdapter.getCount());
+            } else {
+                int index = -1;
+                for (int i = 0; i < roleList.size(); i++) {
+                    if (roleList.get(i).id.equals(user.role)) {
+                        index = i;
+                        break;
+                    }
+                }
+                spnRole.setSelection(index);
+            }*/
 
 
             if (userId.isEmpty()) {
@@ -146,7 +180,6 @@ public class UserAddFragment extends Fragment {
                 tvPassword.setText(user.password);
                 tvRole.setText(user.role);
 
-
             }
         } catch (SQLException e) {
             throw new Error(e);
@@ -159,6 +192,7 @@ public class UserAddFragment extends Fragment {
         tvPhone.setText("");
         tvPassword.setText("");
         tvRole.setText("");
+        user = new UserEntity();
     }
 
     @Override
@@ -211,13 +245,18 @@ public class UserAddFragment extends Fragment {
         String selectedRole = "";
         String splitter = ",";
         boolean first = true;
-        String[] customers = new String[]{"Manager", "Designer", "Buyer", "Engineer"};
-        for (int i = 0; i < customers.length; i++) {
+        String[] roles = new String[roleList.size()];
+
+        for (int i = 0; i < roleList.size(); i++) {
+            roles[i] = roleList.get(i).id;
+        }
+
+        for (int i = 0; i < roles.length; i++) {
             if (selectedList.get(i) == true) {
                 if (first) {
-                    selectedRole += customers[i];
+                    selectedRole += roles[i];
                 } else {
-                    selectedRole += splitter + customers[i];
+                    selectedRole += splitter + roles[i];
                 }
                 first = false;
             }
