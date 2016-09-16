@@ -32,6 +32,10 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class SiteProgressEvidenceListFragment extends Fragment {
+    private static final String BARG_SITE_ID = "site_id";
+    private static final String BARG_TASK_ID = "task_id";
+    private static final String BARG_PROJECT_ID = "project_id";
+    private static final String BARG_PROGRESS_ID = "progress_id";
 
     View view;
     ArrayList<ImageItem> imageItems;
@@ -46,6 +50,19 @@ public class SiteProgressEvidenceListFragment extends Fragment {
 
     public SiteProgressEvidenceListFragment(SiteProgressHistoryEntity entity) {
         this.entity = entity;
+    }
+
+    public static SiteProgressEvidenceListFragment newInstance(String projectId, String siteId, String taskId, String progressId) {
+
+        Bundle args = new Bundle();
+        args.putString(BARG_PROJECT_ID, projectId);
+        args.putString(BARG_SITE_ID, siteId);
+        args.putString(BARG_TASK_ID, taskId);
+        args.putString(BARG_PROGRESS_ID, progressId);
+
+        SiteProgressEvidenceListFragment fragment = new SiteProgressEvidenceListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -66,7 +83,7 @@ public class SiteProgressEvidenceListFragment extends Fragment {
         inflater.inflate(R.menu.menu_share, menu);
         this.menu.getItem(0).setVisible(false);
         getActivity().setTitle(entity.siteName + " - " + entity.progress + "% - " + getString(R.string.label_evidences));
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -74,8 +91,8 @@ public class SiteProgressEvidenceListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_share:
                 ArrayList<Uri> imageUris = new ArrayList<>();
-                for(int i = 0; i < imageItems.size(); i++) {
-                    if(imageItems.get(i).isSelected()) {
+                for (int i = 0; i < imageItems.size(); i++) {
+                    if (imageItems.get(i).isSelected()) {
                         imageUris.add(Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), imageItems.get(i).getImage(), "", null)));
                     }
                 }
@@ -85,9 +102,9 @@ public class SiteProgressEvidenceListFragment extends Fragment {
                 shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
                 shareIntent.setType("image/*");
                 startActivity(Intent.createChooser(shareIntent, "Share images to.."));
-                return  true;
+                return true;
 
-            default :
+            default:
                 return super.onOptionsItemSelected(item);
         }
 
@@ -95,7 +112,7 @@ public class SiteProgressEvidenceListFragment extends Fragment {
 
     private void bindData() {
         try {
-            if(imageItems == null) {
+            if (imageItems == null) {
                 imageItems = getData();
             }
 
@@ -103,7 +120,7 @@ public class SiteProgressEvidenceListFragment extends Fragment {
             adapter = new SiteProgressEvidenceListAdapter(this, view.getContext(), R.layout.fragment_site_progress_evidence_list_item, imageItems);
             gridView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Error(e);
         }
     }
@@ -133,7 +150,7 @@ public class SiteProgressEvidenceListFragment extends Fragment {
         int id = cb.getId();
         imageItems.get(id).setSelected(cb.isChecked());
 
-        if(hasSelectedItem()) {
+        if (hasSelectedItem()) {
             this.menu.getItem(0).setVisible(true);
         } else {
             this.menu.getItem(0).setVisible(false);
@@ -141,12 +158,48 @@ public class SiteProgressEvidenceListFragment extends Fragment {
     }
 
     private boolean hasSelectedItem() {
-        for(int i = 0; i < imageItems.size(); i++) {
-            if(imageItems.get(i).isSelected()) {
+        for (int i = 0; i < imageItems.size(); i++) {
+            if (imageItems.get(i).isSelected()) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private String getProjectId() {
+        Bundle bundle = getArguments();
+        String projectId = "";
+        if (bundle != null) {
+            projectId = bundle.getString(BARG_PROJECT_ID);
+        }
+        return projectId;
+    }
+
+    private String getSiteId() {
+        Bundle bundle = getArguments();
+        String siteId = "";
+        if (bundle != null) {
+            siteId = bundle.getString(BARG_SITE_ID);
+        }
+        return siteId;
+    }
+
+    private String getTaskId() {
+        Bundle bundle = getArguments();
+        String taskId = "";
+        if (bundle != null) {
+            taskId = bundle.getString(BARG_TASK_ID);
+        }
+        return taskId;
+    }
+
+    private String getProgressId() {
+        Bundle bundle = getArguments();
+        String progressId = "";
+        if (bundle != null) {
+            progressId = bundle.getString(BARG_PROGRESS_ID);
+        }
+        return progressId;
     }
 }

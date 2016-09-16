@@ -22,6 +22,7 @@ import com.ideapro.cms.data.CustomerEntity;
 import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
+import com.ideapro.cms.data.SiteProgressHistoryEntity;
 import com.ideapro.cms.data.TaskEntity;
 import com.ideapro.cms.data.UserEntity;
 import com.ideapro.cms.utils.CommonUtils;
@@ -177,7 +178,10 @@ public class SiteTaskAddFragment extends BaseFragment implements DatePickerDialo
         butEvidence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteProgressListFragment(projectEntity, siteEntity));
+                if(taskEntity != null) {
+                    SiteProgressListFragment fragment = SiteProgressListFragment.newInstance(getProjectId(), getSiteId(), getTaskId(),taskEntity.title );
+                    CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), fragment);
+                }
             }
         });
 

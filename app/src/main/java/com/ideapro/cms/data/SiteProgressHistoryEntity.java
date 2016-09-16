@@ -12,12 +12,22 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "siteprogresshistory")
 public class SiteProgressHistoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String TASK_ID = "task_id";
 
     @DatabaseField(id = true)
     public String id;
 
     @DatabaseField
     public String siteName;
+
+    @DatabaseField
+    public String project_id;
+
+    @DatabaseField
+    public String site_id;
+
+    @DatabaseField
+    public String task_id;
 
     @DatabaseField
     public String date;

@@ -14,11 +14,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.ideapro.cms.R;
+import com.ideapro.cms.data.DaoFactory;
 import com.ideapro.cms.data.ProjectEntity;
 import com.ideapro.cms.data.SiteEntity;
 import com.ideapro.cms.data.SiteProgressHistoryEntity;
 import com.ideapro.cms.utils.CommonUtils;
 import com.ideapro.cms.view.listAdapter.SiteProgressHistoryListAdapter;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,12 @@ import java.util.List;
  */
 public class SiteProgressListFragment extends Fragment {
 
+
+    private static final String BARG_SITE_ID = "site_id";
+    private static final String BARG_TASK_ID = "task_id";
+    private static final String BARG_TASK_TITLE = "task_title";
+    private static final String BARG_PROJECT_ID = "project_id";
+
     View view;
     ProjectEntity projectEntity;
     SiteEntity siteEntity;
@@ -35,13 +43,16 @@ public class SiteProgressListFragment extends Fragment {
     SiteProgressHistoryListAdapter adapter;
     ImageButton imgAdd;
 
+    private DaoFactory daoFactory;
+
+
     public SiteProgressListFragment() {
         this.projectEntity = new ProjectEntity();
         this.siteEntity = new SiteEntity();
     }
 
     public SiteProgressListFragment(ProjectEntity projectEntity, SiteEntity siteEntity) {
-        if(projectEntity == null) {
+        if (projectEntity == null) {
             this.projectEntity = new ProjectEntity();
             this.siteEntity = new SiteEntity();
         } else {
@@ -50,12 +61,27 @@ public class SiteProgressListFragment extends Fragment {
         }
     }
 
+    public static SiteProgressListFragment newInstance(String projectId, String siteId, String taskId, String taskTitle) {
+
+        Bundle args = new Bundle();
+        args.putString(BARG_PROJECT_ID, projectId);
+        args.putString(BARG_SITE_ID, siteId);
+        args.putString(BARG_TASK_ID, taskId);
+        args.putString(BARG_TASK_TITLE, taskTitle);
+
+        SiteProgressListFragment fragment = new SiteProgressListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_site_progress_list, container, false);
         setHasOptionsMenu(true);
+        daoFactory = new DaoFactory(view.getContext());
 
         bindData();
         initializeUI();
@@ -65,8 +91,8 @@ public class SiteProgressListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        /*getActivity().setTitle(getString(R.string.label_progress) + " of " + this.siteEntity.name);*/
-        super.onCreateOptionsMenu(menu,inflater);
+        getActivity().setTitle(getString(R.string.label_progress) + " of " + getTaskTitle());
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void initializeUI() {
@@ -74,6 +100,7 @@ public class SiteProgressListFragment extends Fragment {
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SiteProgressAddFragment fragment = SiteProgressAddFragment.newInstance(getProjectId(), getSiteId(), getTaskId(), getTaskTitle());
                 CommonUtils.transitToFragment(CommonUtils.getVisibleFragment(getFragmentManager()), new SiteProgressAddFragment(projectEntity, siteEntity));
             }
         });
@@ -82,22 +109,12 @@ public class SiteProgressListFragment extends Fragment {
     private void bindData() {
         try {
             list = new ArrayList<>();
-            /*int size = Integer.parseInt(siteEntity.progress);*/
-            int size = 10;
-            for (int i = 0; i < size; i++) {
-                SiteProgressHistoryEntity entity = new SiteProgressHistoryEntity();
-                /*entity.siteName = siteEntity.name;*/
-                entity.siteName = "site1";
-                entity.date = "2016-05- " + (i + 1);
-                entity.engineerName = "Engineer - Mg Ba";
-                entity.description = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXYYYYYYYYYYYYYYYYYY";
-                entity.progress = String.valueOf(i + 1);
 
-                list.add(entity);
-            }
+            final Dao<SiteProgressHistoryEntity, String> siteProgressHistoryDao = daoFactory.getSiteProgressHistoryDao();
+            list = siteProgressHistoryDao.queryForEq(SiteProgressHistoryEntity.TASK_ID, getTaskId());
 
             adapter = new SiteProgressHistoryListAdapter(view.getContext(), getActivity(), list);
-            ListView listView = (ListView)view.findViewById(R.id.listView);
+            ListView listView = (ListView) view.findViewById(R.id.listView);
             ColorDrawable myColor = new ColorDrawable(
                     this.getResources().getColor(R.color.color_accent)
             );
@@ -113,8 +130,46 @@ public class SiteProgressListFragment extends Fragment {
                 }
             });
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Error(e);
         }
     }
+
+    private String getProjectId() {
+        Bundle bundle = getArguments();
+        String projectId = "";
+        if (bundle != null) {
+            projectId = bundle.getString(BARG_PROJECT_ID);
+        }
+        return projectId;
+    }
+
+    private String getSiteId() {
+        Bundle bundle = getArguments();
+        String siteId = "";
+        if (bundle != null) {
+            siteId = bundle.getString(BARG_SITE_ID);
+        }
+        return siteId;
+    }
+
+    private String getTaskId() {
+        Bundle bundle = getArguments();
+        String taskId = "";
+        if (bundle != null) {
+            taskId = bundle.getString(BARG_TASK_ID);
+        }
+        return taskId;
+    }
+
+    private String getTaskTitle() {
+        Bundle bundle = getArguments();
+        String taskTitle = "";
+        if (bundle != null) {
+            taskTitle = bundle.getString(BARG_TASK_TITLE);
+        }
+        return taskTitle;
+    }
+
 }
+
